@@ -142,33 +142,90 @@ var plugins = [
 // ==============================
 //  Pre-loaders
 // ==============================
-var preLoaders = [
-  {
-    test: /\.js$/,
-    loaders: ['eslint'],
-    exclude: [nodeModulesPath],
-  },
-];
+// var preLoaders = [
+//   {
+//     test: /\.js$/,
+//     loaders: ['eslint'],
+//     exclude: [nodeModulesPath],
+//   },
+// ];
 
 // ==============================
 //  Loaders
 // ==============================
-var loaders = [
+var rules = [
+  {
+    test: /\.js$/,
+    loaders: ['eslint-loader'],
+    enforce: 'pre',
+    exclude: [nodeModulesPath],
+  },
   {
     test: /\.js$/i,
-    loader: 'babel',
+    loader: 'babel-loader',
     include: [
       path.resolve(__dirname, 'src'),
     ],
   },
-  { test: /\.html$/i, loader: 'raw!htmlclean' },
-  { test: /\.ico($|\?)/i, loader: 'file', query:{ name:'[path][name].[ext]', context:assetsPath } },
-  { test: /\.jpe?g($|\?)|\.gif($|\?)|\.png($|\?)/i, loader: 'file', query: { name: 'img/[name].[ext]', context: assetsPath } },
-  { test: /\.svg($|\?)|\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)/i, loader: 'file', query:{ name:'[path][name].[ext]',context:assetsPath } },
-  { test: /\.css$/i, loader: ExtractTextPlugin.extract('style', 'css?!postcss') },
-  { test: /\.less$/i, loader: ExtractTextPlugin.extract('style', 'css!postcss!less') },
-  { test: /\.scss$/i, loader: ExtractTextPlugin.extract('style', 'css!postcss!sass') },
-  { test: /\.json$/i, loader: 'json' },
+  {
+    test: /\.html$/i,
+    loader: 'html-loader'
+    // loader: 'raw-loader!htmlclean-loader'
+  },
+  {
+    test: /\.ico($|\?)/i,
+    loader: 'file-loader',
+    query:{ name:'[path][name].[ext]', context:assetsPath }
+  },
+  {
+    test: /\.jpe?g($|\?)|\.gif($|\?)|\.png($|\?)/i,
+    loader: 'file-loader',
+    query: { name: 'img/[name].[ext]', context: assetsPath },
+  },
+  {
+    test: /\.svg($|\?)|\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)/i,
+    loader: 'file-loader',
+    query:{ name:'[path][name].[ext]',context:assetsPath }
+  },
+  {
+    test: /\.css|pcss$/i,
+    include: [srcPath],
+    use: [
+      'style-loader',
+      {
+        loader:'css-loader',
+        query: {
+          modules: true,
+          localIdentName: '[name]__[local]___[hash:base64:5]',
+          sourceMap: true,
+        },
+        {
+          loader: 'postcss-loader',
+          options: [
+
+            plugins: [
+
+            ]
+
+          ]
+        }
+      }
+
+    ]
+    loader: ExtractTextPlugin.extract('style-loader', 'css-loader?!postcss-loader')
+  },
+  {
+    test: /\.less$/i,
+    loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader')
+  },
+  {
+    test: /\.scss$/i,
+    loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!sass-loader')
+  },
+  {
+    test: /\.json$/i,
+    loader: 'json'
+  },
 ];
 
 module.exports = {
@@ -223,14 +280,14 @@ module.exports = {
 
   devServer: {
     historyApiFallback: true,
-    contentBase: './',
+    contentBase: './build',
+    port: PORT,
     hot: true
   },
 
   plugins: plugins,
 
   module: {
-    preLoaders: preLoaders,
-    loaders: loaders,
+    rules: rules,
   },
 };

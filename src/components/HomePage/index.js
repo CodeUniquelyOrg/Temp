@@ -3,7 +3,22 @@ import React, { Component } from 'react';      // eslint-disable-line no-unused-
 export default class HomePage extends Component {
   render() {
     return (
-      <div>Hello world! This is the home page route.</div>
+      <div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <h1>Hello world! This is the home page route.</h1>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+      </div>
     );
   }
 }
