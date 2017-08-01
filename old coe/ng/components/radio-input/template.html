@@ -1,0 +1,37 @@
+<div class="form-input clearfix radio-input">
+  <debug ng-if="isDebug"></debug>
+  <label for="{{name}}_0" ng-bind="label"></label>
+  <span ng-if="additional && additional.length > 0" class="optionalField" ng-bind="'('+ additional + ')'"></span>
+  <span ng-if="!isRequired" class="optionalField">(optional)</span>
+  <help-text ng-if="helptext">{{helptext}}</help-text>
+  <div ng-messages="form[name].$error" ng-show="!form[name].$focus && (form[name].$touched || form.submitted)" class="error-messages">
+    <p ng-message="required">At least one of the inputs is required</p>
+      <p ng-message="{{name}}" ng-bind="validationMessage"></p>
+  </div>
+
+  <input
+    type="hidden"
+    ng-model="model[name]"
+    name="{{name}}"
+    validator="{{validation}}"
+    invalid-callback="invalidMsg(message)"
+    autocomplete="off"
+    ng-required="isRequired" radio-proxy />
+
+  <div class="input-items">
+    <div class="form-check-inline" ng-repeat="item in values">
+      <input
+        ng-class="{focus:form[name].$focus===true}"
+        ng-attr-type="radio"
+        id="{{name}}_{{$index}}"
+        ng-model="model[name]"
+        name="vm_{{name}}"
+        autocomplete="off"
+        value="{{item.value}}"
+        ng-focus="form[name].$focus=true"
+        ng-blur="form[name].$focus=false"
+        ng-change="onselected()">
+      <label for="{{name}}_{{$index}}" class="form-check-label" ng-bind="item.text"></label>
+    </div>
+  </div>
+</div>

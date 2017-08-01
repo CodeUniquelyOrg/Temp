@@ -1,0 +1,12 @@
+@import 'variables';
+@import 'colors';
+@import 'mixin';
+
+.spacer {
+  height:12px;
+  min-height: 12px;   // one-line height
+  &.extended {
+    height:30px;      // top / bottom edge padding
+    min-height: 30px;
+  }
+}

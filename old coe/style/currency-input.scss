@@ -1,0 +1,40 @@
+@import 'variables';
+@import 'colors';
+@import '~style/mixin';
+
+.currency-input {
+  .input-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width:$input-max-width;
+    .input-prefix {
+      width:24px;
+      padding:0;
+      background-color: transparent;
+      border-color: transparent;
+      font-size: 1.6em;
+      color:$header-color;
+      text-align: left;
+      align-self: center;
+    }
+    input {
+      flex:1;
+      max-width: ($input-max-width - 26px);
+    }
+  }
+}
+
+// when browser is not flexible (IE9)
+:not(.cp-flexbox) {
+  .input-row {
+    .input-prefix {
+      display:inline;
+      float:left;
+      vertical-align: middle;
+      width:24px;
+      height:$input-height;
+      padding-top: 14px;
+    }
+  }
+}

@@ -1,0 +1,85 @@
+@import 'variables';
+@import 'colors';
+@import 'text';
+@import 'mixin';
+
+// *** Logos ***
+.header {
+  position:relative;
+  background-color: $header-background-color;
+
+  height: $fixed-page-header-height;
+  .contents {
+    display: block;
+    margin: 0 auto;
+    max-width: $max-form-width;
+    padding: 0 15px; // 0 0 $form-padding / 4;  // 8px;
+
+    .wording {
+      border: 1px solid transparent;
+      border-left-color:rgba(0,0,0,0.2);
+      border-right-color:rgba(0,0,0,0.2);
+
+      height: $fixed-page-header-height;
+      width:$header-text-width;
+      min-width:$header-text-width;
+
+      .messages {
+        > div  {
+          margin: 0;
+          padding:0;
+          line-height: 1;  // kills multiplier on the page
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        div:first-of-type {
+          @include __internetSafeUpper();
+          padding-top:$header-text-top;
+          color:white;  // !!!
+        }
+        div:last-of-type {
+          @include __internetSafeLower();
+          padding-bottom:$header-text-bottom;
+          color:white;  // !!!
+        }
+        margin-right: $header-padlock-padding;
+      }
+      .icon-wrapper {
+        width: $header-padlock-right + 16px;
+        height: 100%;
+        .icon {
+          position: relative;
+          top: 25px;
+          width:16px;
+          height:20px;
+          color:white;
+        }
+      }
+    }
+  }
+
+  &.inverted {
+    background-color: #fff;
+    .contents {
+      .wording {
+        .messages {
+          div:first-of-type {
+            color:$brand-info;
+          }
+          div:last-of-type {
+            color:$brand-info;
+          }
+        }
+      }
+    }
+  }
+}
+
+// When screen adjusts add the horizontal margin into the header
+// @media (min-width: $screen-xs-min) {
+//   .header {
+//     .contents {
+//       padding: 0 15px;
+//     }
+//   }
+// }

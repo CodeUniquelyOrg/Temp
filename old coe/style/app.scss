@@ -1,0 +1,183 @@
+@import 'colors';
+@import 'variables';
+@import 'text';
+@import '~style/mixin';
+
+html, body, form, p, ul, li, ol, div, label, span, input, select, textarea {
+  color:$text-color;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: $header-color;
+  text-transform: none;
+  margin:0;
+  padding:0;
+}
+
+body {
+  background-color:$empty-body-color;
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  margin: 0 auto;
+  @include __bodyCopy();
+}
+
+// Page-title
+h1 {
+  @include __header1();
+  color: $header-color;
+  text-align:left;
+  display: block;
+}
+// header 1
+h2 {
+  @include __header2();
+  color: $header-color;
+  text-align:left;
+}
+// header 2
+h3 {
+  @include __header3();
+  color: $header-color;
+  text-align:left;
+  margin:0;
+}
+// header 3
+h4 {
+  @include __header4();
+  color: $header-color;
+  text-align:left;
+}
+// header 4
+h5 {
+  @include __header5();
+  color: $header-color;
+  text-align:left;
+}
+// header 5
+h6 {
+  @include __header6();
+  color: $header-color;
+  text-align:left;
+}
+
+p {
+  @include __bodyCopy();
+}
+small {
+  @include __bodyCopySmall();
+}
+ul, li, ol, {
+  @include __bodyCopyList();
+}
+ul {
+  &.checked-bullets {
+    list-style: none;
+    padding: 0;
+    li {
+      padding-left: $li-padding;
+    }
+    li:before {
+      @include __icons()
+      content: "\f00c"; // FontAwesome Unicode for check mark
+      display: inline-block;
+      margin-left: -$li-padding;
+      width: $li-padding;
+      color:$primary-color;
+    }
+  }
+}
+
+// HORRIBLE COLOUR COMBINATION
+mark {
+  padding: 10px 24px;
+  background: pink;
+  color: black;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+// blue and underline then lose the underline:hover
+// on focus make yellow and lose the outline
+a, .clickable {
+  color: $link-color;
+  text-decoration:underline;
+  &:hover {
+    text-decoration:none;
+  }
+  &:focus {
+    background-color: $link-focus;
+    color: $gray-dark;
+    text-decoration:underline;
+    outline: none;
+  }
+}
+
+// one-off simple styles
+.clearfix {
+  @include clearfix;
+}
+
+.container-fluid {
+  @include container-fixed;
+}
+
+.optionalField {
+  font-size: 0.9em;
+  color: $gray-light;
+}
+.logo {
+  // background: url('~img/lloyds-logo-small.png') 0 0 no-repeat;
+  background: url('~img/logo-cardnet-mobile.png') 0 0 no-repeat;
+  background-size: cover;
+}
+.header {
+  &:not(.inverted) {
+    .contents .icon {
+      background: url('~img/lock.png') 0 0 no-repeat!important;
+    }
+  }
+  &.inverted {
+    .contents .icon {
+      background: url('~img/lock-green.png') 0 0 no-repeat!important;
+    }
+  }
+}
+
+//
+// Help Text
+//
+.help-text {
+
+  .help-title {
+    @include __formlabel();
+    border-bottom: 1px dashed $brand-info;
+    color: $brand-info;
+    margin-left:6px;
+    &:hover {
+      cursor: pointer;
+      // border-color: transparent;
+    }
+  }
+  .help-slider {
+    transition: all 0.5s ease-in-out;
+    overflow-y: hidden;
+    max-height: 0;
+    &.open {
+      max-height: 150px; // approximate 6-7 lines max height
+      margin-bottom: 10px;
+    }
+  }
+}
+
+// when not mobile sized
+@media (min-width: $screen-sm-min) {
+  // h1 {
+  //   font-size: 44px;
+  //   line-height: 60px;
+  // }
+  .logo {
+    // background-image: url('~img/lloyds-logo-big.png');
+    background-image: url('~img/logo-cardnet.png');
+  }
+}

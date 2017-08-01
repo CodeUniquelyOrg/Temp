@@ -1,0 +1,27 @@
+<div class="form-input clearfix accept-input">
+  <debug ng-if="isDebug"></debug>
+  <div>
+    <div ng-messages="form[name].$error" ng-show="!form[name].$focus && (form[name].$touched || form.submitted)" class="error-messages">
+      <p ng-message="required">Please confirm</p>
+      <p ng-message="{{name}}" ng-bind="validationMessage"></p>
+    </div>
+  </div>
+  <div class="form-check clearfix">
+    <input
+      ng-class="{focus:form[name].$focus===true}"
+      id="{{name}}"
+      ng-attr-type="checkbox"
+      name="{{name}}"
+      ng-model="model[name]"
+      ng-focus="form[name].$focus=true"
+      ng-blur="form[name].$focus=false"
+      validator="{{validation}}"
+      ng-required="{{isRequired}}">
+
+    <label for="{{name}}" class="form-check-label">
+      {{label}}
+      <span ng-if="additional && additional.length > 0" class="optionalField">({{additional}})</span>
+      <span ng-if="!isRequired" class="optionalField">(optional)</span>
+    </label>
+  </div>
+</div>

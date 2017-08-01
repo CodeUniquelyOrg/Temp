@@ -1,0 +1,36 @@
+<div class="form-input clearfix checkbox-input">
+  <debug ng-if="isDebug"></debug>
+  <label for="{{name}}_0" ng-bind="label"></label>
+  <span ng-if="additional && additional.length > 0" class="optionalField" ng-bind="'('+ additional + ')'"></span>
+  <span ng-if="!isRequired" class="optionalField">(optional)</span>
+  <div>
+    <div ng-messages="form[name].$error" ng-show="!form[name].$focus && (form[name].$touched || form.submitted)" class="error-messages">
+      <p ng-message="required">At least one of the inputs is required</p>
+      <p ng-message="{{name}}" ng-bind="validationMessage"></p>
+    </div>
+  </div>
+  <!-- hook required on this hidden input -->
+  <input
+    type="hidden"
+    ng-model="model[name]"
+    name="{{name}}"
+    autocomplete="off"
+    validator="{{validation}}"
+    invalid-callback="invalidMsg(message)"
+    ng-required="isRequired" checkbox-proxy />
+
+  <div class="input-items" ng-focus="form[name].$focus=true" ng-blur="form[name].$focus=false">
+    <div class="form-check" ng-repeat="item in values">
+      <input
+        ng-class="{focus:form[name].$focus===true}"
+        ng-attr-type="checkbox"
+        id="{{name}}_{{$index}}"
+        ng-focus="form[name].$focus=true"
+        ng-blur="form[name].$focus=false"
+        ng-model="vm[item.value]"
+        autocomplete="off"
+        ng-value="item.value">
+      <label for="{{name}}_{{$index}}" class="form-check-label" ng-bind="item.text"></label>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+@import 'variables';
+@import 'colors';
+@import 'mixin';
+
+// Use this files to supply overrides to existing styles
+.tooltip {
+  .tooltip-inner {
+    min-width: 64px !important;   // Quite small
+    max-width: 100% !important;
+  }
+}
+
+// overwrite bootstrap alert
+.alert {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+// overwrite bootstrap settings
+.btn {
+  border-radius: 0 !important;
+}

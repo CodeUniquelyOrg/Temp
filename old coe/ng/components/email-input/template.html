@@ -1,0 +1,30 @@
+<div class="form-input clearfix email-input">
+  <pre ng-show="isDebug">
+    [name]:      {{name}}
+    focus:       {{form[name].$focus}}
+    touched:     {{form[name].$touched}}
+    $error:      {{form[name].$error}}
+    $modelValue: {{form[name].$modelValue}}</pre>
+  <label for="{{name}}">{{label}}</label>
+  <span ng-if="additional && additional.length > 0" class="optionalField">({{additional}})</span>
+  <span ng-if="!isRequired" class="optionalField">(optional)</span>
+  <div>
+    <div ng-messages="form[name].$error" ng-show="!form[name].$focus && (form[name].$touched || form.submitted)" class="error-messages">
+      <p ng-message="required">This value is required</p>
+      <p ng-message="{{name}}">{{validationMessage}}</p>
+    </div>
+  </div>
+  <input
+    ng-class="{focus:form[name].$focus===true}"
+    ng-attr-type="email"
+    id="{{name}}"
+    name="{{name}}"
+    autocomplete="off"
+    ng-model="model[name]"
+    maxlength="{{length}}"
+    ng-focus="form[name].$focus=true"
+    ng-blur="form[name].$focus=false"
+    validator="{{validation}}"
+    invalid-callback="invalidMsg(message)"
+    required="{{isRequired}}" />
+</div>

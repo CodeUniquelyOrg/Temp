@@ -1,0 +1,80 @@
+@import 'variables';
+@import 'colors';
+@import 'text';
+@import 'mixin';
+
+.terminal-container {
+
+  border: 1px solid transparent;
+  border-top-color: $table-separator-color;
+  border-bottom-color: $table-separator-color;
+
+  &.flexible {
+    padding:0 !important;
+
+    .flexrow {
+      [class*='cell'] {
+        padding: $table-padding;
+        border: 1px solid transparent;
+      }
+    }
+    .side-by-side-view {
+      .flexrow {
+        [class*='cell'] {
+          border-left-color: $table-separator-color;
+          &:last-of-type {
+            border-right-color: $table-separator-color;
+          }
+        }
+      }
+    }
+    .over-under-view {
+      .flexrow {
+        [class*='cell'] {
+          border-top-color: $table-separator-color;
+          &:last-of-type {
+            border-bottom-color: $table-separator-color;
+          }
+          h2 {
+            text-align: center;
+          }
+          .main-image {
+            flex:1;
+            text-align: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    ul {
+      padding: 0 0 0 24px;
+    }
+
+    .btn {
+      @include __button();
+      height: 48px;
+      padding: 0 32px;
+    }
+
+    .main-image {
+      text-align: center;
+      img {
+        // width:100%;
+        max-width: 100%;
+        max-height: 100%;
+        background-size: contain;
+      }
+    }
+
+    .active {
+      .btn {
+        display: none;
+      }
+    }
+  }
+}

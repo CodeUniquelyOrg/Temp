@@ -1,0 +1,25 @@
+@import 'variables';
+@import 'colors';
+@import 'mixin';
+
+// *** Logo placement ***
+.logo-wrapper {
+  position:relative;
+  .logo {
+    position: relative;
+    width: $logo-width-sm;  // mobile first width !!!
+    height: $logo-height;
+    top: $logo-top;
+    bottom: $logo-bottom;
+    left:0px;
+  }
+}
+
+// use mobile first - no need for !important
+@media (min-width: $screen-sm-min) {
+  .logo-wrapper {
+    .logo {
+      width: $logo-width;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<div class="form-input clearfix select-input">
+  <debug ng-if="isDebug"></debug>
+  <label for="{{name}}" ng-bind="label"></label>
+  <span ng-if="additional && additional.length > 0" class="optionalField" ng-bind="'('+ additional + ')'"></span>
+  <span ng-if="!isRequired" class="optionalField">(optional)</span>
+  <div>
+    <div ng-messages="form[name].$error" ng-show="!form[name].$focus && (form[name].$touched || form.submitted)" class="error-messages">
+      <p ng-message="required">This is required</p>
+      <p ng-message="{{name}}" ng-bind="validationMessage"></p>
+    </div>
+  </div>
+  <ui-select
+    ng-class="{focus:form[name].$focus===true}"
+    id="{{name}}"
+    ng-model="model[name]"
+    name="{{name}}"
+    uis-open-close="setFocusIfOpen(isOpen)"
+    validator="{{validation}}"
+    on-select="onselected($item)"
+    ng-required="isRequired">
+    <ui-select-match>
+      <span ng-bind-html="$select.selected.text"></span>
+    </ui-select-match>
+    <ui-select-choices repeat="option.value as option in values | filter: $select.search">
+      <div ng-bind-html="option.text | highlight: $select.search"></div>
+    </ui-select-choices>
+    <ui-select-no-choice>
+      <span class="ui-select-not-found">no options match the input.</span>
+    </ui-select-no-choice>
+  </ui-select>
+</div>

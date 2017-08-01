@@ -1,0 +1,64 @@
+<div class="form-input clearfix sort-code">
+  <debug ng-if="isDebug"></debug>
+  <label for="{{name}}" ng-bind="label"></label>
+  <span ng-if="additional && additional.length > 0" class="optionalField" ng-bind="'('+ additional + ')'"></span>
+  <span ng-if="!isRequired" class="optionalField">(optional)</span>
+  <div>
+    <div ng-messages="form[name].$error" ng-show="!form[name].$focus && (form.part1.$touched || form.part2.$touched || form.part3.$touched || form.submitted)" class="error-messages">
+      <p ng-message="required">This is required</p>
+      <p ng-message="{{name}}" ng-bind="validationMessage"></p>
+    </div>
+  </div>
+
+  <input
+    type="hidden"
+    ng-model="model[name]"
+    name="{{name}}"
+    autocomplete="off"
+    validator="sortCode" sort-code-proxy />
+
+  <!-- 3x inputs (of 2 digits) -->
+  <div class="input-line">
+    <input
+      ng-class="{focus:form[name].$focus===true}"
+      type="text"
+      id="{{name}}"
+      ng-model="vm.part1"
+      name="part1"
+      autocomplete="off"
+      pattern="\d*"
+      maxlength="2"
+      validator="digits"
+      ng-focus="form[name].$focus=true"
+      ng-blur="form[name].$focus=false"
+      ensure-digits />
+    <span class="split">&ndash;</span>
+    <input
+      ng-class="{focus:form[name].$focus===true}"
+      type="text"
+      id="{{name}}"
+      ng-model="vm.part2"
+      name="part2"
+      autocomplete="off"
+      pattern="\d*"
+      maxlength="2"
+      validator="digits"
+      ng-focus="form[name].$focus=true"
+      ng-blur="form[name].$focus=false"
+      ensure-digits />
+    <span class="split">&ndash;</span>
+    <input
+      ng-class="{focus:form[name].$focus===true}"
+      type="text"
+      id="{{name}}"
+      ng-model="vm.part3"
+      name="part3"
+      autocomplete="off"
+      pattern="\d*"
+      maxlength="2"
+      validator="digits"
+      ng-focus="form[name].$focus=true"
+      ng-blur="form[name].$focus=false"
+      ensure-digits />
+  </div>
+</div>

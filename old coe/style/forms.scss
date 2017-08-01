@@ -1,0 +1,188 @@
+@import 'variables';
+@import 'colors';
+@import 'text';
+@import 'mixin';
+
+// adjust placholder values
+form {
+  ::-webkit-input-placeholder {
+    font-size:16px;
+  }
+  ::-moz-placeholder {
+    font-size:16px;
+  }
+  :-ms-input-placeholder {
+    font-size:16px;
+  }
+  :-moz-placeholder {
+    font-size:16px;
+  }
+  input:placeholder {
+    font-size:16px;
+  }
+}
+
+form {
+  max-width: $max-form-width;
+  padding: $form-padding-mobile;
+  background-color: $form-body-color;
+
+  // new block of text moves you down 24px
+  .form-text {
+    margin-top:24px;
+  }
+  // 12px space between input
+  .form-input {
+    margin-top:24px;
+  }
+  .form-text:first-of-type {
+    margin-top:0px;
+  }
+  .form-text, .form-input {
+    &.runs-on {
+      margin-top:6px;
+    }
+  }
+
+  label {
+    @include __formlabel();
+    display:inline-block;
+    vertical-align:baseline;
+    margin-bottom:10px;  // 17px from baseline or 14px from decender - from botton
+  }
+  label + span {
+    display:inline;
+  }
+
+  .error-messages p {
+    @include __formerror();
+    padding: 0;
+    margin: $error-message-pre 0 $error-message-post 0;
+    color:$invalid-color;
+  }
+
+  input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  /// overrides Bootstrap defaults
+  // input.form-control, textarea.form-control, select.form-control,
+  input, textarea, select {
+    @include __forminput();
+    height: $input-height;
+    border: 1px solid $default-color; // $gray-light;
+    border-radius: 0;
+    padding: 6px 12px;
+  }
+
+  // input.form-control, textarea.form-control, select.form-control,
+  input, textarea, select {
+    width:100%;
+    max-width: $input-max-width;
+
+    // input will start invalid if empty (required)
+    &[class*='ng-invalid'] {
+      border-color: $invalid-color !important;
+      background-color: $error_filled;
+      &.ng-untouched {
+        border-color: $default-color !important;  // reset - if input is 'untouched'
+        background-color: #fff !important;
+      }
+    }
+    &.focus {
+      border-color: $active-color !important;
+      &.ng-not-empty {
+        border-color: $focus-color !important;
+      }
+    }
+    &:focus {
+      outline:none; // turn off, all the browser input "glow" effects
+      outline: 0;
+      box-shadow: none !important;
+    }
+  }
+
+  textarea {
+    height:220px;  // 200 charcters -  100 x 'em' size
+    // height:100%;
+  }
+}
+
+
+// ===============================================================
+// When the form has been submitted 'has a submitted class'
+// but if the form is invalid - re-apply invalid styling to inputs
+// ===============================================================
+form.submitted {
+
+  input, textarea, select {
+    &[class*='ng-invalid'] {
+      border-color: $invalid-color;
+      background-color: $error_filled;
+      &.ng-untouched {
+        border-color: $invalid-color !important;  // reset - if input is submitted but 'untouched'
+      }
+    }
+
+    // set MM-YYYY (month/year) and NN-NN-NN (sortcode) input groups
+    &[class*='ng-invalid'] ~ div.input-line {
+      > input {
+        border-color: $invalid-color;
+      }
+    }
+
+    // checkboxes input groups
+    &[class*='ng-invalid'] ~ div.input-items {
+      [type="checkbox"] ~ label {
+        color:$invalid-color;
+      }
+      [type="checkbox"] ~ label:before {
+        border-color: $invalid-color;
+      }
+    }
+
+    // radio input groups
+    &[class*='ng-invalid'] ~ div.input-items {
+      [type="checkbox"] ~ label {
+        color:$invalid-color;
+      }
+      [type="radio"] ~ label:before {
+        border-color: $invalid-color;
+      }
+    }
+  }
+
+  // accept-only checkboxes (with no value)
+  .accept-input {
+    input[type="checkbox"]:not(:checked) {
+      & ~ label {
+        color:$invalid-color;
+      }
+      & ~ label:before {
+        border-color: $invalid-color;
+      }
+    }
+  }
+  // select / dropdowns
+  .select-input {
+    .ui-select-container {
+      &[class*='ng-invalid'] {
+        .ui-select-toggle {
+          border-color: $invalid-color;
+        }
+      }
+    }
+  }
+}
+
+// media resizing
+@media (min-width: $screen-sm-min) {
+  form {
+    padding: $form-padding !important;
+  }
+}

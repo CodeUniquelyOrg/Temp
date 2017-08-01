@@ -1,0 +1,54 @@
+@import 'colors';
+@import 'variables';
+@import 'text';
+@import 'mixin';
+
+.accordion {
+  .accordion-item {
+
+    margin-bottom: 10px;
+    border-top: 1px solid $divider-color;
+    border-bottom: 1px solid $divider-color;
+
+    .title {
+      padding: 10px 0;
+      @include __accordion();
+      cursor: pointer;
+      color:$sub-header-color;
+      i {
+        float: right;
+        padding: 2px 15px 0 0;
+        line-height: 24px;
+      }
+    }
+    > .body {
+
+      position: relative;
+      overflow: hidden;
+      max-height: 0;
+      z-index: -1;
+      transition: max-height 0.5s ease;
+
+      > .content {
+        padding: $padding;
+
+        li:before {
+          color:$primary-color;
+        }
+      }
+    }
+
+    &.open {
+      > .body {
+        z-index: 1;
+        max-height: 640px;
+      }
+    }
+  }
+
+  // also include the top border on the first item
+  .accordion-item:first-of-kind {
+    border-top: 1px solid $divider-color;
+  }
+
+}

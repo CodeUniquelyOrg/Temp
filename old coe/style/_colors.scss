@@ -1,0 +1,168 @@
+// ==============================
+//   Shared Application Colours
+// ==============================
+$gray-base:      #000 !default;
+$gray-darker:    lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:      lighten($gray-base, 20.0%) !default; // #333
+$gray:           lighten($gray-base, 33.5%) !default; // #555
+$gray-light:     lighten($gray-base, 46.7%) !default; // #777
+$gray-lighter:   lighten($gray-base, 93.5%) !default; // #eee
+
+// ======================================================
+// Colors - Lloyds Bank (web pages)
+// ======================================================
+$empty-body-color:                        #EBEBEB !default;
+$form-body-color:                         #FFFFFF !default;
+
+$brand-primary:                           #649c00 !default;
+$brand-success:                           #EBF3DE !default;
+$brand-info:                              #006a4D !default;
+$brand-warning:                           $gray-lighter; // #FCF7D1 !default;
+$brand-danger:                            #BD4002 !default;
+$background-color:                        #EBEBEB !default;  //.bg
+
+// Header / Block Colors
+// ======================================================
+// $filled-background:                   #006a4D !default;
+
+// Text Colors
+// ======================================================
+$text-color:                              #505050 !default;
+$invert-text-color:                       #FFFFFF !default;
+$header-color:                            #323233 !default;
+$sub-header-color:                        #006a4D !default;
+
+// standard coloring
+// ======================================================
+$primary-color:                           $brand-primary !default;
+$secondary-color:                         $brand-info !default;
+$tertiary-color:                          #e1e1e1 !default;
+
+// headers and filled sections
+// ======================================================
+$header-background-color:                 #006a4D !default;
+
+
+// primary buttons
+// ======================================================
+$button_primary_top:                      #74a618;
+$button_primary_bottom:                   #5a8c00;
+$button_primary_text:                     #FFFFFF;
+$button_primary_text_underline:           transparent;
+$button_primary_outline:                  transparent;
+
+$button_primary_top_hover:                #649c00;
+$button_primary_bottom_hover:             #649c00;
+$button_primary_text_hover:               #FFFFFF;
+$button_primary_text_underline_hover:     transparent;
+$button_primary_outline_hover:            transparent;
+
+$button_primary_top_focus:                #649c00; // ??? wrong values here
+$button_primary_bottom_focus:             #649c00;
+$button_primary_text_focus:               #FFFFFF;
+$button_primary_text_underline_focus:     #FFFFFF;
+$button_primary_outline_focus:            #0D5595;
+
+$button_primary_disabled:                 #F0F0F0;
+$button_primary_text_disabled:            #CCCCCC;
+$button_primary_text_underline_disabled:  transparent;
+$button_primary_outline_disabled:         transparent;
+
+
+// secondary buttons
+// ======================================================
+$button_secondary_top:                    #1A795F;
+$button_secondary_bottom:                 #005F45;
+$button_secondary_text:                   #FFFFFF;
+$button_secondary_text_underline:         transparent;
+$button_secondary_outline:                transparent;
+
+$button_secondary_top_hover:              #006a4D;
+$button_secondary_bottom_hover:           #006a4D;
+$button_secondary_text_hover:             #FFFFFF;
+$button_secondary_text_underline_hover:   transparent;
+$button_secondary_outline_hover:          transparent;
+
+
+// tertiary buttons
+// ======================================================
+$button_tertiary_top:                     #EEEEEE;
+$button_tertiary_bottom:                  #EEEEEE; // #CCCCCC;
+$button_tertiary_text:                    #006a4D;
+$button_tertiary_text_underline:          transparent;
+$button_tertiary_outline:                 transparent;
+
+$button_tertiary_top_hover:               darken($button_tertiary_top,10%);     // ???
+$button_tertiary_bottom_hover:            darken($button_tertiary_bottom,10%);  // ???
+$button_tertiary_text_hover:              #006a4D;
+$button_tertiary_text_underline_hover:    transparent;
+$button_tertiary_outline_hover:           transparent;
+
+// check boxes and radio buttons
+// ======================================================
+$check_button_fill:                       #649c00;
+$check_button_text:                       #FFF;
+$check_button_hover:                      #649c00;
+$check_button_focus:                      #0D5595;
+$check_button_fill_focus:                 #FFFFFF;
+$check_button_disabled:                   #E1E1E1;
+$check_button_text_disabled:              #CCCCCC;
+
+// selects, dropdown and menus
+// ======================================================
+$menu_background:                         #FFF;
+$menu_selected:                           #649c00;
+$menu_selected_text:                      #EBF3DE;  // lighten($menu_selected,10%);
+$menu_toggle:                             #006a4D;
+
+// page dividers & input separators
+// ======================================================
+$divider-color:                           #E1E1E1 !default;
+
+// tables
+// ======================================================
+$table-header-background:                 #F1F1F1 !default;
+$table-header-color:                      #006a4D !default;
+$table-border-color:                      #006a4D !default;
+$table-marine-color:                      #505050 !default;
+$table-separator-color:                   #DDDDDD !default;
+
+
+// links
+// ======================================================
+$link-color:                              #006a4D !default; // #649c00 !default;
+$link-focus:                              #ffffff !default; // 006a4D!default; // #649c00 !default; // #505050
+
+// $table-header-background:
+// $table-header-color:
+// $table-header-alt:
+// $table-border-color:
+// $table-divider-color:
+// $table-entry-color:
+//
+// $mobile-header-color:              // heading cells
+// $mobile-border-color:              // top and bottom of the grid
+// $mobile-divider-color:             // between cells
+// $mobile-entry-color:               // first colum entry
+
+// colours applied to border of input controls
+// ======================================================
+$default-color:                           #b2b2b2 !default;
+$active-color:                            $brand-primary !default;
+$focus-color:                             #0D5595 !default;
+$entered-color:                           #BFBFBF !default;
+$disabled-color:                          $gray-lighter !default;
+$valid-color:                             #77BA00 !default;
+$invalid-color:                           #BD4002 !default;
+
+// Product / Promo Shades and Tones
+// ======================================================
+$promo1-background:                       #2178B0 !default;  // blue-ish
+$promo1-button:                           #1C6696 !default;
+$promo2-background:                       #006A4D !default;  // green-ish
+$promo2-button:                           #77BA00 !default;
+$promo3-background:                       #DC2A4D !default;  // red-ish
+$promo3-button:                           #BB2442 !default;
+
+// Error Filling in
+$error_filled:                            #FFFFFF !default; // white

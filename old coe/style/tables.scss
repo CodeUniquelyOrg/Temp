@@ -1,0 +1,59 @@
+@import 'variables';
+@import 'colors';
+@import 'text';
+@import 'mixin';
+
+table, td, th {
+  border-collapse: collapse;
+  border: $table-border-size solid $table-border-color;
+}
+
+table {
+  width:100%;
+  margin-top:20px;
+
+  td, th {
+    padding: $table-padding;
+  }
+
+  tr {
+    td, th {
+      text-align: left;
+    }
+  }
+
+  thead {
+    tr {
+      th {
+        @include __header4();
+        background-color: $table-header-background;
+        color: $table-header-color;
+        font-weight: 500;
+        line-height: 1.5;
+      }
+      th:first-of-type {
+        border-left-color:transparent;
+      }
+      th:last-of-type {
+        border-right-color:transparent;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td:first-of-type {
+        border-left-color:transparent;
+        @include __header5();
+        color:$table-header-color;
+      }
+      td:last-of-type {
+        border-right-color:transparent;
+      }
+    }
+  }
+
+  tfoot {
+  }
+
+}

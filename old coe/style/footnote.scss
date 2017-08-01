@@ -1,0 +1,31 @@
+@import 'variables';
+@import 'colors';
+@import 'text';
+@import 'mixin';
+
+.foot-note {
+  background-color: $brand-warning;
+  padding: $padding * 2;
+  margin:0;
+  display: flex;
+  .icon {
+    width:48px;
+    font-size:32px;
+    color: $brand-danger;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &:after {
+      @include __icons();
+      content: "\f06a";
+    }
+  }
+  .text {
+    flex: 1;
+    flex-direction: column;
+    text-align: left;
+    small {
+      font-size: 14px; // pt;
+    }
+  }
+}

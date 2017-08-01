@@ -1,0 +1,7 @@
+server.js
+build/*
+lib/*
+src/assets/*
+node_moduls/*
+**/node_modules/*
+**/src/mock/*

@@ -1,0 +1,11 @@
+{
+  "data": {
+    "hitLogRequest": {
+      "data": "42.0",
+      "exception": null,
+      "isSuccessful": true
+    }
+  },
+  "exception": null,
+  "isSuccessful": true
+}

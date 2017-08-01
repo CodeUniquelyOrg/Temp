@@ -1,0 +1,50 @@
+@import 'colors';
+@import 'variables';
+@import 'mixin';
+
+.address-card {
+
+  display: inline-block;
+
+  width:320px;
+  height:200px;
+  padding: 10px 20px;
+  margin:0;
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 2px;
+
+  // Also put a box shadow on this
+  box-shadow: 0px 10px 20px -4px rgba(0,0,0,0.5);
+
+  .line1, .line2, .town, .county, .postcode  {
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .line1 {
+    font-size: 16pt;
+    @include font-family($font-forms-sub-header);
+    color: $brand-info;
+  }
+  .line2, .town, .county  {
+    font-size: 12pt;
+    @include font-family($font-label);
+  }
+  .postcode {
+    font-size: 14pt;
+    color: $brand-info;
+  }
+  .moved {
+    font-size: 10pt;
+  }
+  .months {
+    position: relative;
+    top:0;
+    left:0;
+    font-size: 10pt;
+    text-align: right;
+    color: $gray;
+  }
+}

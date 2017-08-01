@@ -1,0 +1,164 @@
+@import 'variables';
+@import 'colors';
+@import 'mixin';
+
+// Are we flex-able ....
+.flexible {
+
+  background: white;
+  padding: $padding;
+
+  .flexrow {
+    box-sizing: border-box;
+    width: 100%;
+    border-collapse: collapse;
+    display: flex;
+  }
+
+  [class*='cell'] {
+    flex: 1 0 0%;  // IE10-11 BUG
+    -webkit-box-orient: vertical;
+    flex-direction: column;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    padding: 4px;
+  }
+
+  // ===================
+  // ROW STYLES
+  // ===================
+  .flexrow {
+    &.odd {
+      background: #f2f2f2;
+      }
+    &.even {
+      background: #ffffff;
+    }
+    &.separator {
+      border-bottom: 2px solid $divider-color;
+    }
+    &.spacer {
+      background: white;
+      height:$padding;
+    }
+    &.heading {
+      font-weight: bold;
+    }
+    &.title {
+      background: white;
+      [class*='cell'] {
+        padding:12px 0 12px 0;
+      }
+    }
+    &.notes {
+      background: white;
+      font-size:12px;
+    }
+  }
+
+  // set some defaults - when no other style applied
+  // align vertically in the middle of the space
+  // justify any content to the left hand side
+  [class*='cell'] {
+    vertical-align: middle;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .cell {
+    // and all the special 'width' versions of the class
+    &-0 {
+      width: 1%;
+      flex: none auto;
+    }
+    @for $i from 1 to 20 {
+      &-#{$i*5} {
+        width: $i*5%;
+        flex: 1 $i*5%;
+      }
+    }
+    &-100 {
+      width: 100%;
+      flex: 1 100%;
+    }
+
+    // special 1/3 and 2/3 classes
+    &-33 {
+      width: 33.33333%;
+      flex: 1 33.33333%;
+    }
+    &-66 {
+      width: 66.66666%;
+      flex: 1 66.66666%;
+    }
+
+    // min and max classes
+    &-min {
+      width: 1%;
+      flex: none auto;
+    }
+    &-max {
+      width: 100%;
+      flex: 1 100%;
+    }
+
+    // horizontal
+    &-left {
+      text-align: left;
+      align-items: flex-start;
+    }
+    &-center {
+      text-align: center;
+      align-items: center;
+    }
+    &-right {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    // vertical
+    &-top {
+      vertical-align: top;
+      justify-content: flex-start;
+    }
+    &-middle {
+      vertical-align: middle;
+      justify-content: center;
+    }
+    &-bottom {
+      vertical-align: bottom;
+      justify-content: flex-end;
+    }
+
+    // Developer flags that a CSS specific class will be used to set the width
+    // so remove the flex parts but leave all the other styling considerations.
+    &-fixed {
+      flex: none;
+    }
+    // Do not allow the contents to wrap in this cell
+    // and render them with an ellipsis at the end ...
+    &-nowrap {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      max-width:100% // IE10-11 BUG
+    }
+  }
+}
+
+// IE9 TABLE HACKS
+.cp-ie9 {
+  .flexible {
+    .flexrow {
+      display: table;
+      table-layout: fixed;
+      border-collapse: separate;
+    }
+    .cell {
+      display: table-cell;
+    }
+  }
+}

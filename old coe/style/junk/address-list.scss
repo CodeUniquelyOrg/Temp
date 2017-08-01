@@ -1,0 +1,136 @@
+@import 'variables';
+@import 'colors';
+@import 'text';
+@import 'mixin';
+
+.address-list {
+  .flexrow {
+    [class*='cell'] {
+      padding: $table-padding;
+    }
+  }
+  .heading {
+    @include __header4();
+  }
+  .entry-name {
+    @include __header3();
+  }
+  .entry {
+    @include __header4();
+  }
+  .btn {
+    @include __button();
+    height: 48px;
+  }
+
+  &.flexible {
+    padding:0;
+
+    // normal screen size version
+    &.address-list-normal {
+      border: 1px solid transparent;
+      border-top-color: $table-header-background;
+      border-bottom-color: $table-header-background;
+      .heading {
+        @include __header4();
+        background-color:$table-header-background;
+        border: 1px solid $table-separator-color;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        &:last-of-type {
+          border-right-color: transparent;
+        }
+      }
+      .entry {
+        @include __bodyCopy();
+        border: 1px solid $table-separator-color;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        &:last-of-type {
+          border-right-color: transparent;
+        }
+        &.action {
+          a {
+            width:100%;
+          }
+          .btn {
+            width:100%;
+          }
+        }
+      }
+      // .action {
+      //   width:100px;
+      // }
+
+      // 17 + 5 + 5 + 3 => 30
+      .flexrow {
+        [class*='cell'] {
+          flex-grow: 5;
+        }
+        [class*='cell']:first-of-type {
+          flex-grow: 17;
+        }
+        [class*='cell']:last-of-type {
+           flex-grow: 7;
+        }
+      }
+    }
+
+    // mobile version
+    &.address-list-mobile {
+
+      border: 2px solid transparent;
+      border-top-color: $table-border-color;
+      border-bottom-color: $table-border-color;
+
+      .flexrow {
+        [class*='cell'] {
+          padding: $table-padding;
+          border: 1px solid transparent;
+          &:first-of-type {
+            border-right-color: $table-border-color;
+            padding-left:0;
+          }
+          &:last-of-type {
+            border-left-color: $table-border-color;
+            padding-right:0;
+          }
+        }
+        .cell-100 {
+          border-color: transparent !important;
+          &.action {
+            .btn {
+              width:100%;
+            }
+          }
+        }
+        &.top {
+          [class*='cell'] {
+            border-top-color: $table-separator-color;
+          }
+        }
+        &.bottom {
+          [class*='cell'] {
+            border-bottom-color: $table-separator-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// HACKS FOR IE9
+.cp-ie9 {
+  .applicant-address-list {
+    .address-list-normal {
+      .flexrow {
+        [class*='cell'] {
+          width:180px;
+          &:first-of-type {
+            width:auto;
+          }
+        }
+      }
+    }
+  }
+}

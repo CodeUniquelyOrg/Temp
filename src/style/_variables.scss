@@ -1,0 +1,92 @@
+// $screen-es-min: 360px !default;
+$screen-xs-min: 480px !default;     // lloyds first break point
+$screen-sm-min: 640px !default;     // lloyds a special !!! ***
+$screen-md-min: 768px !default;     // lloyds third break point
+$screen-lg-min: 885px !default;     // break at
+// $screen-xl-min:   992px !default;
+// $screen-xxl-min: 1100px !default;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-es-max: ($screen-xs-min - 1) !default;
+$screen-xs-max: ($screen-sm-min - 1) !default;
+$screen-sm-max: ($screen-md-min - 1) !default;
+$screen-md-max: ($screen-lg-min - 1) !default;
+// $screen-lg-max: ($screen-xl-min - 1) !default;
+// $screen-xl-max: ($screen-xxl-min - 1) !default;
+
+// copied from bootstrap
+$grid-gutter-width:           24px !default;
+
+// Page padding (not form)
+// =================================
+$page-padding:                30px;
+$page-padding-mobile:         12px;
+$padding:                     12px;
+
+// Header sizes
+// =================================
+$fixed-page-header-height:     80px;
+$logo-top:                     15px;
+$logo-bottom:                  17px;
+$logo-width:                  282px; // 200px;
+$logo-width-sm:               133px; // 50px;
+$logo-height:                  48px; // 216 × 78
+$header-text-width:           222px; // 242px; - (133-50px)
+$header-text-top:              23px;
+$header-text-bottom:           28px;
+$header-padlock-padding:       11px;
+$header-padlock-right:         16px;
+
+// body copy
+$font-body:                    'Lloyds Jack Light';
+
+// form
+// ======================================================
+$form-padding:                 24px; // 32px; // 24px
+$form-padding-mobile:          16px; // 18px
+
+// links
+$font-link:                    'Lloyds Jack Medium';
+
+// Inputs
+// ======================================================
+$input-height:                 50px;
+$input-padding:                20px;
+$input-padding-small:          20px;
+$input-max-width:             315px;
+// $input-line-height:            26px;
+
+// Radios and Checkboxes
+// ======================================================
+$checkbox-size:                32px;
+$radio-size:                   32px;
+
+// Buttons
+// ======================================================
+$button_chevrons_allowed:      true;
+$button-height:                48px;
+$button-padding:               32px;
+$button-padding-small:         24px;
+$button_chevron_spacing:       16px;
+$button_chevron_spacing-small: 12px;
+
+// Tables
+// ======================================================
+$table-border-size:             1px;
+$table-padding:                10px;
+
+// error-messages
+// ======================================================
+$error-message-pre:             6px;
+$error-message-post:            6px; // 16px;
+
+// custom (ul > li) mark padding
+$li-padding:                   30px;
+$max-width:                   315px;
+$max-form-width:             1100px;
+
+// define some border radius stuff
+$border-radius-base:           0;
+$border-radius-large:          0;
+$border-radius-small:          0;
+$menu-border-radius:           0;
