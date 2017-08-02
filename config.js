@@ -7,9 +7,9 @@ module.exports = {
   },
 
   server: {
-    port: 4000,
+    port: 5000,
     apiRoot: 'http://localhost:8000/api/v1',
-    portalRoot: 'http://localhost:4000',
+    portalRoot: 'http://localhost:5000',
   },
 
 };

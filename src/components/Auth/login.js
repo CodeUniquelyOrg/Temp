@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused-vars
 import { Link } from 'react-router';            // eslint-disable-line no-unused-vars
 
-// pull in logibn from actions
+// pull in login from actions
 import { loginUser } from 'actions';
 
 // styling
-import './style.scss';
+import './style.pcss';
 
 const form = reduxForm({
   form: 'login'
@@ -33,7 +33,7 @@ class Login extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <div className="center-vertial">
+      <div className="center-vertical">
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
         {this.renderAlert()}
           <div>

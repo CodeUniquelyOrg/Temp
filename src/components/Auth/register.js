@@ -17,6 +17,7 @@ const renderField = field => (
     </div>
 );
 
+// a i10n file is required
 function validate(formProps) {
   const errors = {};
 
@@ -58,7 +59,7 @@ class Register extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+      <form  className="center-vertical" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
       {this.renderAlert()}
       <div className="row">
         <div className="col-md-6">
