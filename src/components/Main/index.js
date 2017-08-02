@@ -16,18 +16,18 @@ import RequireAuth from 'components/auth/require';
 
 // Declaritive
 const Main = () => (
-    <Switch>
+  <Switch>
 
-      <Route exact path = '/' component={HomePage} />
+    <Route exact path = '/' component={HomePage} />
 
-      <Route exact path = '/register' component={Register} />
-      <Route exact path = '/login' component={Login} />
+    <Route exact path = '/register' component={Register} />
+    <Route exact path = '/login' component={Login} />
 
-      <Route path = '/dashboard' component={RequireAuth(Dashboard)} />
+    <Route path = '/dashboard' component={RequireAuth(Dashboard)} />
 
-      <Route component = {NotFoundPage} />
+    <Route component = {NotFoundPage} />
 
-    </Switch>
+  </Switch>
 );
 
 export default Main;

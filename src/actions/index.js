@@ -2,10 +2,12 @@ import axios from 'axios';
 import { browserHistory } from 'react-router';   // eslint-disable-line no-unused-vars
 import cookie from 'react-cookie';
 
-import { AUTH_USER,
-         AUTH_ERROR,
-         UNAUTH_USER,
-         PROTECTED_TEST } from './types';
+import {
+  AUTH_USER,
+  AUTH_ERROR,
+  UNAUTH_USER,
+  PROTECTED_TEST
+} from './types';
 
 import config from 'src/config';
 
@@ -47,34 +49,30 @@ export function errorHandler(dispatch, error, type) {
 //  Post to APP URL -  /{api-root}/auth/login
 export function loginUser({ email, password }) {
   return function(dispatch) {
-    axios.post(`${API_ROOT}/auth/login`, {
-      email, password
-    })
-    .then(response => {
-      cookie.save('token', response.data.token, { path: '/' });
-      dispatch({ type: AUTH_USER });
-      window.location.href = CLIENT_ROOT_URL + '/dashboard';
-    })
-    .catch((error) => {
-      errorHandler(dispatch, error.response || error.message, AUTH_ERROR);
-    });
+    axios.post(`${API_ROOT}/auth/login`, { email, password })
+      .then(response => {
+        cookie.save('token', response.data.token, { path: '/' });
+        dispatch({ type: AUTH_USER });
+        window.location.href = CLIENT_ROOT_URL + '/dashboard';
+      })
+      .catch((error) => {
+        errorHandler(dispatch, error.response || error.message, AUTH_ERROR);
+      });
   };
 }
 
 // Post to APP URL -  /{api-root}/auth/register
 export function registerUser({ email, firstName, lastName, password }) {
   return function(dispatch) {
-    axios.post(`${API_ROOT}/auth/register`, {
-      email, firstName, lastName, password
-    })
-    .then(response => {
-      cookie.save('token', response.data.token, { path: '/' });
-      dispatch({ type: AUTH_USER });
-      window.location.href = CLIENT_ROOT_URL + '/dashboard';
-    })
-    .catch((error) => {
-      errorHandler(dispatch, error.response, AUTH_ERROR);
-    });
+    axios.post(`${API_ROOT}/auth/register`, { email, firstName, lastName, password })
+      .then(response => {
+        cookie.save('token', response.data.token, { path: '/' });
+        dispatch({ type: AUTH_USER });
+        window.location.href = CLIENT_ROOT_URL + '/dashboard';
+      })
+      .catch((error) => {
+        errorHandler(dispatch, error.response, AUTH_ERROR);
+      });
   };
 }
 
@@ -94,14 +92,14 @@ export function protectedTest() {
     axios.get(`${API_ROOT}/protected`, {
       headers: { 'Authorization': cookie.load('token') }
     })
-    .then(response => {
-      dispatch({
-        type: PROTECTED_TEST,
-        payload: response.data.content
+      .then(response => {
+        dispatch({
+          type: PROTECTED_TEST,
+          payload: response.data.content
+        });
+      })
+      .catch((error) => {
+        errorHandler(dispatch, error.response, AUTH_ERROR);
       });
-    })
-    .catch((error) => {
-      errorHandler(dispatch, error.response, AUTH_ERROR);
-    });
   };
 }

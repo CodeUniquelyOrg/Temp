@@ -12,7 +12,7 @@ export default class HomePage extends Component {
         <br/>
         <br/>
         <br/>
-        <h1>Hello world! This is the home page route.</h1>
+        <h1>Hello world! This is the home page route</h1>
         <br/>
         <br/>
         <br/>

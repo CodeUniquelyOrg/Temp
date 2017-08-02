@@ -7,7 +7,7 @@ export default function( ComposedComponent ) { // eslint-disable-line no-unused-
 
   // Authetication wrapper
   class Authentication extends Component {
-    static contextTypes = {
+    static contextTypes = {                    // eslint-disable-line no-undef
       router: PropTypes.object
     }
 

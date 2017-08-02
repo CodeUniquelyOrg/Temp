@@ -35,7 +35,7 @@ class Login extends Component {
     return (
       <div className="center-vertical">
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        {this.renderAlert()}
+          {this.renderAlert()}
           <div>
             <label>Email</label>
             <Field name="email" className="form-control" component="input" type="text" />

@@ -11,10 +11,10 @@ const form = reduxForm({
 });
 
 const renderField = field => (
-    <div>
-      <input className="form-control" {...field.input}/>
-      {field.touched && field.error && <div className="error">{field.error}</div>}
-    </div>
+  <div>
+    <input className="form-control" {...field.input}/>
+    {field.touched && field.error && <div className="error">{field.error}</div>}
+  </div>
 );
 
 // a i10n file is required
@@ -60,17 +60,17 @@ class Register extends Component {
 
     return (
       <form  className="center-vertical" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-      {this.renderAlert()}
-      <div className="row">
-        <div className="col-md-6">
-          <label>First Name</label>
-          <Field name="firstName" className="form-control" component={renderField} type="text" />
+        {this.renderAlert()}
+        <div className="row">
+          <div className="col-md-6">
+            <label>First Name</label>
+            <Field name="firstName" className="form-control" component={renderField} type="text" />
+          </div>
+          <div className="col-md-6">
+            <label>Last Name</label>
+            <Field name="lastName" className="form-control" component={renderField} type="text" />
+          </div>
         </div>
-        <div className="col-md-6">
-          <label>Last Name</label>
-          <Field name="lastName" className="form-control" component={renderField} type="text" />
-        </div>
-      </div>
         <div className="row">
           <div className="col-md-12">
             <label>Email</label>
