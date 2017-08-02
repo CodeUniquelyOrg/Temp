@@ -2,6 +2,8 @@ import React, { Component } from 'react';   // eslint-disable-line no-unused-var
 import { Link } from 'react-router-dom';    // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
 
+import style from './style.scss';
+
 class FooterBar extends Component {
 
   // renderLinks() {
@@ -38,7 +40,7 @@ class FooterBar extends Component {
     const year = d.getFullYear();
 
     return (
-      <footer>
+      <footer className={style.footer}>
         <div className="container">
           <div className="row">
             <div className="col-lg-12">

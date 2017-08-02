@@ -1,1 +1,1 @@
-export default '../config.js';
+export default from '../config.js';

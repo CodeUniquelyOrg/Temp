@@ -10,8 +10,11 @@ import { AUTH_USER,
 import config from 'src/config';
 
 // Obtained from config
-const CLIENT_ROOT_URL = config.portalRoot;    // 'http://localhost:4000;
-const API_ROOT = config.apiRoot;               // 'http://localhost:4000/api/v1';
+const CLIENT_ROOT_URL = config.server.portalRoot;    // 'http://localhost:4000;
+const API_ROOT = config.server.apiRoot;               // 'http://localhost:4000/api/v1';
+
+console.log('Config is ', config);   // eslint-disable-line no-console
+console.log('[ API_ROOT | CLIENT_ROOT_URL ] are ', API_ROOT, CLIENT_ROOT_URL);   // eslint-disable-line no-console
 
 // Middleware error handler for API requests
 export function errorHandler(dispatch, error, type) {
