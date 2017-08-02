@@ -20,7 +20,9 @@ console.log('[ API_ROOT | CLIENT_ROOT_URL ] are ', API_ROOT, CLIENT_ROOT_URL);  
 export function errorHandler(dispatch, error, type) {
   let errorMessage = '';
 
-  if(error.data.error) {
+  console.log('ERROR IS ', error); // eslint-disable-line no-console
+
+  if(error.data && error.data.error) {
     errorMessage = error.data.error;
   } else if(error.data) {
     errorMessage = error.data;
@@ -54,7 +56,7 @@ export function loginUser({ email, password }) {
       window.location.href = CLIENT_ROOT_URL + '/dashboard';
     })
     .catch((error) => {
-      errorHandler(dispatch, error.response, AUTH_ERROR);
+      errorHandler(dispatch, error.response || error.message, AUTH_ERROR);
     });
   };
 }
