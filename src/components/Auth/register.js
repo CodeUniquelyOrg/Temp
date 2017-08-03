@@ -5,20 +5,23 @@ import { Field, reduxForm } from 'redux-form';   // eslint-disable-line no-unuse
 // load regsiter user from teh actions
 import { registerUser } from 'actions';
 
-const form = reduxForm({
-  form: 'register',
-  validate
-});
+const mapStateToProps = state => {
+  return {
+    errorMessage: state.auth.error,
+    message: state.auth.message
+  };
+};
 
-const renderField = field => (
-  <div>
-    <input className="form-control" {...field.input}/>
-    {field.touched && field.error && <div className="error">{field.error}</div>}
-  </div>
-);
+// function mapStateToProps(state) {
+//   return {
+//     errorMessage: state.auth.error,
+//     message: state.auth.message
+//   };
+// }
 
-// a i10n file is required
-function validate(formProps) {
+// a i10n file is required - EXTERNALLY
+// function validate(formProps) {
+const validate = (formProps) => {
   const errors = {};
 
   if (!formProps.firstName) {
@@ -37,8 +40,29 @@ function validate(formProps) {
     errors.password = 'Please enter a password';
   }
 
+  if (!formProps.retype) {
+    errors.retype = 'Please retype your password';
+  }
+
+  if (formProps.password !== formProps.retype) {
+    errors.password = 'Passwords don\'t match';
+    errors.retype = 'Passwords don\'t match';
+  }
+
   return errors;
-}
+};
+
+const renderField = field => (
+  <div>
+    <input className="form-control" {...field.input}/>
+    {field.touched && field.error && <div className="error">{field.error}</div>}
+  </div>
+);
+
+const form = reduxForm({
+  form: 'register',
+  validate
+});
 
 class Register extends Component {
   handleFormSubmit(formProps) {
@@ -56,7 +80,9 @@ class Register extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const {
+      handleSubmit
+    } = this.props;
 
     return (
       <form  className="center-vertical" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -83,17 +109,16 @@ class Register extends Component {
             <Field name="password" className="form-control" component={renderField} type="password" />
           </div>
         </div>
+        <div className="row">
+          <div className="col-md-12">
+            <label>Retype Password</label>
+            <Field name="retype" className="form-control" component={renderField} type="password" />
+          </div>
+        </div>
         <button type="submit" className="btn btn-primary">Register</button>
       </form>
     );
   }
-}
-
-function mapStateToProps(state) {
-  return {
-    errorMessage: state.auth.error,
-    message: state.auth.message
-  };
 }
 
 export default connect(mapStateToProps, { registerUser })(form(Register));

@@ -9,8 +9,44 @@ import { loginUser } from 'actions';
 // styling
 import './style.pcss';
 
+const mapStateToProps = state => {
+  return {
+    errorMessage: state.auth.error,
+    message: state.auth.message
+  };
+};
+
+// function mapStateToProps(state) {
+//   return {
+//     errorMessage: state.auth.error,
+//     message: state.auth.message
+//   };
+// }
+
+const validate = (formProps) => {
+  const errors = {};
+
+  if (!formProps.email) {
+    errors.email = 'Please enter an email';
+  }
+
+  if (!formProps.password) {
+    errors.password = 'Please enter a password';
+  }
+
+  return errors;
+};
+
+const renderField = field => (
+  <div>
+    <input className="form-control" {...field.input}/>
+    {field.touched && field.error && <div className="error">{field.error}</div>}
+  </div>
+);
+
 const form = reduxForm({
-  form: 'login'
+  form: 'login',
+  validate
 });
 
 class Login extends Component {
@@ -38,24 +74,17 @@ class Login extends Component {
           {this.renderAlert()}
           <div>
             <label>Email</label>
-            <Field name="email" className="form-control" component="input" type="text" />
+            <Field name="email" className="form-control" component={renderField} type="text" />
           </div>
           <div>
             <label>Password</label>
-            <Field name="password" className="form-control" component="input" type="password" />
+            <Field name="password" className="form-control" component={renderField} type="password" />
           </div>
           <button type="submit" className="btn btn-primary">Login</button>
         </form>
       </div>
     );
   }
-}
-
-function mapStateToProps(state) {
-  return {
-    errorMessage: state.auth.error,
-    message: state.auth.message
-  };
 }
 
 // connect state in redux to login form / login user

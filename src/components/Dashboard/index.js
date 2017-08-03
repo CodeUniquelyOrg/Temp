@@ -4,6 +4,10 @@ import * as actions from 'actions';
 
 import style from './style.scss';
 
+const mapStateToProps = (state) => {
+  return { users: state.auth.users };
+};
+
 const Dashboard = class Dashboard extends Component {
 
   constructor(props) {
@@ -45,9 +49,5 @@ const Dashboard = class Dashboard extends Component {
     );
   }
 };
-
-function mapStateToProps(state) {
-  return { users: state.auth.users };
-}
 
 export default connect(mapStateToProps, actions)(Dashboard);

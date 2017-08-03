@@ -102,23 +102,38 @@ export function registerUser({ email, firstName, lastName, password }) {
 
 // function call o logout  user - > redirect to login (or) / root ???
 export function logoutUser() {
+  // const token = localStorage.getItem('token');
   return function (dispatch) {
-    dispatch({ type: UNAUTH_USER });
-    // cookie.remove('token', { path: '/' });
-    localStorage.removeItem('token');
 
-    window.location.href = CLIENT_ROOT_URL + '/login';
+    localStorage.removeItem('token');
+    dispatch({ type: UNAUTH_USER });
+    window.location.href = CLIENT_ROOT_URL + '/';
+
+    // if (!token) {
+    //   dispatch({
+    //     type: UNAUTH_USER
+    //   });
+    //   window.location.href = CLIENT_ROOT_URL + '/';
+    // } else {
+    //   axios.get(`${API_ROOT}/auth/logout`, {
+    //     headers: { 'Authorization': `Bearer ${token}` }
+    //   }).then(() => {
+    // }).catch((error) => {
+    // }).then(() => {
+    //   // always executed
+    //   dispatch({
+    //     type: UNAUTH_USER
+    //   });
+    //   localStorage.removeItem('token');
+    //   window.location.href = CLIENT_ROOT_URL + '/';
+    // });
+    // }
   };
 }
 
 // test if user is accessing 'Protected' contents - (authenticated ONLY)
 export function protectedTest() {
-
   const token = localStorage.getItem('token');
-  // const config = {
-  //   headers: {'Authorization': "bearer" + token}
-  // };
-
   return function(dispatch) {
     axios.get(`${API_ROOT}/users`, {
       headers: { 'Authorization': `Bearer ${token}` } //  cookie.load('token') }
