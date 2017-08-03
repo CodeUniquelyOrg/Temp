@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';   // eslint-disable-line no-unused-vars
-// import cookie from 'react-cookie';
 
 import {
   AUTH_USER,
@@ -14,9 +13,6 @@ import config from 'src/config';
 // Obtained from config
 const CLIENT_ROOT_URL = config.server.portalRoot;    // 'http://localhost:4000;
 const API_ROOT = config.server.apiRoot;               // 'http://localhost:4000/api/v1';
-
-// console.log('Config is ', config);   // eslint-disable-line no-console
-// console.log('[ API_ROOT | CLIENT_ROOT_URL ] are ', API_ROOT, CLIENT_ROOT_URL);   // eslint-disable-line no-console
 
 // Middleware error handler for API requests
 export function errorHandler(dispatch, error, type) {
@@ -48,34 +44,15 @@ export function errorHandler(dispatch, error, type) {
 
 //  Post to APP URL -  /{api-root}/auth/login
 export function loginUser({ email, password }) {
-  const lowerEmail = email.toLowerCase();
   return function(dispatch) {
+    const lowerEmail = email.toLowerCase();
     axios.post(`${API_ROOT}/auth/login`, { email:lowerEmail, password })
       .then(response => {
-        // Auth.authenticateUser(xhr.response.token);
-        // cookie.save('token', response.data.token, { path: '/' });
-
-        console.log('RESPONSE IS '); // eslint-disable-line no-console
-        console.log(response);       // eslint-disable-line no-console
-        console.log(response.data);  // eslint-disable-line no-console
-
         localStorage.setItem('token', response.data.token);
-
-        // DISPATCH AUTH_USER ACTION
-        console.log('DISPATCHING AUTH_USER'); // eslint-disable-line no-console
         dispatch({ type: AUTH_USER });
-
-        console.log('ABOUT TO NAVIGATE MATEY !!!'); // eslint-disable-line no-console
-
         window.location.href = CLIENT_ROOT_URL + '/dashboard';
       })
       .catch((error) => {
-
-        console.log('ERROR RESPONSE IS '); // eslint-disable-line no-console
-        console.log(error);       // eslint-disable-line no-console
-
-        console.log('DISPATCHING AUTH_ERROR'); // eslint-disable-line no-console
-
         errorHandler(dispatch, error.response || error.message, AUTH_ERROR);
       });
   };
@@ -86,12 +63,8 @@ export function registerUser({ email, firstName, lastName, password }) {
   return function(dispatch) {
     axios.post(`${API_ROOT}/auth/register`, { email, firstName, lastName, password })
       .then(response => {
-        // cookie.save('token', response.data.token, { path: '/' });
         localStorage.setItem('token', response.data.token);
-
-        // DISPATCH AUTH_USER ACTION
         dispatch({ type: AUTH_USER });
-
         window.location.href = CLIENT_ROOT_URL + '/dashboard';
       })
       .catch((error) => {
@@ -102,13 +75,12 @@ export function registerUser({ email, firstName, lastName, password }) {
 
 // function call o logout  user - > redirect to login (or) / root ???
 export function logoutUser() {
-  // const token = localStorage.getItem('token');
   return function (dispatch) {
-
     localStorage.removeItem('token');
     dispatch({ type: UNAUTH_USER });
     window.location.href = CLIENT_ROOT_URL + '/';
 
+    // const token = localStorage.getItem('token');
     // if (!token) {
     //   dispatch({
     //     type: UNAUTH_USER
