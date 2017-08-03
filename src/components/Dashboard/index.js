@@ -2,33 +2,52 @@ import React, { Component } from 'react';    // eslint-disable-line no-unused-va
 import { connect } from 'react-redux';
 import * as actions from 'actions';
 
+import style from './style.scss';
+
 const Dashboard = class Dashboard extends Component {
 
   constructor(props) {
     super(props);
 
+    // DISPATCH  to the /ues API
     this.props.protectedTest();
   }
 
-  renderContent() {
-    if(this.props.content) {
-      return (
-        <p>{this.props.content}</p>
-      );
+  renderUsers() {
+    const {
+      users,
+    } = this.props;
+
+    if(users) {
+      return users.map( (user,i) => { // eslint-disable-line no-unused-vars
+        return (
+          <div key={i} className={style.user}>
+            <span>{user.email}</span>
+            <span>{user.disabled ? user.disabled ? 'True' : 'False' : 'False' }</span>
+          </div>
+        );
+      });
     }
   }
 
   render() {
     return (
       <div>
-        {this.renderContent()}
+        <h1>DASHBOARD</h1>
+        <div className={style.users}>
+          <div className={style.heading}>
+            <span>email address</span>
+            <span>disabled</span>
+          </div>
+          {this.renderUsers()}
+        </div>
       </div>
     );
   }
 };
 
 function mapStateToProps(state) {
-  return { content: state.auth.content };
+  return { users: state.auth.users };
 }
 
 export default connect(mapStateToProps, actions)(Dashboard);

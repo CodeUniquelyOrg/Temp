@@ -7,19 +7,24 @@ export default function( ComposedComponent ) { // eslint-disable-line no-unused-
 
   // Authetication wrapper
   class Authentication extends Component {
+
     static contextTypes = {                    // eslint-disable-line no-undef
       router: PropTypes.object
     }
 
+    // In V4 ROUTER - 'push' moved under history property
     componentWillMount() {
+      console.log('WILL MOUNT ', this.props); // eslint-disable-line no-console
       if(!this.props.authenticated) {
-        this.context.router.push('/login');
+        console.log('NOT LOGGED IN - PLEASE DO SO', this.props); // eslint-disable-line no-console
+        this.context.router.history.push('/login');
       }
     }
 
+    // In V4 ROUTER - 'push' moved under history property
     componentWillUpdate(nextProps) {
       if(!nextProps.authenticated) {
-        this.context.router.push('/login');
+        this.context.router.history.push('/login');
       }
     }
 
@@ -28,9 +33,9 @@ export default function( ComposedComponent ) { // eslint-disable-line no-unused-
     }
   }
 
-  function mapStateToProps(state) {
+  const mapStateToProps = state => {
     return { authenticated: state.auth.authenticated };
-  }
+  };
 
   // state is in the redux - against his component
   return connect(mapStateToProps)(Authentication);

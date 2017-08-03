@@ -5,19 +5,32 @@ import {
   PROTECTED_TEST,
 } from 'actions/types';
 
-const INITIAL_STATE = { error: '', message: '', content: '', authenticated: false };
+// Build the redux 'initial state'
+const INITIAL_STATE = {
+  error: '',
+  message: '',
+  users: '',
+  authenticated: false
+};
 
 export default function (state = INITIAL_STATE, action) {
 
+  let newState;
+
   switch(action.type) {
     case AUTH_USER:
-      return { ...state, error: '', message: '', authenticated: true };
+      console.log('WE HAVE AUTHENTCATED THE SESSION'); // eslint-disable-line no-console
+      console.log('STATE'); // eslint-disable-line no-console
+      console.log(state); // eslint-disable-line no-console
+      newState = { ...state, error: '', message: '', authenticated: true };
+      console.log(newState); // eslint-disable-line no-console
+      return newState; //  { ...state, error: '', message: '', authenticated: true };
     case UNAUTH_USER:
       return { ...state, authenticated: false };
     case AUTH_ERROR:
       return { ...state, error: action.payload };
     case PROTECTED_TEST:
-      return { ...state, content: action.payload };
+      return { ...state, users: action.payload };
   }
 
   return state;
