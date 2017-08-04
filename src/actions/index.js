@@ -5,7 +5,8 @@ import {
   AUTH_USER,
   AUTH_ERROR,
   UNAUTH_USER,
-  PROTECTED_TEST
+  TYRE_DATA,
+  PROTECTED_TEST,
 } from './types';
 
 import config from 'src/config';
@@ -20,12 +21,16 @@ export function errorHandler(dispatch, error, type) {
 
   console.log('ERROR IS ', error); // eslint-disable-line no-console
 
-  if(error.data && error.data.error) {
-    errorMessage = error.data.error;
-  } else if(error.data) {
-    errorMessage = error.data;
+  if (!error.response) {
+    errorMessage = error.stack || error.message;
   } else {
-    errorMessage = error;
+    if(error.response.data && error.response.data.error) {
+      errorMessage = error.response.data.error;
+    } else if(error.response.data) {
+      errorMessage = error.response.data;
+    } else {
+      errorMessage = error.response;
+    }
   }
 
   if(error.status === 401) {
@@ -53,7 +58,7 @@ export function loginUser({ email, password }) {
         window.location.href = CLIENT_ROOT_URL + '/dashboard';
       })
       .catch((error) => {
-        errorHandler(dispatch, error.response || error.message, AUTH_ERROR);
+        errorHandler(dispatch, error, AUTH_ERROR);
       });
   };
 }
@@ -68,7 +73,7 @@ export function registerUser({ email, firstName, lastName, password }) {
         window.location.href = CLIENT_ROOT_URL + '/dashboard';
       })
       .catch((error) => {
-        errorHandler(dispatch, error.response, AUTH_ERROR);
+        errorHandler(dispatch, error, AUTH_ERROR);
       });
   };
 }
@@ -103,6 +108,27 @@ export function logoutUser() {
   };
 }
 
+export function tyreData() {
+
+  const token = localStorage.getItem('token');
+  const regNum = 'L5 MNE';
+
+  return function(dispatch) {
+    axios.get(`${API_ROOT}/tyres/${regNum}`, {
+      headers: { 'Authorization': `Bearer ${token}` } //  cookie.load('token') }
+    })
+      .then(response => {
+        dispatch({
+          type: TYRE_DATA,
+          payload: response.data, // .content  - expecting an ARRAY
+        });
+      })
+      .catch((error) => {
+        errorHandler(dispatch, error, AUTH_ERROR);
+      });
+  };
+}
+
 // test if user is accessing 'Protected' contents - (authenticated ONLY)
 export function protectedTest() {
   const token = localStorage.getItem('token');
@@ -117,7 +143,7 @@ export function protectedTest() {
         });
       })
       .catch((error) => {
-        errorHandler(dispatch, error.response, AUTH_ERROR);
+        errorHandler(dispatch, error, AUTH_ERROR);
       });
   };
 }

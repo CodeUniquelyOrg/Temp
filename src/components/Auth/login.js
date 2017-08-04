@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';        // eslint-disable-line no-unused
 // pull in login from actions
 import { loginUser } from 'actions';
 
-import logo from 'img/logo.png';
-// import esso from 'img/esso.png';
+import logo from 'img/logo4.png';
+// import logo from 'img/esso.png';
 
 // styling
 import style from './style.pcss';

@@ -31,6 +31,7 @@ var stylePath         = path.resolve( srcPath, 'style' );
 var componentsPath    = path.resolve( srcPath, 'components' );
 var actionPath        = path.resolve( srcPath, 'actions' );
 var reducerPath       = path.resolve( srcPath, 'reducers' );
+// var mockPath          = path.resolve( srcPath, 'mock' );
 
 // define a port to be used
 var PORT = process.env.APP_PORT || config.server.port; // 4000;

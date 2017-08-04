@@ -2,13 +2,15 @@ import React, { Component } from 'react';    // eslint-disable-line no-unused-va
 import { connect } from 'react-redux';
 import * as actions from 'actions';
 
-import HeaderBar from 'components/HeaderBar';   // eslint-disable-line no-unused-vars
-import FooterBar from 'components/FooterBar';   // eslint-disable-line no-unused-vars
+// import HeaderBar from 'components/HeaderBar';   // eslint-disable-line no-unused-vars
+// import FooterBar from 'components/FooterBar';   // eslint-disable-line no-unused-vars
+
+import Tyre from 'components/Tyre';    // eslint-disable-line no-unused-vars
 
 import style from './style.scss';
 
 const mapStateToProps = (state) => {
-  return { users: state.auth.users };
+  return { tyres: state.data.tyres };
 };
 
 const Dashboard = class Dashboard extends Component {
@@ -16,42 +18,60 @@ const Dashboard = class Dashboard extends Component {
   constructor(props) {
     super(props);
 
-    // DISPATCH  to the /ues API
-    this.props.protectedTest();
+    // DISPATCh tyre useage request to API
+    this.props.tyreData();
   }
 
-  renderUsers() {
-    const {
-      users,
-    } = this.props;
+  renderAlert() {
+    if(this.props.errorMessage) {
+      return (
+        <div>
+          <span><strong>Error!</strong> {this.props.errorMessage}</span>
+        </div>
+      );
+    }
+  }
 
-    if(users) {
-      return users.map( (user,i) => { // eslint-disable-line no-unused-vars
-        return (
-          <div key={i} className={style.user}>
-            <span>{user.email}</span>
-            <span>{user.disabled ? user.disabled ? 'True' : 'False' : 'False' }</span>
-          </div>
-        );
+  labelNames(id) {
+    switch(id) {
+      case '11':
+        return 'Front Left';
+      case '12':
+        return 'Front Right';
+      case '21':
+        return 'Rear Left';
+      case '22':
+        return 'Rear Right';
+    }
+    return 'unknown';
+  }
+
+  renderTyres() {
+    const {
+      tyres,
+    } = this.props;
+    if(tyres && tyres.tyres) {
+      const data = tyres.tyres || [];
+      return data.map( (t,i) => { // eslint-disable-line no-unused-vars
+        return <Tyre key={i} id={t.name} label={this.labelNames(t.name)} pressure={t.pressure} depth={t.depth} />;
       });
     }
   }
 
+  // {this.renderTyres()}
+
   render() {
+
+    const tyres = this.renderTyres();
+
     return (
-      <div>
-        <HeaderBar logo="test logo" />
-        <section>
-          <h1>DASHBOARD</h1>
-          <div className={style.users}>
-            <div className={style.heading}>
-              <span>email address</span>
-              <span>disabled</span>
-            </div>
-            {this.renderUsers()}
-          </div>
-        </section>
-        <FooterBar terms="" />
+      <div className={style.root}>
+        <div>
+          {this.renderAlert()}
+        </div>
+
+        {tyres}
+
       </div>
     );
   }
