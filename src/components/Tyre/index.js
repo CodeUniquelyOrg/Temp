@@ -10,6 +10,7 @@ const defaultColours = {
   red: '#e53935',
   amber: '#ffd54f',
   green: '#8bc34a',
+  blue: '#72bcd4',
 };
 
 // const Wrapper = props => (

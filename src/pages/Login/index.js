@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused-vars
 import { Link } from 'react-router-dom';        // eslint-disable-line no-unused-vars
 
+// Components
+// import Wrapper from 'components/Wrapper';            // eslint-disable-line no-unused-vars
+import Logo from 'components/Logo';            // eslint-disable-line no-unused-vars
+
 // pull in login from actions
 import { loginUser } from 'actions';
-
-import logo from 'img/logo4.png';
-// import logo from 'img/esso.png';
 
 // styling
 import style from './style.pcss';
@@ -74,10 +75,10 @@ class Login extends Component {
     return (
       <div className={style.root}>
         <form className={`${style.form} ${style.center}`} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+          <Logo />
           <div>
-            <img className={style.image} src={logo}></img>
+            {this.renderAlert()}
           </div>
-          {this.renderAlert()}
           <div>
             <label className={style.label}>Email</label>
             <Field component={renderField} type="text" name="email" />
