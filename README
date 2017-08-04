@@ -1,17 +1,4 @@
-// ---------- Nightwatch Commands ----------
-// To run nightwatch tests                            node nightwatch.js
-// To run nightwatch tests with a reporter            node nightwatch --reporter ./html-reporter.js
-// To run a specific test                             node nightwatch --tag test1 --reporter ./html-reporter.js
-// To group nightwatch tests                          node nightwatch --group homePageTests
-// To skip nightwatch tests                           node nightwatch --skipgroup homePageTests
-// To run tests in more than one browser              node nightwatch -e (browser ref)
-
-// ---------- BrowserStack Commands ----------
-// To run local BrowserStack server                   npm run BrowserStackLocal (BrowserStackLocal.exe *Access Key*)
-
-// ---------- Local Server Commands ----------
-// To run a npm local server                          npm start
-
+== README - Notes ==
 
 POSTCSS
 Styling in the build in enabled by using POSTCSS and targeting various browser by criteria
@@ -28,96 +15,17 @@ see https://github.com/ai/browserslist for more information
     'android 4'
   ]
 
-Bootstrap Support
-http://getbootstrap.com/getting-started/#support-ie8-respondjs
 
-Angular IE Support
-==================
-https://docs.angularjs.org/guide/ie
+User Fields to Add
+===================
 
-WebPack
-=================
-Webpack uses a JsonpWebPack loader that does this (_m.slice() => when passed in module is an object)
-unfortunately in order to POLYFILL slice in IE8 you need to attach an object to arrays that contains
-the prototype that contains the splice function (as well as a Symbol. Handler) and this is where the
-issues start: In order not to process the attached objects on the array need to check length ....
-in the __DedupePluginHasDeduplicatedModules
-
-  NEED TO monkey-patch this as:
-  => this kills two of the 3 script errors found when running in IE8
-
-      modules[moduleId] = (function(_m) {
-        if (_m.length) {
-          var args = _m.slice(1), templateId = _m[0];
-          return function (a,b,c) {
-            modules[templateId].apply(this, [a,b,c].concat(args));
-          };
-        }
-
-OR DO NOT confgure or use this option in deployments
-  new webpack.optimize.DedupePlugin(),
-
-==> original code below:
-
-  for(moduleId in moreModules) {
-    var _m = moreModules[moduleId];
-
-    // Check if module is deduplicated
-    switch(typeof _m) {
-    case "object":
-      // Module can be created from a template
-      modules[moduleId] = (function(_m) {
-        var args = _m.slice(1), templateId = _m[0];
-        return function (a,b,c) {
-          modules[templateId].apply(this, [a,b,c].concat(args));
-        };
-      }(_m));
-      break;
-    case "function":
-      // Normal module
-      modules[moduleId] = _m;
-      break;
-    default:
-      // Module is a copy of another module
-      modules[moduleId] = modules[_m];
-      break;
-    }
-  }
-
-Enabling the browser.client.overylay
-  => Message: Invalid argument trying to write rgba() styles into the overlay
-  and the overlay feature has to be switched off
-  it wont be enabled in prodcution anyway so thi sshould not be an issue
-
-
-ES5 and Babel JS
-=================
-Classes (10 and below)
-If you’re inheriting from a class then static properties are inherited from it via __proto__,
-this is widely supported but you may run into problems with much older browsers.
-
-NOTE: __proto__ is not supported on IE <= 10 so static properties will not be inherited.
-See the protoToAssign for a possible work around.
-
-For classes that have supers, the super class won’t resolve correctly.
-You can get around this by enabling the loose option in the es2015-classes plugin.
-
-Getters/setters (8 and below) - used in $LocalStorage
-In IE8 Object.defineProperty can only be used on DOM objects.
-This is unfortunate as it’s required to set getters and setters.
-Due to this if you plan on supporting IE8 or below then the usage of getters and setters isn’t recommended.
-
-Reference: MDN.  ('modules.export =')
-==============
-Modules: By default, when using modules with Babel a non-enumerable __esModule property is exported.
-This is done through the use of Object.defineProperty which is unsupported in IE8 and below.
-A workaround for this is to enable the loose option in your corresponding module plugin.
-
-$localStorage does not work on localhost (IE8)
-It only works for valid web sites (so will need deploying to web first)
-
-IE8 'expected-identifier' causes:
-http://stackoverflow.com/questions/2149762/possible-cases-for-javascript-error-expected-identifier-string-or-number
-
-Sass - Resources - Loader
-https://github.com/shakacode/sass-resources-loader
+Greeting: ''
+ForeName: ''
+SurName:  ''
+LastLoggedInDate: '... ISO ...'
+TermsAccepted:  true / false
+Registrations:[
+  { key: '123EZAX', plate: 'L5MNE', fromDate: '2017-08-01T08:20:00.000' },
+  { key: '17AEZ8P', plate: 'L5CDU', fromDate: '2017-08-03T07:50:00.000' }
+]
+PhoneNumber: '07557228182'
