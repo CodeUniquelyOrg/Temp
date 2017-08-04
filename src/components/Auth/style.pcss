@@ -1,5 +1,97 @@
-.center-vertical {
+.root {
   display: flex;
+  flex-direction: column;
+}
+
+.image {
+  margin-top: 24px;
+  opacity: 0.5;
+  max-width: 160px;
+  max-height: 50px;
+  @media (min-width: 320px) {
+    max-width: 320px;
+    max-height: 150px;
+  }
+}
+
+.form {
+  composes: form from '../../style/form.pcss';
+}
+
+.center {
+  flex: 1 0 0%;
   align-items: center;
   justify-content: center;
+}
+
+.label {
+  composes: label from '../../style/typography.pcss';
+  display: block;
+  margin-top: 24px;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.input {
+  composes: forminput from '../../style/typography.pcss';
+  composes: input from '../../style/form.pcss';
+  composes: rounded2 from '../../style/shared.pcss';
+  /* height: 50px; */
+  padding: 12px;
+  display: block;
+  margin-top: 6px;
+  min-width: 200px;
+  @media (min-width: 320px) {
+    min-width: 300px;
+  }
+}
+
+.input:focus {
+  outline:none; /* turn off, all the browser input "glow" effects */
+  outline: 0;
+  box-shadow: none !important;
+  border-color: #005ba2;
+}
+
+.btn {
+  composes: button from '../../style/typography.pcss';
+  composes: button from '../../style/button.pcss';
+  composes: rounded from '../../style/shared.pcss';
+  margin-top: 48px;
+  min-height: 48px;
+  width: 100%;
+}
+.btn:focus {
+  outline:none; /* turn off, all the browser input "glow" effects */
+  outline: 0;
+  box-shadow: none !important;
+}
+
+.primary {
+  background-color: #005ba2;
+  color: white;
+}
+.primary:focus {
+  background-color: #ffc764;
+  border-color: #323233;
+  color: #323233;
+}
+
+.links {
+  margin-top: 48px;
+  /* color: white; */
+}
+.links span{
+  margin: 0 12px;
+  color: white;
+}
+.link {
+  composes: hyperlink from '../../style/typography.pcss';
+  text-decoration: none;
+  color: white;
+}
+.link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #323233;
 }

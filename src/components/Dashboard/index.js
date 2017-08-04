@@ -2,6 +2,9 @@ import React, { Component } from 'react';    // eslint-disable-line no-unused-va
 import { connect } from 'react-redux';
 import * as actions from 'actions';
 
+import HeaderBar from 'components/HeaderBar';   // eslint-disable-line no-unused-vars
+import FooterBar from 'components/FooterBar';   // eslint-disable-line no-unused-vars
+
 import style from './style.scss';
 
 const mapStateToProps = (state) => {
@@ -37,14 +40,18 @@ const Dashboard = class Dashboard extends Component {
   render() {
     return (
       <div>
-        <h1>DASHBOARD</h1>
-        <div className={style.users}>
-          <div className={style.heading}>
-            <span>email address</span>
-            <span>disabled</span>
+        <HeaderBar logo="test logo" />
+        <section>
+          <h1>DASHBOARD</h1>
+          <div className={style.users}>
+            <div className={style.heading}>
+              <span>email address</span>
+              <span>disabled</span>
+            </div>
+            {this.renderUsers()}
           </div>
-          {this.renderUsers()}
-        </div>
+        </section>
+        <FooterBar terms="" />
       </div>
     );
   }

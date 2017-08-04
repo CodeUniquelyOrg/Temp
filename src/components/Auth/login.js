@@ -1,13 +1,16 @@
 import React, { Component } from 'react';       // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused-vars
-import { Link } from 'react-router';            // eslint-disable-line no-unused-vars
+import { Link } from 'react-router-dom';        // eslint-disable-line no-unused-vars
 
 // pull in login from actions
 import { loginUser } from 'actions';
 
+import logo from 'img/logo.png';
+// import esso from 'img/esso.png';
+
 // styling
-import './style.pcss';
+import style from './style.pcss';
 
 const mapStateToProps = state => {
   return {
@@ -39,7 +42,7 @@ const validate = (formProps) => {
 
 const renderField = field => (
   <div>
-    <input className="form-control" {...field.input}/>
+    <input className={style.input} {...field.input}/>
     {field.touched && field.error && <div className="error">{field.error}</div>}
   </div>
 );
@@ -69,18 +72,24 @@ class Login extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <div className="center-vertical">
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+      <div className={style.root}>
+        <form className={`${style.form} ${style.center}`} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+          <div>
+            <img className={style.image} src={logo}></img>
+          </div>
           {this.renderAlert()}
           <div>
-            <label>Email</label>
-            <Field name="email" className="form-control" component={renderField} type="text" />
+            <label className={style.label}>Email</label>
+            <Field component={renderField} type="text" name="email" />
           </div>
           <div>
-            <label>Password</label>
-            <Field name="password" className="form-control" component={renderField} type="password" />
+            <label className={style.label}>Password</label>
+            <Field component={renderField} type="password" name="password" />
           </div>
-          <button type="submit" className="btn btn-primary">Login</button>
+          <button type="submit" className={`${style.btn} ${style.primary}`}>Login</button>
+          <div className={style.links}>
+            <Link className={style.link} to="register">create an account</Link><span>|</span><Link className={style.link} to="register">forgot your password</Link>
+          </div>
         </form>
       </div>
     );

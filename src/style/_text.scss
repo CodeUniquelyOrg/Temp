@@ -2,25 +2,6 @@
 @import 'colors';
 @import 'mixin';
 
-@mixin __internetSafeUpper() {
-  @include font-family('Lloyds Jack Light');
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
-}
-@mixin __internetSafeLower() {
-  @include font-family('Lloyds Jack Medium');
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
-}
-
 @mixin __header1() {
   @include font-family('Lloyds Jack Medium');
   font-size: 44px;

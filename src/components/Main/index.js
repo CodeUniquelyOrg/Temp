@@ -2,7 +2,7 @@ import React, { Component } from 'react';          // eslint-disable-line no-unu
 import { Route, Switch } from 'react-router-dom';  // eslint-disable-line no-unused-vars
 
 import Logout from 'components/Logout';
-import HomePage from 'components/HomePage';
+// import HomePage from 'components/HomePage';
 import Register from 'components/Auth/register';
 import Login from 'components/Auth/login';
 import Dashboard from 'components/Dashboard';
@@ -14,7 +14,7 @@ import RequireAuth from 'components/auth/require';
 const Main = () => (
   <Switch>
 
-    <Route exact path = '/' component={HomePage} />
+    <Route exact path = '/' component={Login} />
     <Route exact path = '/register' component={Register} />
     <Route exact path = '/login' component={Login} />
 

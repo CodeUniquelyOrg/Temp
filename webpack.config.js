@@ -215,21 +215,24 @@ var rules = [
     query:{ name:'[path][name].[ext]', context:assetsPath }
   },
 
+  // {
+  //   test: /\.(jpe?g|gif|png|svg)($|\?)/i,
+  //   loader: 'file-loader',
+  //   include: [
+  //     srcPath,
+  //   ],
+  //   query: {
+  //     name: 'resources/[hash].[ext]',
+  //   },
+  // },
   {
-    test: /\.(jpe?g|gif|png|svg)($|\?)/i,
+    test: /\.jpe?g($|\?)|\.gif($|\?)|\.png($|\?)/i,
     loader: 'file-loader',
-    include: [
-      srcPath,
-    ],
     query: {
-      name: 'resources/[hash].[ext]',
+      name: 'img/[name].[ext]',
+      context: assetsPath
     },
   },
-  // {
-  //   test: /\.jpe?g($|\?)|\.gif($|\?)|\.png($|\?)/i,
-  //   loader: 'file-loader',
-  //   query: { name: 'img/[name].[ext]', context: assetsPath },
-  // },
 
   {
     test: /webfont\.(eot|ttf|woff|woff2|svg)($|\?)/i,
