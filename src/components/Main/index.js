@@ -1,14 +1,14 @@
 import React, { Component } from 'react';          // eslint-disable-line no-unused-vars
 import { Route, Switch } from 'react-router-dom';  // eslint-disable-line no-unused-vars
 
-import Logout from 'components/Logout';
-// import HomePage from 'components/HomePage';
-import Register from 'components/Auth/register';
-import Login from 'components/Auth/login';
-import Dashboard from 'components/Dashboard';
-import NotFoundPage from 'components/NotFoundPage';
+import Logout from 'pages/Logout';
+// import HomePage from 'pages/HomePage';
+import Register from 'pages/Register';
+import Login from 'pages/Login';
+import Dashboard from 'pages/Dashboard';
+import NotFoundPage from 'pages/NotFoundPage';
 
-import RequireAuth from 'components/auth/require';
+import RequireAuth from 'components/RequireAuth';
 
 // Declaritive
 const Main = () => (

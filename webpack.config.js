@@ -28,6 +28,7 @@ var imgPath           = path.resolve(assetsPath, 'img');
 var fontPath          = path.resolve(assetsPath, 'fonts');
 var srcPath           = path.resolve( __dirname, 'src' );
 var stylePath         = path.resolve( srcPath, 'style' );
+var pagesPath         = path.resolve( srcPath, 'pages' );
 var componentsPath    = path.resolve( srcPath, 'components' );
 var actionPath        = path.resolve( srcPath, 'actions' );
 var reducerPath       = path.resolve( srcPath, 'reducers' );
@@ -443,12 +444,13 @@ module.exports = {
       img: imgPath,
       font: fontPath,
       src: srcPath,
+      pages: pagesPath,
       components: componentsPath,
       actions: actionPath,
       reducers: reducerPath,
       style: stylePath,
     },
-    extensions: ['.js', '.jsx', '.json', '.scss', '.html' ],
+    extensions: ['.js', '.pcss', '.scss', '.json', '.html' ],
     // modules: [
     //   'client',
     //   'node_modules',
