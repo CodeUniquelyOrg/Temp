@@ -4,8 +4,11 @@ import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused
 import { Link } from 'react-router-dom';        // eslint-disable-line no-unused-vars
 
 // Components
-// import Wrapper from 'components/Wrapper';            // eslint-disable-line no-unused-vars
+// import Wrapper from 'components/Wrapper';     // eslint-disable-line no-unused-vars
 import Logo from 'components/Logo';            // eslint-disable-line no-unused-vars
+
+// translation
+import Translate from 'components/Translate';   // eslint-disable-line no-unused-vars
 
 // pull in login from actions
 import { loginUser } from 'actions';
@@ -41,16 +44,35 @@ const validate = (formProps) => {
   return errors;
 };
 
-const renderField = field => (
+// const warn = values => {
+//   const warnings = {}
+//   if (values.age < 19) {
+//     warnings.age = 'Hmm, you seem a bit young...'
+//   }
+//   return warnings
+// }
+
+const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+  <div>
+    <label className={style.label}>{<Translate id={label} />}</label>
+    <div>
+      <input className={style.input} {...input} placeholder={label} type={type} />
+      { touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>)) }
+    </div>
+  </div>
+);
+
+/*
   <div>
     <input className={style.input} {...field.input}/>
     {field.touched && field.error && <div className="error">{field.error}</div>}
   </div>
-);
+*/
 
 const form = reduxForm({
-  form: 'login',
-  validate
+  form: 'login',      // form
+  validate,            // validate
+  // warn
 });
 
 class Login extends Component {
@@ -80,16 +102,14 @@ class Login extends Component {
             {this.renderAlert()}
           </div>
           <div>
-            <label className={style.label}>Email</label>
-            <Field component={renderField} type="text" name="email" />
+            <Field name="email" type="text" label="email" component={renderField} />
           </div>
           <div>
-            <label className={style.label}>Password</label>
-            <Field component={renderField} type="password" name="password" />
+            <Field name="password" type="password" label="password" component={renderField} />
           </div>
           <button type="submit" className={`${style.btn} ${style.primary}`}>Login</button>
           <div className={style.links}>
-            <Link className={style.link} to="register">create an account</Link><span>|</span><Link className={style.link} to="register">forgot your password</Link>
+            <Link className={style.link} to="register"><Translate id="register" /></Link><span>|</span><Link className={style.link} to="forgot"><Translate id="forgot" /></Link>
           </div>
         </form>
       </div>

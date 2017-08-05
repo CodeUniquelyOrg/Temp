@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 
 import style from './style.pcss';
 
-import logo from 'img/logo4.png';
+// import logo from 'img/logo.png';
 // import logo from 'img/esso.png';
+// import logo from 'img/logo2.png';
+// import logo from 'img/logo3.png';
+import logo from 'img/logo4.png';
 
 const mapStateToProps = (state) => {
   return {

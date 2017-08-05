@@ -1,10 +1,13 @@
-import React, { Component } from 'react';        // eslint-disable-line no-unused-vars
+import React, { Component } from 'react';       // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';   // eslint-disable-line no-unused-vars
+import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused-vars
 import { Link } from 'react-router-dom';        // eslint-disable-line no-unused-vars
 
 // Components
-import Logo from 'components/Logo';            // eslint-disable-line no-unused-vars
+import Logo from 'components/Logo';             // eslint-disable-line no-unused-vars
+
+// translation
+import Translate from 'components/Translate';   // eslint-disable-line no-unused-vars
 
 // load regsiter user from teh actions
 import { registerUser } from 'actions';
@@ -52,10 +55,13 @@ const validate = (formProps) => {
   return errors;
 };
 
-const renderField = field => (
+const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
   <div>
-    <input className={style.input} {...field.input}/>
-    {field.touched && field.error && <div className="error">{field.error}</div>}
+    <label className={style.label}>{<Translate id={label} />}</label>
+    <div>
+      <input autoComplete="off" className={style.input} {...input} placeholder={label} type={type} />
+      { touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>)) }
+    </div>
   </div>
 );
 
@@ -101,20 +107,18 @@ class Register extends Component {
             {this.renderAlert()}
           </div>
           <div>
-            <label className={style.label}>Email</label>
-            <Field name="email" className="form-control" component={renderField} type="text" />
+            <Field name="email" type="text" label="email" className="form-control" component={renderField} />
           </div>
           <div>
-            <label className={style.label}>Password</label>
-            <Field name="password" className="form-control" component={renderField} type="password" />
+
+            <Field name="password" type="password" label="password" className="form-control" component={renderField} />
           </div>
           <div>
-            <label className={style.label}>Retype Password</label>
-            <Field name="retype" className="form-control" component={renderField} type="password" />
+            <Field name="retype" type="password" label="retype" className="form-control" component={renderField} />
           </div>
-          <button type="submit" className={`${style.btn} ${style.primary}`}>Register</button>
+          <button type="submit" className={`${style.btn} ${style.primary}`}><Translate id="register" /></button>
           <div className={style.links}>
-            <Link className={style.link} to="login">back to login</Link>
+            <Link className={style.link} to="login"><Translate id="backToLogin" /></Link>
           </div>
         </form>
       </div>
