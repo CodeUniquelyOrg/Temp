@@ -11,6 +11,7 @@ const dictionary = {
 
   'createAccount' : 'create an account',
   'forgotPassword' : 'forgot your password',
+  'backToLogin':     'back to login',
 
   // errors
   'errorEmail' : 'Please enter an email address',

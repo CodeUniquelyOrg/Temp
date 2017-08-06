@@ -109,7 +109,7 @@ class Login extends Component {
           </div>
           <button type="submit" className={`${style.btn} ${style.primary}`}>Login</button>
           <div className={style.links}>
-            <Link className={style.link} to="register"><Translate id="register" /></Link><span>|</span><Link className={style.link} to="forgot"><Translate id="forgot" /></Link>
+            <Link className={style.link} to="register"><Translate id="createAccount" /></Link><span>|</span><Link className={style.link} to="forgot"><Translate id="forgotPassword" /></Link>
           </div>
         </form>
       </div>
