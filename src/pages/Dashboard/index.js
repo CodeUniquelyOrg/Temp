@@ -1,7 +1,10 @@
 import React, { Component } from 'react';    // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
 
-import * as actions from 'actions/tyre';    // *** !!! WHAT AM I MAPPING ***
+import { tyreData } from 'actions/tyre';
+import { getUserData } from 'actions/user';
+
+// getUserData
 
 // import HeaderBar from 'components/HeaderBar';   // eslint-disable-line no-unused-vars
 // import FooterBar from 'components/FooterBar';   // eslint-disable-line no-unused-vars
@@ -14,21 +17,23 @@ import car from 'img/car.png';
 import style from './style.scss';
 
 const mapStateToProps = (state) => {
-  return { tyres: state.data.tyres };
+  return {
+    tyres: state.data.tyres,
+    user: state.user.user,
+  };
 };
 
 const regNum = 'L5 MNE';
-// const userId = '59884692d900dd0fcc6927e4';
 
 const Dashboard = class Dashboard extends Component {
 
   constructor(props) {
     super(props);
 
-    // get the user record
-    // this.props.getUserData(userId);
+    // get 'MY' user record
+    this.props.getUserData();
 
-    // DISPATCH tyre usage request to API
+    // HACK - DISPATCH tyre usage request to API
     this.props.tyreData(regNum);
   }
 
@@ -56,52 +61,108 @@ const Dashboard = class Dashboard extends Component {
     return 'unknown';
   }
 
-  convertPressureUnits(pressure) {
-    const {
-      user,
-    } = this.props;
+  // convertPressureUnits(pressure) {
+  //   const {
+  //     user,
+  //   } = this.props;
 
-    if (!user.presureUnits ) {
-      user.presureUnits =  'PSI';
-    }
-    if (user.presureUnits === 'PSI') {
-      return Math.round(pressure * 0.145038,0);
-    } else if ( user.presureUnits === 'bar') {
-      return Math.round(pressure * 0.01,2);
-    }
+  //   if (!user.presureUnits ) {
+  //     user.presureUnits =  'PSI';
+  //   }
+  //   if (user.presureUnits === 'PSI') {
+  //     return Math.round(pressure * 0.145038,0);
+  //   } else if ( user.presureUnits === 'bar') {
+  //     return Math.round(pressure * 0.01,2);
+  //   }
+  //   return Math.round(pressure,0);
+  // }
 
-    return Math.round(pressure,0);
-  }
+  // convertDepthUnits(depth) {
+  //   const {
+  //     user,
+  //   } = this.props;
 
-  convertDepthUnits(depth) {
-    const {
-      user,
-    } = this.props;
-
-    if (!user.depthUnits ) {
-      user.depthUnits =  'mm';
-    }
-    if (user.depthUnits === '1/32"') {
-      return Math.round(depth * 1.259842519685037,2);
-    }
-    return Math.round(depth,0);
-  }
+  //   if (!user.depthUnits ) {
+  //     user.depthUnits =  'mm';
+  //   }
+  //   if (user.depthUnits === '1/32"') {
+  //     return Math.round(depth * 1.259842519685037,2);
+  //   }
+  //   return Math.round(depth,0);
+  // }
 
   getIdealPresuresForRegistration() {
     // look in the dta
+    const {
+      user,
+    } = this.props;
+
+    let ideal = [];
+
+    // Loop through each vehicle
+    user.registrations.forEach( reg => {
+      if ( reg.plate === regNum) {
+        ideal = reg.ideal;
+      }
+    });
+
+    return ideal;
   }
+
+  // each tyre pressures will be held as kPa
+  getAveragePressure = (data)  => {
+    let sigma= 0;
+    if ( data.length ) {
+      data.forEach( d => {
+        sigma += d.pressure;
+      });
+    }
+    return (sigma && sigma / data.length) || 230;
+  };
+
+  // ideal pressures will be held as kPa
+  getIdealPressure = (idealPressures, id, average) => {
+    let ideal;
+    if (idealPressures.length) {
+      idealPressures.forEach(i => {
+        if (i.id === id) {
+          ideal = i.pressure;
+        }
+      });
+    }
+    if (!ideal) {
+      ideal = average;
+    }
+    return ideal;
+  };
 
   renderTyres() {
     const {
       tyres,
+      user
     } = this.props;
 
     if(tyres && tyres.tyres) {
       const data = tyres.tyres || [];
+
+      const average = this.getAveragePressure(data);
+
+      // lookup the usres ideal presssures
+      const ideals = this.getIdealPresuresForRegistration();
+
+      const units = {
+        pressure: user.presureUnits || 'PSI',
+        depth: user.depthUnits || 'mm',
+      };
+
       return data.map( (t,i) => { // eslint-disable-line no-unused-vars
 
-        const p = this.convertPressureUnits(t.pressure);
-        const d = this.convertPressureUnits(t.depth);
+        // const p = this.convertPressureUnits(t.pressure);
+        // const d = this.convertDepthUnits(t.depth);
+
+        const ideal = this.getIdealPressure(ideals, t.name, average);
+        // const full  = ideal * 2; // ideal is 50%
+        const sigma = ideal * 0.4;  // full * 0.2 => 20% of full pressure => deviation
 
         return (
           <Tyre
@@ -109,8 +170,16 @@ const Dashboard = class Dashboard extends Component {
             className={style.tyre}
             id={t.name}
             label={this.labelNames(t.name)}
-            pressure={p}
-            depth={d}
+
+            // the data
+            pressure={t.pressure}
+            depth={t.depth}
+            units={units}
+
+            // upper and lower limit
+            upper={ideal + sigma}
+            lower={ideal - sigma}
+            sigma={sigma}
           />
         );
       });
@@ -142,4 +211,4 @@ const Dashboard = class Dashboard extends Component {
   }
 };
 
-export default connect(mapStateToProps, actions)(Dashboard);
+export default connect(mapStateToProps, { tyreData, getUserData })(Dashboard);

@@ -56,6 +56,19 @@ class Tyre extends Component {
     // First line of text under the Circle
     label: PropTypes.string.isRequired,
 
+    // upper pressure limit for tyre
+    upper: PropTypes.number.isRequired,
+
+    // lower pressure limit for tyre
+    lower: PropTypes.number.isRequired,
+
+    sigma: PropTypes.number.isRequired,
+
+    units: PropTypes.PropTypes.shape({
+      pressure: PropTypes.string.isRequired,
+      depth: PropTypes.string.isRequired,
+    }),
+
     // function callback (optional) when tyre clicked
     onClick: PropTypes.func,  // eslint-disable-line react/require-default-props
 
@@ -72,6 +85,10 @@ class Tyre extends Component {
       fullDepth: 10,
       theme: undefined,
       linkTo: '#',
+      units: {
+        pressure: 'PSI',
+        depth: 'mm',
+      }
     };
   }
 
@@ -82,7 +99,7 @@ class Tyre extends Component {
   };
 
   polarToCartesian(cx, cy, radius, angleInDegrees) {
-    var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+    let angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
     return {
       x: cx + (radius * Math.cos(angleInRadians)),
       y: cy + (radius * Math.sin(angleInRadians))
@@ -90,13 +107,13 @@ class Tyre extends Component {
   }
 
   describeArc(x, y, radius, spread, startAngle, endAngle) {
-    var innerStart = this.polarToCartesian(x, y, radius, endAngle);
-    var innerEnd = this.polarToCartesian(x, y, radius, startAngle);
-    var outerStart = this.polarToCartesian(x, y, radius + spread, endAngle);
-    var outerEnd = this.polarToCartesian(x, y, radius + spread, startAngle);
-    var largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+    let innerStart = this.polarToCartesian(x, y, radius, endAngle);
+    let innerEnd = this.polarToCartesian(x, y, radius, startAngle);
+    let outerStart = this.polarToCartesian(x, y, radius + spread, endAngle);
+    let outerEnd = this.polarToCartesian(x, y, radius + spread, startAngle);
+    let largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
 
-    var d = [
+    let d = [
       'M', outerStart.x, outerStart.y,
       'A', radius + spread, radius + spread, 0, largeArcFlag, 0, outerEnd.x, outerEnd.y,
       'L', innerEnd.x, innerEnd.y,
@@ -107,12 +124,52 @@ class Tyre extends Component {
     return d;
   }
 
+  rotateNeedle(cx,cy, value, range) {
+    if (value < 0 || value > 1) {
+      return false;
+    }
+
+    // will value = 0-100% which will sweep over 180 degrees
+    // from the right hand sie tot he left hand side
+    const degrees = value * range;
+
+    return {
+      // transform: rotate(30deg);
+      transform: `rotate(${degrees}deg)`,
+      transformOrigin: `${cx}px ${cy}px`
+    };
+  }
+
+  convertPressureUnits(pressure) {
+    const {
+      units,
+    } = this.props;
+
+    if (units.pressure === 'PSI') {
+      return Math.round(pressure * 0.145038,0);
+    } else if ( units.pressure === 'bar') {
+      return Math.round(pressure * 0.01,2);
+    }
+    return Math.round(pressure,0);
+  }
+
+  convertDepthUnits(depth) {
+    const {
+      units,
+    } = this.props;
+
+    if (units.depth === '1/32"') {
+      return Math.round(depth * 1.259842519685037,2);
+    }
+    return Math.round(depth,0);
+  }
+
   // SVG will scale to fit the size we put it in anyway,
   // lets make everything scalable to a 100% by 100% box
   // So let use some fixed values to make display easier
   // An overall width/height of 100px
   // A view box of 100 by 100
-  buildDonut(pressure, depth, fullDepth, theme) {
+  buildDonut(pressure, maxPressure, minPressure, depth, fullDepth, theme) {
 
     const factor = 200 / 42;
     const cx=100, cy=100;
@@ -123,22 +180,24 @@ class Tyre extends Component {
     // 15.91549430918954  => // 37.89403406949889
     const radius = upper / (Math.PI * 2);
 
+    // const range = (this.props.sigma * 4);
+    // const offset = pressure - (this.props.sigma*2);
+    // const p = (offset / range) + (this.props.sigma*2);
+
     // Maximum pressure
-    const bigPressure = 45;
-
-    // limits
-    const minPressure = 0.65;
-    const maxPressure = 0.85;
-
-    // HACK
+    const bigPressure = maxPressure + minPressure; // ((maxPressure / 0.70) + (minPressure / 0.30)) / 2;
     const p = (pressure / bigPressure);
 
-    let color;
-    if ( p > maxPressure || p < minPressure ) {
-      color = theme && theme.error || '#e53935';
-    } else {
-      color = theme && theme.ok || '#72bcd4';
-    }
+    // let color;
+    // if ( pressure > maxPressure || pressure < minPressure ) {
+    //   color = theme && theme.error || '#e53935';
+    // } else {
+    //   color = theme && theme.ok || '#72bcd4';
+    // }
+
+    let color1 = theme && theme.error || '#e53935';
+    let color2 = theme && theme.error || '#8bc34a';
+    let color3 = theme && theme.error || '#e53935';
 
     const wornAway = radius - (10 - depth);
     const sideWall = radius - 20;
@@ -149,10 +208,22 @@ class Tyre extends Component {
     console.log( pressureDegrees ); // eslint-disable-line no-console
 
     // describe an arc
-    const arcPath = this.describeArc(cx, cy, guageEdge, 20, 0, pressureDegrees);
+    // const arcPath1 = this.describeArc(cx, cy, guageEdge, 20, 0, pressureDegrees);
+    const arcPath1 = this.describeArc(cx, cy, guageEdge, 20, 60, 120);   //  60 degrees wide
+    const arcPath2 = this.describeArc(cx, cy, guageEdge, 20, 120, 240);  // 120 degrees wide
+    const arcPath3 = this.describeArc(cx, cy, guageEdge, 20, 240, 300);  //  60 degrees wide
 
     // ouside sashed line is this thick
     const thinLine = 2;
+
+    const depthText = `${this.convertDepthUnits(depth)} ${this.props.units.depth}`;
+    const pressureText = `${this.convertPressureUnits(pressure)} ${this.props.units.pressure}`;
+
+    const needleStyle = this.rotateNeedle(cx,cy,p,220);
+
+    // describe a nedles 120 px long
+    // 'M 100 95 L 60 100 L 100 105'
+    const needlePath =  `M ${cx} ${cy+5} L ${cx+55} ${cy} L ${cx} ${cy-5}`;
 
     return (
       <svg className="donut-chart" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
@@ -200,23 +271,30 @@ class Tyre extends Component {
           fill="white"
         />
 
-        <path d={arcPath} fill={color} stroke={color} />
+        <path d={arcPath1} fill={color1} stroke={color1} />
+        <path d={arcPath2} fill={color2} stroke={color2} />
+        <path d={arcPath3} fill={color3} stroke={color3} />
+
+        <g className='needleset' style={needleStyle}>
+          <circle className='needle-center' cx={cx} cy={cy} r='5'></circle>
+          <path className='needle' d={needlePath}></path>
+        </g>
 
         <g
           className="tyre-text">
           <text
-            x="40%"
-            y="50%"
+            x="37%"
+            y="35%"
             style={{ fontFamily: 'Helvetica arial', fontSize: 20, width:(radius*2), textAlign:'center' }}
             className="pressure-text">
-            {`${pressure} psi`}
+            {pressureText}
           </text>
           <text
-            x="40%"
-            y="60%"
+            x="38%"
+            y="45%"
             style={{ fontFamily: 'Helvetica arial', fontSize: 20, width:(radius*2), textAlign:'center' }}
             className="depth-text">
-            {`${depth} mm`}
+            {depthText}
           </text>
         </g>
 
@@ -252,6 +330,8 @@ class Tyre extends Component {
       id,
       pressure,
       depth,
+      upper,
+      lower,
       onClick,  // eslint-disable-line react/require-default-props, no-unused-vars
       linkTo,   // eslint-disable-line no-unused-vars
       fullDepth,
@@ -263,7 +343,7 @@ class Tyre extends Component {
     // const fill = this.getFillColor(red, amber, green, reflect, theme);
 
     // build the SVG do-nut chart
-    const tyre = this.buildDonut(pressure, depth, fullDepth, theme);
+    const tyre = this.buildDonut(pressure, upper, lower, depth, fullDepth, theme);
 
     //
     // Styles

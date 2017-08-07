@@ -13,6 +13,10 @@
   transform: translate3d(-50%, -50%, 0);
 }
 
+.car img {
+  opacity: 0.5;
+}
+
 .plate {
   font-family: sans-serif;
   position: absolute;
@@ -49,38 +53,3 @@
   top:220px;
   left:145px;
 }
-
-// .users {
-//   // nothing in particular
-//   border: 1px solid gray;
-// }
-
-// .bold {
-//   font-weight: 700;
-// }
-
-// .user {
-//   display: flex;
-//   width: 100%; // 500px;
-
-//   > span  {
-//     flex: 1 0 0%;
-//   }
-
-//   span:first-of-type {
-//     // width:300px;
-//     // composes: bold;
-//     font-weight: 700;
-//   }
-
-//   span:last-of-type {
-//     color: red;
-//   }
-// }
-
-// .heading {
-//   composes: user;
-//   composes: bold;
-//   border-bottom: 1px solid gray;
-//   text-transform: uppercase;
-// }

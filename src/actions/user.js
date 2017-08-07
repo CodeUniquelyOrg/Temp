@@ -8,16 +8,21 @@ import {
 
 import { ErrorHandler, Get } from 'src/lib/Request';
 
-export const getUserData = (id) => {
+export const getUserData = () => {
   // =======================
   // 'redux-thunk' signature
   // =======================
   return (dispatch) => {
-    Get(`/user/${id}`, null, (error,response) => {
+
+    // get 'MY' data from the server
+
+    Get('/users/me', null, (error,response) => {
 
       if (error) {
         return ErrorHandler(dispatch, error, DATA_ERROR);
       }
+
+      console.log('ME IS ', response.data); // eslint-disable-line no-console
 
       // contents - expecting an OBJECT
       dispatch({ type: USER_DATA, payload: response.data || {}, });
