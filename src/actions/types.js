@@ -7,6 +7,7 @@ export const RESET_PASSWORD_REQUEST = 'reset_password_request';
 
 // Data actions
 export const TYRE_DATA = 'tyre_data';
+export const DATA_ERROR = 'data_error';
 
 // User actions
 export const USER_DATA = 'USER_DATA';

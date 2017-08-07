@@ -270,10 +270,10 @@ class Tyre extends Component {
     //
 
     const wrapperStyle = {
-      position: 'relative',
       width: '200px',
       height: '200px',
-      border: '1px solid grey',
+      backgroundColor: 'rgba(0,0,0,0.1)',
+      borderRadius: '50%',
     };
 
     const containerStyle = {

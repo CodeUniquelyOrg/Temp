@@ -19,11 +19,11 @@ const format = (k,v) => v !== null ? `${k}=${encodeURIComponent(v)}` : '';
 
 const toQueryString = (obj) => {
   return [].concat(...Object.entries(obj)
-           .map(([k,v]) => Array.isArray(v)
-                        ? v.map(arr => toQueryString({ [k]:arr }))
-                        : format(k,v)))
-           .filter(x => x)
-           .join('&');
+    .map(([k,v]) => Array.isArray(v)
+      ? v.map(arr => toQueryString({ [k]:arr }))
+      : format(k,v)))
+    .filter(x => x)
+    .join('&');
 };
 
 const serialize = (json) => {
@@ -94,7 +94,7 @@ const ErrorHandler = (dispatch, error, type) => {
 // };
 
 // test if user is accessing 'Protected' contents - (authenticated ONLY)
-const Get = (url, params, dispatch, callback) => {
+const Get = (url, params, callback) => {
 
   const requestUrl = makeApiRroute(url, params);
   // if (config.server.offline) {
@@ -122,59 +122,59 @@ const Get = (url, params, dispatch, callback) => {
 //   return axios.get(requestUrl).$promise;
 // };
 
-const Post = (url, data, dispatch, callback)  => {
+const Post = (url, data, callback)  => {
   const requstUrl = makeApiRroute(url);
-  axios.post(requstUrl, {
+  axios.post(requstUrl,
     // headers: { 'Authorization': `Bearer ${token}` }, //  cookie.load('token') }
     data
-  })
+  )
   // .then(callback)
-  .then( response => {
-    callback(null,response);
-  })
-  .catch( error => {
-    callback(error);
-    // errorHandler(dispatch, error, AUTH_ERROR);
-  });
+    .then( response => {
+      callback(null,response);
+    })
+    .catch( error => {
+      callback(error);
+      // errorHandler(dispatch, error, AUTH_ERROR);
+    });
 };
 
-const Put = ( url, data )  => {
+const Put = ( url, data, callback )  => {
 
   const requstUrl = makeApiRroute(url);
 
-  axios.put(requstUrl, {
+  axios.put(requstUrl,
     // headers: { 'Authorization': `Bearer ${token}` } //  cookie.load('token') }
     data
-  })
-  .then( response => {
-    callback(null,response);
-  })
-  .catch((error) => {
-    callback(error);
-    // errorHandler(dispatch, error, AUTH_ERROR);
-  });
+  )
+    .then( response => {
+      callback(null,response);
+    })
+    .catch((error) => {
+      callback(error);
+      // errorHandler(dispatch, error, AUTH_ERROR);
+    });
 };
 
-const Delete = ( url, data )  => {
+const Delete = ( url, data, callback )  => {
   const requstUrl = makeApiRroute(url);
   // the 'redux-thunk' signature
-  axios.delete(requstUrl, {
+  axios.delete(requstUrl,
     // headers: { 'Authorization': `Bearer ${token}` } //  cookie.load('token') }
     data
-  })
-  .then( response => {
-    callback(null,response);
-  })
+  )
+    .then( response => {
+      callback(null,response);
+    })
   // .then(response => {
   //   dispatch({
   //     type: USER_DATA,
   //     payload: response.data, // .content  - expecting an ARRAY
   //   });
   // })
-  .catch((error) => {
-    callback(error);
-    // errorHandler(dispatch, error, AUTH_ERROR);
-  });
+    .catch((error) => {
+      callback(error);
+      // errorHandler(dispatch, error, AUTH_ERROR);
+    });
 };
 
 // ==============================================

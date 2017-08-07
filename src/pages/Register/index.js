@@ -85,14 +85,14 @@ class Register extends Component {
     }
   }
 
-// <div>
-//   <label className={style.label}>First Name</label>
-//   <Field name="firstName" className="form-control" component={renderField} type="text" />
-// </div>
-// <div>
-//   <label className={style.label}>Last Name</label>
-//   <Field name="lastName" className="form-control" component={renderField} type="text" />
-// </div>
+  // <div>
+  //   <label className={style.label}>First Name</label>
+  //   <Field name="firstName" className="form-control" component={renderField} type="text" />
+  // </div>
+  // <div>
+  //   <label className={style.label}>Last Name</label>
+  //   <Field name="lastName" className="form-control" component={renderField} type="text" />
+  // </div>
 
   render() {
     const {

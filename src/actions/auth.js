@@ -3,7 +3,7 @@
 
 import {
   AUTH_USER,
-  // AUTH_ERROR,
+  USER_DATA,
   UNAUTH_USER,
 } from './types';
 
@@ -74,7 +74,12 @@ export const loginUser = ({ email, password }) => {
       // otherwise => set as 'Authenticated'
 
       localStorage.setItem('token', response.data.token);
+
+      // Need to make the rquest for user (passing ID)
+      // and store the answer in state ?????
+      dispatch({ type: USER_DATA });
       dispatch({ type: AUTH_USER });
+
       window.location.href = CLIENT_ROOT_URL + '/dashboard';
     });
 

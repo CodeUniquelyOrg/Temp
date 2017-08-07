@@ -6,21 +6,30 @@ import * as actions from 'actions/tyre';    // *** !!! WHAT AM I MAPPING ***
 // import HeaderBar from 'components/HeaderBar';   // eslint-disable-line no-unused-vars
 // import FooterBar from 'components/FooterBar';   // eslint-disable-line no-unused-vars
 
+// =====================================
+// UI Styling and other stuff ike that
+// =====================================
 import Tyre from 'components/Tyre';    // eslint-disable-line no-unused-vars
-
+import car from 'img/car.png';
 import style from './style.scss';
 
 const mapStateToProps = (state) => {
   return { tyres: state.data.tyres };
 };
 
+const regNum = 'L5 MNE';
+// const userId = '59884692d900dd0fcc6927e4';
+
 const Dashboard = class Dashboard extends Component {
 
   constructor(props) {
     super(props);
 
-    // DISPATCh tyre useage request to API
-    this.props.tyreData();
+    // get the user record
+    // this.props.getUserData(userId);
+
+    // DISPATCH tyre usage request to API
+    this.props.tyreData(regNum);
   }
 
   renderAlert() {
@@ -47,14 +56,63 @@ const Dashboard = class Dashboard extends Component {
     return 'unknown';
   }
 
+  convertPressureUnits(pressure) {
+    const {
+      user,
+    } = this.props;
+
+    if (!user.presureUnits ) {
+      user.presureUnits =  'PSI';
+    }
+    if (user.presureUnits === 'PSI') {
+      return Math.round(pressure * 0.145038,0);
+    } else if ( user.presureUnits === 'bar') {
+      return Math.round(pressure * 0.01,2);
+    }
+
+    return Math.round(pressure,0);
+  }
+
+  convertDepthUnits(depth) {
+    const {
+      user,
+    } = this.props;
+
+    if (!user.depthUnits ) {
+      user.depthUnits =  'mm';
+    }
+    if (user.depthUnits === '1/32"') {
+      return Math.round(depth * 1.259842519685037,2);
+    }
+    return Math.round(depth,0);
+  }
+
+  getIdealPresuresForRegistration() {
+    // look in the dta
+  }
+
   renderTyres() {
     const {
       tyres,
     } = this.props;
+
     if(tyres && tyres.tyres) {
       const data = tyres.tyres || [];
       return data.map( (t,i) => { // eslint-disable-line no-unused-vars
-        return <Tyre key={i} id={t.name} label={this.labelNames(t.name)} pressure={t.pressure} depth={t.depth} />;
+
+        const p = this.convertPressureUnits(t.pressure);
+        const d = this.convertPressureUnits(t.depth);
+
+        return (
+          <Tyre
+            key = {i}
+            className={style.tyre}
+            id={t.name}
+            label={this.labelNames(t.name)}
+            pressure={p}
+            depth={d}
+          />
+        );
       });
     }
   }
@@ -71,7 +129,13 @@ const Dashboard = class Dashboard extends Component {
           {this.renderAlert()}
         </div>
 
-        {tyres}
+        <div className={style.car}>
+          <img src={car} />
+          <div className={style.plate}>
+            { regNum }
+          </div>
+          {tyres}
+        </div>
 
       </div>
     );

@@ -19,13 +19,13 @@ see https://github.com/ai/browserslist for more information
 User Fields to Add
 ===================
 
-Greeting: ''
-ForeName: ''
-SurName:  ''
-LastLoggedInDate: '... ISO ...'
-TermsAccepted:  true / false
-Registrations:[
+greeting: ''
+givenName: ''
+lastName:  ''
+lastLoggedInDate: '... ISO ...'
+termsAccepted:  true / false
+registrations:[
   { key: '123EZAX', plate: 'L5MNE', fromDate: '2017-08-01T08:20:00.000' },
   { key: '17AEZ8P', plate: 'L5CDU', fromDate: '2017-08-03T07:50:00.000' }
 ]
-PhoneNumber: '07557228182'
+phoneNumber: '07557228182'

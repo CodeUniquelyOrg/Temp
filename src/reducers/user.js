@@ -1,5 +1,5 @@
 import {
-  PROTECTED_TEST,
+  USER_DATA,
 } from 'actions/types';
 
 // Build the redux 'initial state'
@@ -11,8 +11,8 @@ const INITIAL_STATE = {
 
 export default function (state = INITIAL_STATE, action) {
   switch(action.type) {
-    case PROTECTED_TEST:
-      return { ...state, error: '', message: '', users: action.payload };
+    case USER_DATA:
+      return { ...state, error: '', message: '', user: action.payload };
   }
   return state;
 }

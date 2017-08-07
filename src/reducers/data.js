@@ -1,5 +1,6 @@
 import {
   TYRE_DATA,
+  DATA_ERROR,
 } from 'actions/types';
 
 // Build the redux 'initial state'
@@ -13,6 +14,8 @@ export default function (state = INITIAL_STATE, action) {
   switch(action.type) {
     case TYRE_DATA:
       return {  ...state, error: '', message: '', tyres: action.payload };
+    case DATA_ERROR:
+      return {  ...state, error: '', message: '' };
   }
   return state;
 }

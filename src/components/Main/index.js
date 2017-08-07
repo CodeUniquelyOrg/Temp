@@ -27,3 +27,5 @@ const Main = () => (
 );
 
 export default Main;
+
+// if the user is authenticated - get the user info (ut only - 1 time request)?????
