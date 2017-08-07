@@ -1,35 +1,32 @@
-# -*- conf -*-
-# Logs
-logs
-*.log
-
-# Debug log from npm
-npm-debug.log
-
-# Not meant to be in git
+# never meant to be in source control
 *.nogit*
 *.DS_Store
 [Tt]humbs.db
+*.zip
 
-# Sublime Text
+# text & editor files
 *.sublime-*
+/.idea/
 
-# sass
-.sass-cache
-
-# Dependency directory
+# Code dependency directories
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
 node_modules
+bower_modules
 
-# bower
-!src/lib/*
+# Debug log from npm
+# npm-debug.log
 
-# generated
+# Logs / logging
+logs
+*.log
+
+# generated folders and files
 build
-README.html
+.nyc
+.coverage
 .#*
 .~*
 __*
 
-/.idea/
-*Forms.zip
+# sass
+.sass-cache
