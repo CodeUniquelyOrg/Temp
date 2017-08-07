@@ -138,6 +138,7 @@ class Tyre extends Component {
       transform: `rotate(${degrees}deg)`,
       transformOrigin: `${cx}px ${cy}px`
     };
+    // return `translate(${cx},${cy}) rotate(${degrees} ${cx} ${cy})`;
   }
 
   convertPressureUnits(pressure) {
