@@ -1,0 +1,9 @@
+{
+  "registration": "L5 MNE",
+  "tyres": [
+    { "name": "11", "pressure": 230.65123635, "depth": 5.03515371 },
+    { "name": "12", "pressure": 242.56028291, "depth": 7.04479222 },
+    { "name": "21", "pressure": 240.33778381, "depth": 7.09137197 },
+    { "name": "22", "pressure": 236.12916137, "depth": 5.99517161 }
+  ]
+}

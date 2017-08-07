@@ -1,0 +1,26 @@
+{
+  "name": "Backend",
+  "author": "Steve Saxton <steves@codeuniquely.co.uk>",
+  "description": "Dummy Contact Partners Backend",
+  "license": "UNLICENSED",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "cross-env nodemon --debug ./server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "express-api-queryhandler": "^0.4.3",
+    "http-status": "^1.0.1",
+    "jwt-simple": "^0.5.1",
+    "mongoose": "^4.11.6",
+    "nodemon": "^1.11.0",
+    "soap": "^0.19.2",
+    "superagent": "^3.5.2"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.1"
+  }
+}

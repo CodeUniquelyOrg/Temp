@@ -1,0 +1,72 @@
+{
+  "users":[
+    {
+      "email":    "steves@codeuniquely.co.uk",
+      "password": "password",
+      "greeting": "Hi",
+      "foreName": "Steve",
+      "lastName": "Saxton",
+
+      "presureUnits": "PSI",
+      "depthUnits": "mm",
+
+      "registrations": [
+        {
+          "plate" : "HD LS 704"
+        },
+        {
+          "plate" : "L5 MNE",
+          "ideal" : [
+            {
+              "id": "11",
+              "pressure": 234.422
+            },
+            {
+              "id": "12",
+              "pressure": 234.422
+            },
+            {
+              "id": "21",
+              "pressure": 234.422
+            },
+            {
+              "id": "22",
+              "pressure": 234.422
+            }
+          ]
+        },
+        {
+          "plate" : "L5 CDU",
+          "ideal" : [
+            {
+              "id": "11",
+              "pressure": 234.422
+            },
+            {
+              "id": "12",
+              "pressure": 234.422
+            },
+            {
+              "id": "21",
+              "pressure": 248.211
+            },
+            {
+              "id": "22",
+              "pressure": 248.211
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "email":    "admin@codeuniquely.co.uk",
+      "password": "password",
+      "disabled": true
+    },
+    {
+      "email":    "user@codeuniquely.co.uk",
+      "password": "password",
+      "disabled": true
+    }
+  ]
+}

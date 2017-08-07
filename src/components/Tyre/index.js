@@ -284,16 +284,18 @@ class Tyre extends Component {
         <g
           className="tyre-text">
           <text
-            x="37%"
+            x="50%"
             y="35%"
-            style={{ fontFamily: 'Helvetica arial', fontSize: 20, width:(radius*2), textAlign:'center' }}
+            textAnchor="middle"
+            style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}
             className="pressure-text">
             {pressureText}
           </text>
           <text
-            x="38%"
+            x="50%"
             y="45%"
-            style={{ fontFamily: 'Helvetica arial', fontSize: 20, width:(radius*2), textAlign:'center' }}
+            textAnchor="middle"
+            style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}
             className="depth-text">
             {depthText}
           </text>
