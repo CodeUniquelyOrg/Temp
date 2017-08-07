@@ -3,13 +3,13 @@ import {
   SET_LANGUAGES,
   SET_DICTIONARIES,
   ADD_DICTIONARY
-} from 'actions/auth';
+} from 'actions/translate';
 
 // import initialState from './initialState';
 import INITIAL_STATE from 'src/locales';
 
-export default function (state = INITIAL_STATE, action) {
 // export default i18n = (state, action) => {
+export default function (state = INITIAL_STATE, action) {
 
   switch ( action.type ) {
 

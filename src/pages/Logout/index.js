@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';         // eslint-disable-line no
 // import * as authActionCreators from '../actions/auth'; // eslint-disable-line no-unused-vars
 import * as actions from 'actions/types';                    // eslint-disable-line no-unused-vars
 
-import { logoutUser } from 'actions';
+import { logoutUser } from 'actions/auth';
 
 const mapStateToProps = (state) => {
   return { ...state };

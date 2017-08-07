@@ -1,6 +1,7 @@
 import React, { Component } from 'react';    // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
-import * as actions from 'actions';
+
+import * as actions from 'actions/tyre';    // *** !!! WHAT AM I MAPPING ***
 
 // import HeaderBar from 'components/HeaderBar';   // eslint-disable-line no-unused-vars
 // import FooterBar from 'components/FooterBar';   // eslint-disable-line no-unused-vars

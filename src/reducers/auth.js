@@ -2,14 +2,12 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
-  PROTECTED_TEST,
 } from 'actions/types';
 
 // Build the redux 'initial state'
 const INITIAL_STATE = {
   error: '',
   message: '',
-  users: '',
   authenticated: false
 };
 
@@ -28,8 +26,6 @@ export default function (state = INITIAL_STATE, action) {
       return { ...state, authenticated: false };
     case AUTH_ERROR:
       return { ...state, error: action.payload };
-    case PROTECTED_TEST:
-      return { ...state, users: action.payload };
     // case LOGOUT:
     //   return { ...state, authenticated: false };
   }

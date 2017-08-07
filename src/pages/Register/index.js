@@ -10,7 +10,7 @@ import Logo from 'components/Logo';             // eslint-disable-line no-unused
 import Translate from 'components/Translate';   // eslint-disable-line no-unused-vars
 
 // load regsiter user from teh actions
-import { registerUser } from 'actions';
+import { registerUser } from 'actions/auth';
 
 // styling
 import style from './style.pcss';

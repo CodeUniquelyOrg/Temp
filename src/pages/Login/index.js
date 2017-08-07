@@ -11,7 +11,7 @@ import Logo from 'components/Logo';            // eslint-disable-line no-unused-
 import Translate from 'components/Translate';   // eslint-disable-line no-unused-vars
 
 // pull in login from actions
-import { loginUser } from 'actions';
+import { loginUser } from 'actions/auth';
 
 // styling
 import style from './style.pcss';
