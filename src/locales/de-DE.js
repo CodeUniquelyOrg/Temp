@@ -1,6 +1,7 @@
 const key = 'de-DE';
 const name = 'Deutsche';
 
+/* eslint-disable camelcase */
 const dictionary = {
 
   'email': 'Email',
@@ -20,6 +21,7 @@ const dictionary = {
   'key_1': 'First default key',
   'key_2': [ '$Count', ' ', [ 'thing', 'things' ] ], // 1 thing, 2 things, 153 things
 };
+/* eslint-enable camelcase */
 
 export {
   key,

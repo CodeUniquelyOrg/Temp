@@ -18,27 +18,46 @@ const makeDictionaries = () => {
   return dictionaries;
 };
 
+// some sort of run around the folder looking for files
+// anything that is not "index.js" should be required
+// and added to the array for processing, all the items
+// are in the array at the end (filename = locale - key)
+// then process the array
+//
+// NEVER need to know wat languages are supported - auto
+
 // build the structure required for initial state
 export default {
-
   currentLanguage: defaultLanguage,
   languages: makeDescriptor(),
   dictionaries: makeDictionaries(),
 };
 
-// const languages = [
-//   {
-//     code: 'ru-RU',
-//     name: 'Русский'
+// {
+//   "en-GB": {
+//     application: {
+//       title: 'Awesome app with i18n!',
+//       hello: 'Hello, %{name}!'
+//     },
+//     date: {
+//       long: 'MMMM Do, YYYY'
+//     },
+//     export: 'Export %{count} items',
+//     export_0: 'Nothing to export',
+//     export_1: 'Export %{count} item',
+//     two_lines: 'Line 1<br />Line 2'
 //   },
-//   {
-//     code: 'en-US',
-//     name: 'English (USA)'
-//   }
-// ]
-// const dictionaries = {
-//   'ru-RU': {
-//     'key_1': 'Первый дефолтный ключ',
-//     'key_2': [ '$Count', ' ', ['штучка','штучки','штучек']], // 1 штучка, 3 штучки, пять штучек
+//   "de-DE": {
+//     application: {
+//       title: 'Awesome app with i18n!',
+//       hello: 'Hello, %{name}!'
+//     },
+//     date: {
+//       long: 'MMMM Do, YYYY'
+//     },
+//     export: 'Export %{count} items',
+//     export_0: 'Nothing to export',
+//     export_1: 'Export %{count} item',
+//     two_lines: 'Line 1<br />Line 2'
 //   },
-// };
+// }
