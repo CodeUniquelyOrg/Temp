@@ -177,8 +177,10 @@ const Dashboard = class Dashboard extends Component {
             units={units}
 
             // upper and lower limit
+            top={ideal + sigma + sigma}
             upper={ideal + sigma}
             lower={ideal - sigma}
+            bottom={ideal - sigma - sigma}
             sigma={sigma}
           />
         );
