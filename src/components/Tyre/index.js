@@ -215,9 +215,32 @@ class Tyre extends Component {
     let color2 = theme && theme.error || '#8bc34a';
     let color3 = theme && theme.error || '#e53935';
 
-    const wornAway = radius - (10 - depth);
-    const sideWall = radius - 20;
-    const guageEdge = sideWall - 20;  // guage will be 20 wide
+    // const wornAway = radius - (10 - depth);
+    // const sideWall = radius - 20;
+    const guageEdge = 40; // sideWall - 20;  // guage will be 20 wide
+
+    // const maxTreadPath = this.describeArc(cx, cy, 60, depth + 10, 0, 359.99999);  // 120 degrees wide
+
+    // 4px per mm + minimum of 0px
+    // effectively supports a depth upto 10mm
+    // (who cares after that much rubber anyway)
+    let treadDepth = depth * 4; // + 10;
+
+    // Limit depth on info-graphic
+    const maxDepth = 40;
+    if (treadDepth > maxDepth) {
+      treadDepth = maxDepth;
+    }
+
+    let treadColor = '#000';
+    if(treadDepth < 12) {
+      treadColor = '#e53935';
+    } else if(treadDepth < 20) {
+      treadColor = '#ffd54f';
+    }
+
+    // where the rubber goes
+    const tyrePath = this.describeArc(cx, cy, 60, treadDepth, 25, 335);  // 240 degrees wide
 
     // describe an arc
     // const arcPath1 = this.describeArc(cx, cy, guageEdge, 20, 0, pressureDegrees);
@@ -225,7 +248,7 @@ class Tyre extends Component {
     const arcPath2 = this.describeArc(cx, cy, guageEdge, 20, 120, 240);  // 120 degrees wide
     const arcPath3 = this.describeArc(cx, cy, guageEdge, 20, 240, 300);  //  60 degrees wide
 
-    // ouside sashed line is this thick
+    // ouside 'dashed' line is this maximum thickness
     const thinLine = 2;
 
     const depthText = `${this.convertDepthUnits(depth)} ${this.props.units.depth}`;
@@ -238,51 +261,70 @@ class Tyre extends Component {
     // 'M 100 95 L 60 100 L 100 105'
     const needlePath =  `M ${cx} ${cy+5} L ${cx+55} ${cy} L ${cx} ${cy-5}`;
 
+    // <circle
+    //   className="worn-limit"
+    //   cx={cx}
+    //   cy={cy}
+    //   r={radius - thinLine}
+    //   fill="white"
+    // />
+
+    // <circle
+    //   className="rubber-limit"
+    //   cx={cx}
+    //   cy={cy}
+    //   r={wornAway}
+    //   fill="black"
+    // />
+
+    // <circle
+    //   className="guage-area"
+    //   cx={cx}
+    //   cy={cy}
+    //   r={sideWall}
+    //   fill="white"
+    // />
+
+    // <circle
+    //   className="hole"
+    //   cx={cx}
+    //   cy={cy}
+    //   r={guageEdge}
+    //   fill="white"
+    // />
+
     return (
       <svg className="donut-chart" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+
+        <defs>
+          <filter id="g1-inner-shadow">
+            <feOffset dx="0" dy="3"></feOffset>
+            <feGaussianBlur result="offset-blur" stdDeviation="5"></feGaussianBlur>
+            <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"></feComposite>
+            <feFlood floodColor="black" floodOpacity="0.2" result="color"></feFlood>
+            <feComposite operator="in" in="color" in2="inverse" result="shadow"></feComposite>
+            <feComposite operator="over" in="shadow" in2="SourceGraphic"></feComposite>
+          </filter>
+
+          <filter x="0" y="0" width="1" height="1" id="solid">
+            <feFlood floodColor="#e5e5e5"/>
+            <feComposite in="SourceGraphic" />
+          </filter>
+
+        </defs>
 
         <circle
           className="tyre-limits"
           cx={cx}
           cy={cy}
-          r={radius}
+          r="100"
           stroke="#999"
           fill="transparent"
           strokeDasharray="4 4"
           strokeWidth={thinLine}
         />
 
-        <circle
-          className="worn-limit"
-          cx={cx}
-          cy={cy}
-          r={radius - thinLine}
-          fill="white"
-        />
-
-        <circle
-          className="rubber-limit"
-          cx={cx}
-          cy={cy}
-          r={wornAway}
-          fill="black"
-        />
-
-        <circle
-          className="guage-area"
-          cx={cx}
-          cy={cy}
-          r={sideWall}
-          fill="white"
-        />
-
-        <circle
-          className="hole"
-          cx={cx}
-          cy={cy}
-          r={guageEdge}
-          fill="white"
-        />
+        <path d={tyrePath} fill={treadColor} stroke="darkGray" filter="url(#g1-inner-shadow)" />
 
         <path d={arcPath1} fill={color1} stroke={color1} />
         <path d={arcPath2} fill={color2} stroke={color2} />
@@ -297,18 +339,17 @@ class Tyre extends Component {
           className="tyre-text">
           <text
             x="50%"
-            y="10%"
+            y="18%"
             textAnchor="middle"
-            style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}
-            className="depth-text">
+            filter="url(#solid)"
+            style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}>
             {depthText}
           </text>
           <text
             x="50%"
-            y="35%"
+            y="38%"
             textAnchor="middle"
-            style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}
-            className="pressure-text">
+            style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}>
             {pressureText}
           </text>
         </g>
