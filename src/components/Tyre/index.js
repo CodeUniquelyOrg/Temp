@@ -324,6 +324,14 @@ class Tyre extends Component {
           strokeWidth={thinLine}
         />
 
+        <circle
+          className="hole"
+          cx={cx}
+          cy={cy}
+          r={60}
+          fill="white"
+        />
+
         <path d={tyrePath} fill={treadColor} stroke="darkGray" filter="url(#g1-inner-shadow)" />
 
         <path d={arcPath1} fill={color1} stroke={color1} />
