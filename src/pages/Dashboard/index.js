@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { tyreData } from 'actions/tyre';
 import { getUserData } from 'actions/user';
 
+import RaisedButton from 'material-ui/RaisedButton';
+
 // getUserData
 
 // import HeaderBar from 'components/HeaderBar';   // eslint-disable-line no-unused-vars
@@ -225,6 +227,10 @@ const Dashboard = class Dashboard extends Component {
         <div className={style.car}>
           <img src={car} />
           {tyres}
+        </div>
+
+        <div>
+          <RaisedButton label="Default" />
         </div>
 
       </div>
