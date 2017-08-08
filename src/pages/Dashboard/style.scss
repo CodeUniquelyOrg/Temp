@@ -27,7 +27,7 @@
   font-size: 25px;
   text-transform: uppercase;
   text-align: center;
-  background-color: #FCE300; // #FEDB00;
+  background-color: #FCE300; // white // #FEDB00;
   text-shadow: 0 -1px 1px white;
 }
 
@@ -36,17 +36,17 @@
 }
 .tyre:nth-of-type(4n+1) {
   top:0px;
-  left:-105px;
+  left:-100px;
 }
 .tyre:nth-of-type(4n+2) {
   top:0px;
-  left:145px;
+  left:176px;
 }
 .tyre:nth-of-type(4n+3) {
   top:220px;
-  left:-105px;
+  left:-100px;
 }
 .tyre:nth-of-type(4n) {
   top:220px;
-  left:145px;
+  left:176px;
 }

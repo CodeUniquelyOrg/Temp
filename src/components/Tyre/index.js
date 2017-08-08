@@ -297,15 +297,14 @@ class Tyre extends Component {
       <svg className="donut-chart" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
 
         <defs>
-          <filter id="g1-inner-shadow">
-            <feOffset dx="0" dy="3"></feOffset>
-            <feGaussianBlur result="offset-blur" stdDeviation="5"></feGaussianBlur>
-            <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"></feComposite>
-            <feFlood floodColor="black" floodOpacity="0.2" result="color"></feFlood>
-            <feComposite operator="in" in="color" in2="inverse" result="shadow"></feComposite>
-            <feComposite operator="over" in="shadow" in2="SourceGraphic"></feComposite>
+          <filter id="shadow">
+            <feOffset dx="0" dy="3" />
+            <feGaussianBlur result="offset-blur" stdDeviation="5" />
+            <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
+            <feFlood floodColor="black" floodOpacity="0.2" result="color" />
+            <feComposite operator="in" in="color" in2="inverse" result="shadow" />
+            <feComposite operator="over" in="shadow" in2="SourceGraphic" />
           </filter>
-
           <filter x="0" y="0" width="1" height="1" id="solid">
             <feFlood floodColor="#e5e5e5"/>
             <feComposite in="SourceGraphic" />
@@ -325,18 +324,18 @@ class Tyre extends Component {
         />
 
         <circle
-          className="hole"
+          className="background"
           cx={cx}
           cy={cy}
           r={60}
           fill="white"
         />
 
-        <path d={tyrePath} fill={treadColor} stroke="darkGray" filter="url(#g1-inner-shadow)" />
+        <path d={tyrePath} fill={treadColor} stroke="darkGray" filter="url(#shadow)" />
 
-        <path d={arcPath1} fill={color1} stroke={color1} />
-        <path d={arcPath2} fill={color2} stroke={color2} />
-        <path d={arcPath3} fill={color3} stroke={color3} />
+        <path d={arcPath1} fill={color1} stroke={color1} filter="url(#shadow)" />
+        <path d={arcPath2} fill={color2} stroke={color2} filter="url(#shadow)" />
+        <path d={arcPath3} fill={color3} stroke={color3} filter="url(#shadow)" />
 
         <g className='needleset' transform={needleStyle}>
           <circle className='needle-center' cx={cx} cy={cy} r='5'></circle>
@@ -420,8 +419,8 @@ class Tyre extends Component {
     //
 
     const wrapperStyle = {
-      width: '200px',
-      height: '200px',
+      width: '160px',
+      height: '160px',
       backgroundColor: 'rgba(0,0,0,0.1)',
       borderRadius: '50%',
     };
