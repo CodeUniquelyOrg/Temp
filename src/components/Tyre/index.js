@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 // import * as actions from 'actions';
 
 // consider using themr instead => import { themr } from 'react-css-themr';
-// import style from './style.pcss';
+
+// import tyreStyle from './style.pcss';
+const tyreStyle = {};
 
 const defaultColours = {
   red: '#e53935',
@@ -27,11 +29,11 @@ const defaultColours = {
 //   </ToolTipWrapper>
 // );
 
-const mapStateToProps = (state)  => {
-  return {
-    authenticated: state.auth.authenticated,
-  };
-};
+// const mapStateToProps = (state)  => {
+//   return {
+//     authenticated: state.auth.authenticated,
+//   };
+// };
 
 class Tyre extends Component {
 
@@ -56,12 +58,19 @@ class Tyre extends Component {
     // First line of text under the Circle
     label: PropTypes.string.isRequired,
 
+    // maximum allowed presssure
+    top: PropTypes.number.isRequired,
+
     // upper pressure limit for tyre
     upper: PropTypes.number.isRequired,
 
     // lower pressure limit for tyre
     lower: PropTypes.number.isRequired,
 
+    // minimum allowed presssure
+    bottom: PropTypes.number.isRequired,
+
+    // deviation
     sigma: PropTypes.number.isRequired,
 
     units: PropTypes.PropTypes.shape({
@@ -80,16 +89,14 @@ class Tyre extends Component {
     linkTo: PropTypes.string,
   }
 
-  static get defaultProps() {
-    return {
-      fullDepth: 10,
-      theme: undefined,
-      linkTo: '#',
-      units: {
-        pressure: 'PSI',
-        depth: 'mm',
-      }
-    };
+  static defaultProps = {
+    fullDepth: 10,
+    theme: undefined,
+    linkTo: '#',
+    units: {
+      pressure: 'PSI',
+      depth: 'mm',
+    },
   }
 
   onClicked = (/* event */) => {
@@ -131,7 +138,7 @@ class Tyre extends Component {
 
     // will value = 0-100% which will sweep over 180 degrees
     // from the right hand sie tot he left hand side
-    const degrees = value * range;
+    const degrees = (value * range) + ((180 - range) / 2);
 
     return {
       // transform: rotate(30deg);
@@ -170,7 +177,7 @@ class Tyre extends Component {
   // So let use some fixed values to make display easier
   // An overall width/height of 100px
   // A view box of 100 by 100
-  buildDonut(pressure, maxPressure, minPressure, depth, fullDepth, theme) {
+  buildDonut(pressure, top, maxPressure, minPressure, bottom, depth, fullDepth, theme) {
 
     const factor = 200 / 42;
     const cx=100, cy=100;
@@ -181,13 +188,14 @@ class Tyre extends Component {
     // 15.91549430918954  => // 37.89403406949889
     const radius = upper / (Math.PI * 2);
 
-    // const range = (this.props.sigma * 4);
-    // const offset = pressure - (this.props.sigma*2);
-    // const p = (offset / range) + (this.props.sigma*2);
+    // Pressure in the range
+    const range = top - bottom;
+    const offset = pressure - bottom;
+    const p = (offset / range); // + bottom;
 
     // Maximum pressure
-    const bigPressure = maxPressure + minPressure; // ((maxPressure / 0.70) + (minPressure / 0.30)) / 2;
-    const p = (pressure / bigPressure);
+    // const bigPressure = maxPressure + minPressure; // ((maxPressure / 0.70) + (minPressure / 0.30)) / 2;
+    // const p = (pressure / bigPressure);
 
     // let color;
     // if ( pressure > maxPressure || pressure < minPressure ) {
@@ -220,7 +228,7 @@ class Tyre extends Component {
     const depthText = `${this.convertDepthUnits(depth)} ${this.props.units.depth}`;
     const pressureText = `${this.convertPressureUnits(pressure)} ${this.props.units.pressure}`;
 
-    const needleStyle = this.rotateNeedle(cx,cy,p,220);
+    const needleStyle = this.rotateNeedle(cx,cy,p,240);
 
     // describe a nedles 120 px long
     // 'M 100 95 L 60 100 L 100 105'
@@ -261,7 +269,7 @@ class Tyre extends Component {
           cx={cx}
           cy={cy}
           r={sideWall}
-          fill="#eee"
+          fill="white"
         />
 
         <circle
@@ -285,19 +293,19 @@ class Tyre extends Component {
           className="tyre-text">
           <text
             x="50%"
+            y="10%"
+            textAnchor="middle"
+            style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}
+            className="depth-text">
+            {depthText}
+          </text>
+          <text
+            x="50%"
             y="35%"
             textAnchor="middle"
             style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}
             className="pressure-text">
             {pressureText}
-          </text>
-          <text
-            x="50%"
-            y="45%"
-            textAnchor="middle"
-            style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}
-            className="depth-text">
-            {depthText}
           </text>
         </g>
 
@@ -333,12 +341,18 @@ class Tyre extends Component {
       id,
       pressure,
       depth,
+      top,
       upper,
       lower,
-      onClick,  // eslint-disable-line react/require-default-props, no-unused-vars
-      linkTo,   // eslint-disable-line no-unused-vars
+      bottom,
+      onClick,    // eslint-disable-line react/require-default-props, no-unused-vars
+      linkTo,
       fullDepth,
       theme,
+      units,      // removing from ..other
+      sigma,      // removing from ..other
+      dispatch,   // removing from ..other
+
       ...other
     } = this.props;
 
@@ -346,10 +360,10 @@ class Tyre extends Component {
     // const fill = this.getFillColor(red, amber, green, reflect, theme);
 
     // build the SVG do-nut chart
-    const tyre = this.buildDonut(pressure, upper, lower, depth, fullDepth, theme);
+    const tyre = this.buildDonut(pressure, top, upper, lower, bottom, depth, fullDepth, theme);
 
     //
-    // Styles
+    // Styling in Code
     //
 
     const wrapperStyle = {
@@ -359,45 +373,12 @@ class Tyre extends Component {
       borderRadius: '50%',
     };
 
-    const containerStyle = {
-      position: 'absolute',
-      top: '0',
-      // bottom: '20px',
-      left: '0',
-      right: '0',
+    const svgStyle = {
       width: '100%',
+      height: '100%',
+      position: 'absolute',
       cursor: 'pointer',
     };
-
-    // const backgroundStyle = {
-    //   position: 'absolute',
-    //   display: 'flex',
-    //   flexDirection: 'column',
-    //   justifyContent: 'center',
-    //   textAlign: 'center',
-    //   backgroundColor: fill,
-    //   borderRadius: '50%',
-    //   top: '15%',
-    //   left: '15%',
-    //   width: '70%',
-    //   height: '70%',
-    //   color: 'white',
-    //   fontSize: '4em',
-    // };
-
-    const svgStyle = {
-      width: '200px',
-      height: '200px',
-      position: 'absolute',
-      top: '0',
-    };
-
-    // const textStyle = {
-    //   position: 'absolute',
-    //   bottom: '0',
-    //   height: '50px',
-    //   width: '100%',
-    // };
 
     // const presureStyle = {
     //   lineHeight: '24px',
@@ -420,7 +401,7 @@ class Tyre extends Component {
     // };
 
     const tyreSvg = (
-      <div className="chart" style={svgStyle}>
+      <div className={tyreStyle.svg} style={wrapperStyle} >
         {tyre}
       </div>
     );
@@ -434,13 +415,11 @@ class Tyre extends Component {
     // {text}
 
     return (
-      <div key={id} className="wrapper" {...other} style={wrapperStyle} onClick={this.onClicked}>
-        <div className="container" style={containerStyle}>
-          {tyreSvg}
-        </div>
+      <div key={id} className={tyreStyle.wrapper} style={svgStyle} {...other} onClick={this.onClicked}>
+        {tyreSvg}
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(Tyre);
+export default connect()(Tyre);
