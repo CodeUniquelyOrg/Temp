@@ -13,6 +13,27 @@ const dictionary = {
   forgotPassword: 'forgot your password',
   backToLogin:    'back to login',
 
+  // navigation
+  home:           'home',
+  settings:       'settings',
+  results:        'results',
+  help:           'help',
+
+  // terms
+  termsAndConditions: 'Terms and Conditions',
+  iAcceptTheTerms: 'I Accept the terms and conditions',
+
+  // settings
+  myAccount:      'My Account',
+  preferences:    'Preferences',
+  greeting:       'Preferred Greeting',
+  forename:       'First Name',
+  surname:        'Surname',
+  pressureUnits:  'Pressure Units',
+  depthUnits:     'Depth Units',
+  personal:       'Personal Stuff',
+  registrations:  'My Vehicles',
+
   // errors
   errorEmail:     'Please enter an email address',
   errorPassword:  'Please enter a password',

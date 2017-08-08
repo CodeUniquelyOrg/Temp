@@ -8,19 +8,26 @@ class Plate extends Component {
 
   static propTypes = {
     registration: PropTypes.string.isRequired,
+    isYellow: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    isYellow: false,
   };
 
   render() {
     const {
       registration,
+      isYellow,
       // dispatch, // remove from properties
       ...rest
     } = this.props;
 
-    //  <div className={style.root} { ...rest }>
+    const styleClass = isYellow ? style.yellow : style.white;
 
+    //  <div className={style.root} { ...rest }>
     return (
-      <div className={style.root}>
+      <div className={styleClass}>
         {registration}
       </div>
     );

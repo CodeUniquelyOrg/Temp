@@ -5,9 +5,12 @@ import Logout from 'pages/Logout';
 // import HomePage from 'pages/HomePage';
 import Register from 'pages/Register';
 import Login from 'pages/Login';
-import Dashboard from 'pages/Dashboard';
-import NotFoundPage from 'pages/NotFoundPage';
 
+import Terms from 'pages/Terms';
+import Dashboard from 'pages/Dashboard';
+import Settings from 'pages/Settings';
+
+import NotFoundPage from 'pages/NotFoundPage';
 import RequireAuth from 'components/RequireAuth';
 
 // Declaritive
@@ -19,7 +22,10 @@ const Main = () => (
     <Route exact path = '/login' component={Login} />
 
     <Route exact path = '/logout' component={RequireAuth(Logout)} />
+
+    <Route path = '/terms' component={RequireAuth(Terms)} />
     <Route path = '/dashboard' component={RequireAuth(Dashboard)} />
+    <Route path = '/settings' component={RequireAuth(Settings)} />
 
     <Route component = {NotFoundPage} />
 

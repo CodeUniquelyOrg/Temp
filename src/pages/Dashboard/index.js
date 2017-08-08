@@ -139,11 +139,14 @@ const Dashboard = class Dashboard extends Component {
     return ideal;
   };
 
+  //
+  // *** WILl NEED TO use the TRANSLATE OBJECT HERE ***
+  //
   getNavigationItems() {
     return [
-      { label: 'settings', icon: 'cog' },
-      { label: 'history', icon: 'line-chart' },
-      { label: 'help', icon: 'question-circle' },
+      { label: 'me',       icon: 'user',     path: '/settings' },
+      { label: 'results',  icon: 'history',  path: '/history'  },
+      { label: 'help',     icon: 'question', path: '/faq'      },
     ];
   }
 
@@ -214,9 +217,13 @@ const Dashboard = class Dashboard extends Component {
           {this.renderAlert()}
         </div>
 
+        <h1>Your Latest Results</h1>
+        <div className={style.plate}>
+          <Plate registration={regNum} />
+        </div>
+
         <div className={style.car}>
           <img src={car} />
-          <Plate registration={regNum} />
           {tyres}
         </div>
 

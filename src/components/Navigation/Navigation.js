@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import FontAwesome from 'react-fontawesome';
 
-import style from './style.pcss';
+import style from './style.scss';
 
 // ====================================================
 //  The component expects the reducer to be named navi
@@ -27,9 +28,17 @@ class Navigation extends Component {
       return (
         items.map( (item,i) => {
           return (
-            <div key={i} className={style.navItem}>
-              <FontAwesome name={item.icon} />
-            </div>
+            <Link key={i} to={item.path}>
+              <div className={style.navItem}>
+                <span className={style.icon}>
+                  <FontAwesome name={item.icon} />
+                </span>
+                <span className={style.spacer}></span>
+                <span className={style.label}>
+                  {item.label}
+                </span>
+              </div>
+            </Link>
           );
         })
       );

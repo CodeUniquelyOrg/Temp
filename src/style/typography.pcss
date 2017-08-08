@@ -1,48 +1,59 @@
-.heading {
-  font-family: helvetica, arial, sans-serif;
-  font-weight: bold;
-  font-style: normal;
+.textFont {
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-stretch: normal;
   letter-spacing: normal;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.plateFont {
+  font-family: 'Roboto New', sans-serif;
+  font-stretch: normal;
+  letter-spacing: normal;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.heading {
+  composes: textFont;
+  composes: bold;
   font-size: 24px;
 }
 
 .label {
-  font-family: helvetica, arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
+  composes: textFont;
   font-size: 18px;
   line-height: 24px;
 }
 
 .button {
-  font-family: helvetica, arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
+  composes: textFont;
   font-size: 18px;
   line-height: 24px;
 }
 
 .forminput {
-  font-family: helvetica, arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
+  composes: textFont;
   font-size: 18px;
   line-height: 24px;
 }
 
 .hyperlink {
-  font-family: helvetica, arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
+  composes: textFont;
   font-size: 14px;
+}
+
+.plate {
+  composes: plateFont;
+  composes: bold;
+  font-size: 25px;
 }
 

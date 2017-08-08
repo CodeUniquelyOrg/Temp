@@ -1,3 +1,5 @@
+@import 'reset';
+
 html {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
@@ -6,6 +8,11 @@ html {
   // -moz-background-size: cover;
   // -o-background-size: cover;
   background-size: cover;
+}
+
+// overwrite various browser 'fixed' styles
+a:-webkit-any-link {
+  text-decoration: none;
 }
 
 // input:-webkit-autofill,

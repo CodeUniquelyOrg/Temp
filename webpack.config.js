@@ -15,7 +15,8 @@ var config = require('./config.js');
 var env = 'development';
 
 // used by CSS modules
-var cssModuleIdentTemplate = '[name]__[local]___[hash:base64:5]';
+// var cssModuleIdentTemplate = '[name]__[local]___[hash:base64:5]';
+var cssModuleIdentTemplate = '[name]--[local]--[hash:base64:8]';
 
 // ==============================
 //  Paths
@@ -311,7 +312,8 @@ var rules = [
       use: [
         {
           loader: 'css-loader',
-          query: {
+          // query: {
+          options: {
             modules: true,
             sourceMap: true,
             // importLoaders: 2,
@@ -357,9 +359,11 @@ var rules = [
         {
           loader: 'css-loader',
           // options: { importLoaders: 1 },
-          query: {
+          // query: {
+          options: {
             modules: true,
             sourceMap: true,
+            // importLoaders: 1,
             localIdentName: cssModuleIdentTemplate, // '[name]__[local]___[hash:base64:5]',
           },
         },
@@ -371,7 +375,7 @@ var rules = [
                 root: srcPath,
               }),
               require('postcss-cssnext')({
-                browsers: ['last 4 versions', '> 2%', 'ie > 10', 'firefox > 40', 'safari > 5', 'opera > 30', 'ios 6-7', 'android 4'],
+                browsers: ['last 2 versions', '> 2%', 'ie > 10', 'firefox > 40', 'safari > 5', 'opera > 30', 'ios 6-7', 'android 4'],
                 // features: {
                 //   customProperties: {
                 //     variables: reactToolboxVariables(),
