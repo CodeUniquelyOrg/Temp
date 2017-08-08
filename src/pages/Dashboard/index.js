@@ -1,4 +1,4 @@
-import React, { Component } from 'react';    // eslint-disable-line no-unused-vars
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { tyreData } from 'actions/tyre';
@@ -12,7 +12,10 @@ import { getUserData } from 'actions/user';
 // =====================================
 // UI Styling and other stuff ike that
 // =====================================
-import Tyre from 'components/Tyre';    // eslint-disable-line no-unused-vars
+import Navigation from 'components/Navigation';
+import Plate from 'components/Plate';
+import Tyre from 'components/Tyre';
+
 import car from 'img/car.png';
 import style from './style.scss';
 
@@ -136,6 +139,14 @@ const Dashboard = class Dashboard extends Component {
     return ideal;
   };
 
+  getNavigationItems() {
+    return [
+      { label: 'settings', icon: 'cog' },
+      { label: 'history', icon: 'line-chart' },
+      { label: 'help', icon: 'question-circle' },
+    ];
+  }
+
   renderTyres() {
     const {
       tyres,
@@ -196,15 +207,16 @@ const Dashboard = class Dashboard extends Component {
 
     return (
       <div className={style.root}>
+
+        <Navigation items={this.getNavigationItems()} />
+
         <div>
           {this.renderAlert()}
         </div>
 
         <div className={style.car}>
           <img src={car} />
-          <div className={style.plate}>
-            { regNum }
-          </div>
+          <Plate registration={regNum} />
           {tyres}
         </div>
 
