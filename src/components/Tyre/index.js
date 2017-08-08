@@ -140,12 +140,19 @@ class Tyre extends Component {
     // from the right hand sie tot he left hand side
     const degrees = (value * range) + ((180 - range) / 2);
 
-    return {
-      // transform: rotate(30deg);
-      transform: `rotate(${degrees}deg)`,
-      transformOrigin: `${cx}px ${cy}px`
-    };
+    // return {
+    //   // transform: rotate(30deg);
+    //   transform: `rotate(${degrees}deg)`,
+    //   transformOrigin: `${cx}px ${cy}px`
+    // };
+
+    // return {};
+
+    // => `M ${cx} ${cy+5} L ${cx+55} ${cy} L ${cx} ${cy-5}`;
+    //
+    // ( rect-x + (rect-width/2) , rect-y + (rect-height/2) )
     // return `translate(${cx},${cy}) rotate(${degrees} ${cx} ${cy})`;
+    return `rotate(${degrees} ${cx} ${cy})`;
   }
 
   convertPressureUnits(pressure) {
@@ -212,10 +219,6 @@ class Tyre extends Component {
     const sideWall = radius - 20;
     const guageEdge = sideWall - 20;  // guage will be 20 wide
 
-    // const zeroOffset = shiftBack90Degrees;
-    const pressureDegrees = 360 * p;
-    console.log( pressureDegrees ); // eslint-disable-line no-console
-
     // describe an arc
     // const arcPath1 = this.describeArc(cx, cy, guageEdge, 20, 0, pressureDegrees);
     const arcPath1 = this.describeArc(cx, cy, guageEdge, 20, 60, 120);   //  60 degrees wide
@@ -228,6 +231,7 @@ class Tyre extends Component {
     const depthText = `${this.convertDepthUnits(depth)} ${this.props.units.depth}`;
     const pressureText = `${this.convertPressureUnits(pressure)} ${this.props.units.pressure}`;
 
+    // roate the needle using css-Transforms
     const needleStyle = this.rotateNeedle(cx,cy,p,240);
 
     // describe a nedles 120 px long
@@ -284,7 +288,7 @@ class Tyre extends Component {
         <path d={arcPath2} fill={color2} stroke={color2} />
         <path d={arcPath3} fill={color3} stroke={color3} />
 
-        <g className='needleset' style={needleStyle}>
+        <g className='needleset' transform={needleStyle}>
           <circle className='needle-center' cx={cx} cy={cy} r='5'></circle>
           <path className='needle' d={needlePath}></path>
         </g>
