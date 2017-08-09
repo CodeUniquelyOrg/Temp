@@ -1,0 +1,27 @@
+@import 'reset-css/reset.css';
+
+html {
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/*
+// overwrite various browser 'fixed' styles
+// a:-webkit-any-link {
+//   text-decoration: none;
+// }
+*/
+
+a {
+  // color: $link-color;
+  text-decoration:none;
+  &:hover {
+    text-decoration:underline;
+  }
+  &:focus {
+    // background-color: $link-focus;
+    // color: $gray-dark;
+    text-decoration:underline;
+    outline: none;
+  }
+}
+

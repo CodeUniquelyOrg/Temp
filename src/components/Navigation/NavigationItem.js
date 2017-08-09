@@ -3,13 +3,10 @@ import PropTypes from 'react-proptypes';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// import Button from 'react-toolbox/lib/button';
-import FlatButton from 'material-ui/FlatButton';
+import { Button } from 'react-toolbox/lib/button';
 
-// import style from './style.pcss';
-import style from './style';
-// import theme from 'theme/theme.pcss';
-import theme from 'theme/theme';
+import style from './style.pcss';
+import theme from 'theme/theme.pcss';
 
 // ====================================================
 //  The component expects the reducer to be named navi
@@ -21,10 +18,12 @@ import theme from 'theme/theme';
 //   dictionary: dictionaries[ currentLanguage ]
 // });
 
-class Navigation extends Component {
+class NavigationItem extends Component {
 
   static propTypes = {
-    items: PropTypes.array.isRequired,
+    label: PropTypes.array.isRequired,
+    icon: PropTypes.array.isRequired,
+    onClicked: PropTypes.func,
   };
 
   // <Button icon={item.icon} label={item.label} />
@@ -42,28 +41,6 @@ class Navigation extends Component {
   //     </div>
   //   </button>
   // </div>
-
-  renderOptions = (items) => {
-    if(items && items.length > 0) {
-      return (
-        items.map( (item,i) => {
-          return (
-            <Link key={i} to={item.path}>
-              <div className={style.navItem}>
-                <FlatButton label={item.label} primary={true} />
-                <div className={`material-icons ${style.icon}`}>
-                  {item.icon}
-                </div>
-                <div className={style.label}>
-                  {item.label}
-                </div>
-              </div>
-            </Link>
-          );
-        })
-      );
-    }
-  };
 
   render() {
 
@@ -83,4 +60,4 @@ class Navigation extends Component {
   }
 }
 
-export default connect()(Navigation);
+export default connect()(NavigationItem);

@@ -5,9 +5,11 @@ var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CompressionPlugin  = require('compression-webpack-plugin');
+var ExtractValues = require('modules-values-extract');
 var NofifierPlugin = require('webpack-build-notifier');
 // var autoprefixer = require('autoprefixer');
 var path = require('path');
+var fs = require('fs');
 
 var config = require('./config.js');
 
@@ -15,8 +17,8 @@ var config = require('./config.js');
 var env = 'development';
 
 // used by CSS modules
-// var cssModuleIdentTemplate = '[name]__[local]___[hash:base64:5]';
-var cssModuleIdentTemplate = '[name]--[local]--[hash:base64:8]';
+var cssModuleIdentTemplate = '[name]__[local]___[hash:base64:5]';
+// var cssModuleIdentTemplate = '[name]--[local]--[hash:base64:8]';
 
 // ==============================
 //  Paths
@@ -28,15 +30,32 @@ var assetsPath        = path.resolve( __dirname, 'assets' );
 var imgPath           = path.resolve(assetsPath, 'img');
 var fontPath          = path.resolve(assetsPath, 'fonts');
 var srcPath           = path.resolve( __dirname, 'src' );
-var stylePath         = path.resolve( srcPath, 'style' );
-var pagesPath         = path.resolve( srcPath, 'pages' );
-var componentsPath    = path.resolve( srcPath, 'components' );
 var actionPath        = path.resolve( srcPath, 'actions' );
+var componentsPath    = path.resolve( srcPath, 'components' );
+var pagesPath         = path.resolve( srcPath, 'pages' );
 var reducerPath       = path.resolve( srcPath, 'reducers' );
+var stylePath         = path.resolve( srcPath, 'style' );
+var themePath         = path.resolve( srcPath, 'theme' );
 // var mockPath          = path.resolve( srcPath, 'mock' );
 
 // define a port to be used
 var PORT = process.env.APP_PORT || config.server.port; // 4000;
+
+// load all the *.css files in the given folder - use the 'SYNC' method
+const themefiles = fs.readdirSync( themePath)
+                     .filter(file => file.match(/\.css/i))
+                     .map(file => path.resolve(themePath, file));
+
+const reactToolboxVariables = () => {
+  let returned = [];
+  ExtractValues({ files: themefiles }).then( variables => {
+    Object.keys(variables)
+          .filter( key => key.match(/-/))
+          .forEach( key => {
+            returned[key] = variables[key];
+          });
+  });
+};
 
 // ==============================
 //  Plugins
@@ -171,53 +190,54 @@ var plugins = [
 //  Loader Rules
 // ==============================
 var rules = [
-  {
-    test: /\.js$/,
-    enforce: 'pre',
-    loaders: ['eslint-loader'],
-    exclude: [nodeModulesPath],
-  },
-  {
-    test: /\.js$/,
-    include: [
-      srcPath
-    ],
-    use: [{
-      loader: 'babel-loader',
-      // options: { presets: ['es2015', 'stage-0', 'react'] },
-    }],
-  },
 
   {
-    test: /\.jsx$/,
-    include: [
-      srcPath
-    ],
-    use: [{
-      loader: 'babel-loader',
-      // options: { presets: ['es2015', 'stage-0', 'react'] },
-    }],
+    test: /\.json$/i,
+    loader: 'json-loader',
   },
 
-  // {
-  //   test: /\.js$/i,
-  //   loader: 'babel-loader',
-  //   include: [
-  //     path.resolve(__dirname, 'src'),
-  //   ],
-  // },
-
-  {
-    test: /\.html$/i,
-    exclude: [/node_modules/],
-    loader: 'html-loader'
-    // loader: 'raw-loader!htmlclean-loader'
-  },
   {
     test: /\.ico($|\?)/i,
     loader: 'file-loader',
     query:{ name:'[path][name].[ext]', context:assetsPath }
   },
+
+  // {
+  //   test: /\.svg($|\?)|\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)/i,
+  //   loader: 'file-loader',
+  //   query:{
+  //     name:'[path][name].[ext]',
+  //     context:assetsPath
+  //   }
+  // },
+  // {
+  //   test: /webfont\.(eot|ttf|woff|woff2|svg)($|\?)/i,
+  //   exclude: [/node_modules/],
+  //   loader: 'file-loader',
+  //   // include: [
+  //   //   path.resolve( nodeModulesPath, 'roboto-npm-webfont'),
+  //   //   path.resolve( nodeModulesPath, 'roboto-npm-webfont-mono'),
+  //   //   path.resolve( nodeModulesPath, 'material-design-icons'),
+  //   // ],
+  //   query: {
+  //     name: '[path][name].[ext]',
+  //     context:assetsPath
+  //     // name: 'fonts/[name].[ext]',
+  //   },
+  // },
+
+  // =============================================
+  //  un-comment if you want to self serve FONTS
+  // =============================================
+  // {
+  //   test: /\.(woff|woff2|ttf|eot|svg)($|\?)/i,
+  //   loader: 'url-loader?limit=100000',  // 100kb
+  //   include: [
+  //     path.resolve( nodeModulesPath, 'roboto-npm-webfont'),
+  //     path.resolve( nodeModulesPath, 'roboto-mono-webfont'),
+  //     path.resolve( nodeModulesPath, 'material-design-icons'),
+  //   ],
+  // },
 
   // {
   //   test: /\.(jpe?g|gif|png|svg)($|\?)/i,
@@ -232,53 +252,72 @@ var rules = [
   {
     test: /\.jpe?g($|\?)|\.gif($|\?)|\.png($|\?)/i,
     loader: 'file-loader',
+    // include: [
+    //   srcPath
+    // ],
     query: {
-      name: 'img/[name].[ext]',
+      name: 'img/[name].[ext]',  // img/[hash].[ext]'
       context: assetsPath
     },
   },
 
   {
-    test: /webfont\.(eot|ttf|woff|woff2|svg)($|\?)/i,
+    test: /\.html$/i,
     exclude: [/node_modules/],
-    loader: 'file-loader',
-    query: {
-      name: '[path][name].[ext]',
-      context:assetsPath
-      // name: 'fonts/[name].[ext]',
-    },
+    loader: 'html-loader'
+    // loader: 'raw-loader!htmlclean-loader'
   },
+
+  {
+    test: /\.js$/,
+    enforce: 'pre',
+    loaders: ['eslint-loader'],
+    exclude: [nodeModulesPath],
+  },
+
+  {
+    test: /\.js$/,
+    include: [
+      srcPath
+    ],
+    use: [{
+      loader: 'babel-loader',
+      // options: { presets: ['es2015', 'stage-0', 'react'] },
+    }],
+  },
+
   // {
-  //   test: /\.svg($|\?)|\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)/i,
-  //   loader: 'file-loader',
-  //   query:{
-  //     name:'[path][name].[ext]',
-  //     context:assetsPath
-  //   }
+  //   test: /\.jsx$/,
+  //   include: [
+  //     srcPath
+  //   ],
+  //   use: [{
+  //     loader: 'babel-loader',
+  //     // options: { presets: ['es2015', 'stage-0', 'react'] },
+  //   }],
+  // },
+
+  // {
+  //   test: /\.js$/i,
+  //   loader: 'babel-loader',
+  //   include: [
+  //     path.resolve(__dirname, 'src'),
+  //   ],
   // },
 
   {
     test: /\.css$/,
     // include: [
     //   path.join(nodeModulesPath, 'quill'),
+    //   path.resolve( nodeModulesPath, 'roboto-npm-webfont'),
+    //   path.resolve( nodeModulesPath, 'roboto-mono-webfont'),
+    //   path.resolve( nodeModulesPath, 'material-design-icons'),
     // ],
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
       use: 'css-loader',
     })
   },
-
-  // {
-  //   test: /\.less$/i,
-  //   loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader')
-  // },
-  // {
-  //   test: /.*\.less$/,
-  //   loader: ExtractTextPlugin.extract({
-  //     use:[ 'css-loader', 'less-loader' ],
-  //     fallback: 'style-loader'
-  //   })
-  // },
 
   // {
   //   test: /\.scss$/i,
@@ -303,6 +342,7 @@ var rules = [
   //   })
   // },
 
+  /*
   {
     test: /\.scss$/,
     exclude: /node_modules/,
@@ -347,12 +387,13 @@ var rules = [
       ]
     }),
   },
+  */
 
   {
     test: /\.css|.pcss$/,
     include: [
       srcPath,
-      // path.join(nodeModulesPath, 'react-toolbox/lib'),
+      path.join(nodeModulesPath, 'react-toolbox/lib'),
     ],
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
@@ -361,9 +402,9 @@ var rules = [
           loader: 'css-loader',
           // options: { importLoaders: 1 },
           // query: {
-          options: {
+          query: {
             modules: true,
-            sourceMap: true,
+            sourceMap: false,  // true
             // importLoaders: 1,
             localIdentName: cssModuleIdentTemplate, // '[name]__[local]___[hash:base64:5]',
           },
@@ -377,11 +418,11 @@ var rules = [
               }),
               require('postcss-cssnext')({
                 browsers: ['last 2 versions', '> 2%', 'ie > 10', 'firefox > 40', 'safari > 5', 'opera > 30', 'ios 6-7', 'android 4'],
-                // features: {
-                //   customProperties: {
-                //     variables: reactToolboxVariables(),
-                //   },
-                // },
+                features: {
+                  customProperties: {
+                    variables: reactToolboxVariables(),
+                  },
+                },
               }),
               require('postcss-nested'),
               require('postcss-modules-values'),
@@ -392,10 +433,6 @@ var rules = [
     }),
   },
 
-  {
-    test: /\.json$/i,
-    loader: 'json-loader',
-  },
 ];
 
 module.exports = {
@@ -413,10 +450,16 @@ module.exports = {
     ],
     vendor: [
       'core-js',
+      'axios',
       'react',
       'react-dom',
       'react-proptypes',
+      'react-redux',
       'react-router',
+      'react-router-dom',
+      'redux',
+      'redux-form',
+      'redux-thunk',
     ],
     polyfill: [
       'eventsource-polyfill',
@@ -454,8 +497,9 @@ module.exports = {
       actions: actionPath,
       reducers: reducerPath,
       style: stylePath,
+      theme: themePath,
     },
-    extensions: ['.js', '.pcss', '.scss', '.json', '.html' ],
+    extensions: ['.js', '.pcss', '.css', '.json', '.html' ],
     // modules: [
     //   'client',
     //   'node_modules',

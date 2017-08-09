@@ -12,11 +12,13 @@ import Translate from 'components/Translate';
 // UI Styling and other stuff ike that
 // =====================================
 // import { RadioGroup, RadioButton } from 'react-radio-buttons';
-import RadioGroup from 'react-toolbox/lib/radio/RadioGroup';
-import RadioButton from 'react-toolbox/lib/radio/RadioButton';
+//
+
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import TextField from 'material-ui/TextField';
+// import Typography from 'material-ui/Typography';
 
 import Navigation from 'components/Navigation';
-
 import style from './style.pcss';
 
 const mapStateToProps = (state) => {
@@ -25,6 +27,7 @@ const mapStateToProps = (state) => {
   };
 };
 
+/*
 const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
   <div>
     <label className={style.label}>{<Translate id={label} />}</label>
@@ -33,6 +36,18 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
       { touched && ((error && <span className={style.error}>{error}</span>) || (warning && <span>{warning}</span>)) }
     </div>
   </div>
+);
+*/
+
+// {...props}
+
+const renderField = ({ name, label, meta: { touched, error, warning }, ...rest }) => (
+  <TextField
+    hintText={label}
+    floatingLabelText={label}
+    errorText={touched && error}
+    name={name}
+  />
 );
 
 const validate = (formProps) => {
@@ -81,9 +96,9 @@ const Settings = class Settings extends Component {
   //
   getNavigationItems() {
     return [
-      { label: 'home',     icon: 'home',     path: '/dashboard' },
-      { label: 'results',  icon: 'history',  path: '/history'  },
-      { label: 'help',     icon: 'question', path: '/faq'      },
+      { label: 'home',    icon: 'home',    path: '/dashboard' },
+      { label: 'results', icon: 'history', path: '/history'  },
+      { label: 'help',    icon: 'help',    path: '/faq'      },
     ];
   }
 
@@ -91,6 +106,10 @@ const Settings = class Settings extends Component {
 
   render() {
     const { handleSubmit } = this.props;
+
+    const testingField = (
+      <TextField floatingLabelText="Floating Label Text" defaultValue="TESTING" />
+    );
 
     return (
       <div className={style.root}>
@@ -103,7 +122,11 @@ const Settings = class Settings extends Component {
 
         <form className={`${style.form} ${style.center}`} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
 
-          <h1><Translate id="myAccount" /></h1>
+          <h1>
+            <Translate id="myAccount" />
+          </h1>
+          <br/>
+          <br/>
 
           <p>
             Lorem ipsum dolor sit amet, no populo causae mei, pro an quem quot invidunt,
@@ -111,31 +134,38 @@ const Settings = class Settings extends Component {
             scriptorem id nec. Vulputate maiestatis eu mel, magna zril ex vix. Dicam
             menandri deseruisse ei mel.
           </p>
+          <br/>
+          <br/>
 
           <h2><Translate id="preferences" /></h2>
+          <br/>
 
-          <h3 className={style.subHeading}><Translate id="pressureUnits" /></h3>
-          <RadioGroup name="pressure" onChange={ this.onChangePressure }>
-            <RadioButton value="kPa">kPa</RadioButton>
-            <RadioButton value="bar">bar</RadioButton>
-            <RadioButton value="PSI">PSI</RadioButton>
-          </RadioGroup>
+          <h3><Translate id="pressureUnits" /></h3>
+          <br/>
+          <br/>
+          <RadioButtonGroup  name="pressure" defaultSelected="kPa">
+            <RadioButton value="kPa" label="kPa" />
+            <RadioButton value="bar" label="bar" />
+            <RadioButton value="PSI" label="PSI" />
+          </RadioButtonGroup>
 
-          <h3 className={style.subHeading}><Translate id="depthUnits" /></h3>
-          <RadioGroup name="depth" onChange={ this.onChangeDepth }>
-            <RadioButton value="mm">mm</RadioButton>
-            <RadioButton value="1/32">1/32"</RadioButton>
-          </RadioGroup>
+          <h3><Translate id="depthUnits" /></h3>
+          <br/>
+          <br/>
+          <RadioButtonGroup  name="depth"  defaultSelected="mm">
+            <RadioButton value="mm" label="mm" />
+            <RadioButton value="1/32" label='1/32"' />
+          </RadioButtonGroup>
 
-          <h3 className={style.subHeading}><Translate id="personal" /></h3>
+          <h3><Translate id="personal" /></h3>
           <div>
-            <Field name="greeting" type="text" label="greeting" component={renderField} />
+            <Field name="greeting" label="greeting" component={renderField} />
           </div>
           <div>
-            <Field name="forename" type="text" label="forename" component={renderField} />
+            <Field name="forename" label="forename" component={renderField} />
           </div>
           <div>
-            <Field name="surname" type="text" label="surname" component={renderField} />
+            <Field name="surname" label="surname" component={renderField} />
           </div>
 
           <h3 className={style.subHeading}><Translate id="registrations" /></h3>

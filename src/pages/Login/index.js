@@ -4,8 +4,6 @@ import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused
 import { Link } from 'react-router-dom';        // eslint-disable-line no-unused-vars
 
 // Components
-// import { Button } from 'react-toolbox/lib/button';
-import ToolboxButton from 'react-toolbox/lib/button/Button';
 
 // import Wrapper from 'components/Wrapper';     // eslint-disable-line no-unused-vars
 import Logo from 'components/Logo';            // eslint-disable-line no-unused-vars
@@ -18,7 +16,7 @@ import { loginUser } from 'actions/auth';
 
 // styling
 import style from './style.pcss';
-import theme from './button.pcss';
+// import theme from './button.pcss';
 
 const mapStateToProps = state => {
   return {
@@ -26,13 +24,6 @@ const mapStateToProps = state => {
     message: state.auth.message
   };
 };
-
-// function mapStateToProps(state) {
-//   return {
-//     errorMessage: state.auth.error,
-//     message: state.auth.message
-//   };
-// }
 
 const validate = (formProps) => {
   const errors = {};
@@ -65,13 +56,6 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
     </div>
   </div>
 );
-
-/*
-  <div>
-    <input className={style.input} {...field.input}/>
-    {field.touched && field.error && <div className="error">{field.error}</div>}
-  </div>
-*/
 
 const form = reduxForm({
   form: 'login',      // form
@@ -116,8 +100,6 @@ class Login extends Component {
               <Field name="password" type="password" label="password" component={renderField} />
             </div>
             <button type="submit" className={`${style.btn} ${style.primary}`}>Login</button>
-
-            <ToolboxButton label="Hello World!" theme={theme} />
 
             <div className={style.links}>
               <Link className={style.link} to="register"><Translate id="createAccount" /></Link><span>|</span><Link className={style.link} to="forgot"><Translate id="forgotPassword" /></Link>

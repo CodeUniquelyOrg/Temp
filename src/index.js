@@ -10,7 +10,7 @@
 // import 'img/tyres_blur.jpg';
 import 'img/car.png';
 
-import 'style/app.scss';
+import 'style/app.pcss';
 
 // moved portal code to it OWN folder - bundle the portal application code
 import 'src/portal';

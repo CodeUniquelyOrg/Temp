@@ -14,6 +14,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "es6-promise": "^4.1.1",
+    "material-design-icons": "^3.0.1",
+    "material-ui": "^0.18.7",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-ga": "^2.2.0",
@@ -22,10 +24,12 @@
     "react-router": "^4.1.2",
     "react-router-dom": "^4.1.2",
     "react-tap-event-plugin": "^2.0.1",
-    "react-toolbox": "^2.0.0-beta.12",
     "redux": "^3.7.2",
     "redux-form": "^7.0.3",
     "redux-thunk": "^2.2.0",
+    "reset-css": "^2.2.1",
+    "roboto-mono-webfont": "^2.0.986",
+    "roboto-npm-webfont": "0.0.4",
     "translatr": "^1.0.0"
   },
   "devDependencies": {
@@ -55,6 +59,7 @@
     "inline-environment-variables-webpack-plugin": "1.2.1",
     "jshint": "^2.9.5",
     "json-loader": "^0.5.7",
+    "modules-values-extract": "^1.0.3",
     "node-libs-browser": "^2.0.0",
     "node-sass": "^4.5.3",
     "null-loader": "^0.1.1",
@@ -69,6 +74,7 @@
     "sass-loader": "^6.0.6",
     "sass-resources-loader": "^1.3.0",
     "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
     "webpack": "^3.4.1",
     "webpack-build-notifier": "^0.1.16",
     "webpack-bundle-analyzer": "^2.8.3",
