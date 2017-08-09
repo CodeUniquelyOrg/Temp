@@ -4,6 +4,9 @@ import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused
 import { Link } from 'react-router-dom';        // eslint-disable-line no-unused-vars
 
 // Components
+// import { Button } from 'react-toolbox/lib/button';
+import ToolboxButton from 'react-toolbox/lib/button/Button';
+
 // import Wrapper from 'components/Wrapper';     // eslint-disable-line no-unused-vars
 import Logo from 'components/Logo';            // eslint-disable-line no-unused-vars
 
@@ -15,6 +18,7 @@ import { loginUser } from 'actions/auth';
 
 // styling
 import style from './style.pcss';
+import theme from './button.pcss';
 
 const mapStateToProps = state => {
   return {
@@ -95,23 +99,31 @@ class Login extends Component {
     const { handleSubmit } = this.props;
 
     return (
+
       <div className={style.root}>
-        <form className={`${style.form} ${style.center}`} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <Logo />
-          <div>
-            {this.renderAlert()}
-          </div>
-          <div>
-            <Field name="email" type="text" label="email" component={renderField} />
-          </div>
-          <div>
-            <Field name="password" type="password" label="password" component={renderField} />
-          </div>
-          <button type="submit" className={`${style.btn} ${style.primary}`}>Login</button>
-          <div className={style.links}>
-            <Link className={style.link} to="register"><Translate id="createAccount" /></Link><span>|</span><Link className={style.link} to="forgot"><Translate id="forgotPassword" /></Link>
-          </div>
-        </form>
+        <div className={style.background}>
+        </div>
+        <div className={`${style.blurOverlay}`}>
+          <form className={`${style.form} ${style.center}`} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <Logo />
+            <div>
+              {this.renderAlert()}
+            </div>
+            <div>
+              <Field name="email" type="text" label="email" component={renderField} />
+            </div>
+            <div>
+              <Field name="password" type="password" label="password" component={renderField} />
+            </div>
+            <button type="submit" className={`${style.btn} ${style.primary}`}>Login</button>
+
+            <ToolboxButton label="Hello World!" theme={theme} />
+
+            <div className={style.links}>
+              <Link className={style.link} to="register"><Translate id="createAccount" /></Link><span>|</span><Link className={style.link} to="forgot"><Translate id="forgotPassword" /></Link>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

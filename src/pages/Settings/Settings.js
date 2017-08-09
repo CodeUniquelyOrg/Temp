@@ -11,8 +11,9 @@ import Translate from 'components/Translate';
 // =====================================
 // UI Styling and other stuff ike that
 // =====================================
-import { RadioGroup, RadioButton } from 'react-radio-buttons';
-// import { RadioGroup, RadioButton } from 'react-toolbox/lib/radio';
+// import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import RadioGroup from 'react-toolbox/lib/radio/RadioGroup';
+import RadioButton from 'react-toolbox/lib/radio/RadioButton';
 
 import Navigation from 'components/Navigation';
 

@@ -7,7 +7,7 @@
 // Import stylesheets like this, if you choose: import 'style/base.scss';
 // import 'assets/style/vendors.scss';
 
-import 'img/tyres_blur.jpg';
+// import 'img/tyres_blur.jpg';
 import 'img/car.png';
 
 import 'style/app.scss';

@@ -1,16 +1,36 @@
 .root {
+/*   composes: background from 'style/shared.pcss';
   display: flex;
   flex: 1;
   flex-direction: column;
   justify-content: center;
+ */}
+
+.image {
+  margin-bottom: 24px;
+  max-width: 200px;
+  max-height: 50px;
+  @media (min-width: 320px) {
+    max-width: 320px;
+    max-height: 150px;
+  }
+}
+
+.background {
+  position: absolute;
+  height: 100%;
+  z-index: 1;
+  composes: background from 'style/shared.pcss';
+  // height: 100%;
+  // filter: blur(20px) grayscale(20%);
 }
 
 .form {
-  composes: form from '../../style/form.pcss';
+  composes: form from 'style/form.pcss';
 }
 
 .error {
-  composes: error from '../../style/form.pcss';
+  composes: error from 'style/form.pcss';
 }
 
 .center {
@@ -20,7 +40,7 @@
 }
 
 .label {
-  composes: label from '../../style/typography.pcss';
+  composes: label from 'style/typography.pcss';
   display: block;
   margin-top: 24px;
   color: white;
@@ -28,9 +48,9 @@
 }
 
 .input {
-  composes: forminput from '../../style/typography.pcss';
-  composes: input from '../../style/form.pcss';
-  composes: rounded2 from '../../style/shared.pcss';
+  composes: forminput from 'style/typography.pcss';
+  composes: input from 'style/form.pcss';
+  composes: rounded2 from 'style/shared.pcss';
   /* height: 50px; */
   padding: 12px;
   display: block;
@@ -49,9 +69,9 @@
 }
 
 .btn {
-  composes: button from '../../style/typography.pcss';
-  composes: button from '../../style/button.pcss';
-  composes: rounded from '../../style/shared.pcss';
+  composes: button from 'style/typography.pcss';
+  composes: button from 'style/button.pcss';
+  composes: rounded from 'style/shared.pcss';
   margin-top: 48px;
   min-height: 48px;
   width: 100%;
@@ -82,7 +102,7 @@
   color: white;
 }
 .link {
-  composes: hyperlink from '../../style/typography.pcss';
+  composes: hyperlink from 'style/typography.pcss';
   text-shadow: 0 2px 3px rgba(0,0,0,0.5);
   text-decoration: none;
   color: white;

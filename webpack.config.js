@@ -133,6 +133,7 @@ var plugins = [
   // }),
   new ExtractTextPlugin({
     filename: '[name].css',
+    ignoreOrder: true,
     disable: false,
     allChunks: true,
   }),
