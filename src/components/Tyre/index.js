@@ -35,12 +35,25 @@ const defaultColours = {
 //   };
 // };
 
+const labelNames = (id) => {
+  switch(id) {
+    case '11':
+      return 'Front Left';
+    case '12':
+      return 'Front Right';
+    case '21':
+      return 'Rear Left';
+    case '22':
+      return 'Rear Right';
+  }
+  return 'unknown';
+};
+
 class Tyre extends Component {
 
   static propTypes = {
 
-    // id: PropTypes.string.isRequired,  -  will it be a string ???
-
+    id: PropTypes.string.isRequired,  // -  will it be a string ???
     // id: PropTypes.oneOfType([
     //   PropTypes.string,
     //   PropTypes.number,
@@ -56,7 +69,7 @@ class Tyre extends Component {
     fullDepth: PropTypes.number,
 
     // First line of text under the Circle
-    label: PropTypes.string.isRequired,
+    // label: PropTypes.string.isRequired,
 
     // maximum allowed presssure
     top: PropTypes.number.isRequired,
