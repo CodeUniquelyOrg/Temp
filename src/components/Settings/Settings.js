@@ -6,6 +6,11 @@ import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused
 
 import Translate from 'components/Translate';
 
+// Materials-UI Components
+import { List, ListItem, makeSelectable } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
@@ -24,8 +29,52 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
 );
 */
 
-// {...props}
+const localStyles = {
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+};
 
+let SelectableList = makeSelectable(List);
+
+// HOC - Wrapper Function
+function wrapState(ComposedComponent) {
+  return class SelectableList extends Component {
+    static propTypes = {
+      children: PropTypes.node.isRequired,
+      defaultValue: PropTypes.number.isRequired,
+    };
+
+    componentWillMount() {
+      this.setState({
+        selectedIndex: this.props.defaultValue,
+      });
+    }
+
+    handleRequestChange = (event, index) => {
+      this.setState({
+        selectedIndex: index,
+      });
+    };
+
+    render() {
+      return (
+        <ComposedComponent
+          value={this.state.selectedIndex}
+          onChange={this.handleRequestChange}
+        >
+          {this.props.children}
+        </ComposedComponent>
+      );
+    }
+  };
+}
+
+// Now Wrap the SelectableList in the HOC
+SelectableList = wrapState(SelectableList);
+
+// {...props}
 const renderField = ({ name, label, meta: { touched, error, warning }, ...rest }) => (
   <TextField
     hintText={label}
@@ -67,6 +116,104 @@ const Settings = class Settings extends Component {
     const { handleSubmit } = this.props;
 
     return (
+
+      <div styles={localStyles.root}>
+
+        <List>
+
+          <Subheader>General</Subheader>
+          <ListItem
+            primaryText="Personal"
+            secondaryText="Change your name and greetings"
+            nestedItems={[
+              <div>
+                <Field name="greeting" label="greeting" component={renderField} />
+                <br/>
+                <Field name="forename" label="forename" component={renderField} />
+                <br/>
+                <Field name="surname" label="surname" component={renderField} />
+                <br/>
+              </div>
+            ]}
+          />
+
+          <Divider />
+
+          <Subheader>Units</Subheader>
+          <ListItem
+            primaryText="Measurement"
+            secondaryText="Pressure and Depth mesuarement units"
+          >
+          </ListItem>
+
+          <ListItem>
+            <div>
+              <h3><Translate id="pressureUnits" /></h3>
+              <RadioButtonGroup  name="pressure" defaultSelected="kPa">
+                <RadioButton value="kPa" label="kPa" />
+                <RadioButton value="bar" label="bar" />
+                <RadioButton value="PSI" label="PSI" />
+              </RadioButtonGroup>
+
+              <br/>
+              <br/>
+              <h3><Translate id="depthUnits" /></h3>
+              <RadioButtonGroup  name="depth"  defaultSelected="mm">
+                <RadioButton value="mm" label="mm" />
+                <RadioButton value="1/32" label='1/32"' />
+              </RadioButtonGroup>
+            </div>
+          </ListItem>
+        </List>
+      </div>
+    );
+  }
+
+  /*
+  render() {
+    const { handleSubmit } = this.props;
+
+    return (
+
+      <List>
+        <Subheader>General</Subheader>
+
+        <ListItem
+          primaryText="Personal"
+          secondaryText="Change your name and greetings"
+        >
+          <div>
+            <Field name="greeting" label="greeting" component={renderField} />
+            <br/>
+            <Field name="forename" label="forename" component={renderField} />
+            <br/>
+            <Field name="surname" label="surname" component={renderField} />
+            <br/>
+          </div>
+        </ListItem>
+
+        <ListItem
+          primaryText="Units"
+          secondaryText="Pressure and depth mesuarement units"
+        >
+          <div>
+            <h3><Translate id="pressureUnits" /></h3>
+            <RadioButtonGroup  name="pressure" defaultSelected="kPa">
+              <RadioButton value="kPa" label="kPa" />
+              <RadioButton value="bar" label="bar" />
+              <RadioButton value="PSI" label="PSI" />
+            </RadioButtonGroup>
+
+            <br/>
+            <br/>
+            <h3><Translate id="depthUnits" /></h3>
+            <RadioButtonGroup  name="depth"  defaultSelected="mm">
+              <RadioButton value="mm" label="mm" />
+              <RadioButton value="1/32" label='1/32"' />
+            </RadioButtonGroup>
+          </div>
+        </ListItem>
+
       <div className={style.form}>
 
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -90,18 +237,18 @@ const Settings = class Settings extends Component {
           <h2><Translate id="preferences" /></h2>
           <br/>
 
+          <br/>
+          <br/>
           <h3><Translate id="pressureUnits" /></h3>
-          <br/>
-          <br/>
           <RadioButtonGroup  name="pressure" defaultSelected="kPa">
             <RadioButton value="kPa" label="kPa" />
             <RadioButton value="bar" label="bar" />
             <RadioButton value="PSI" label="PSI" />
           </RadioButtonGroup>
 
+          <br/>
+          <br/>
           <h3><Translate id="depthUnits" /></h3>
-          <br/>
-          <br/>
           <RadioButtonGroup  name="depth"  defaultSelected="mm">
             <RadioButton value="mm" label="mm" />
             <RadioButton value="1/32" label='1/32"' />
@@ -126,6 +273,8 @@ const Settings = class Settings extends Component {
       </div>
     );
   }
+  */
+
 };
 
 export default Form(Settings);
