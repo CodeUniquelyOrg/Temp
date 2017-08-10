@@ -5,7 +5,7 @@ var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CompressionPlugin  = require('compression-webpack-plugin');
-var ExtractValues = require('modules-values-extract');
+// var ExtractValues = require('modules-values-extract');
 var NofifierPlugin = require('webpack-build-notifier');
 // var autoprefixer = require('autoprefixer');
 var path = require('path');
@@ -42,20 +42,20 @@ var themePath         = path.resolve( srcPath, 'theme' );
 var PORT = process.env.APP_PORT || config.server.port; // 4000;
 
 // load all the *.css files in the given folder - use the 'SYNC' method
-const themefiles = fs.readdirSync( themePath)
-                     .filter(file => file.match(/\.css/i))
-                     .map(file => path.resolve(themePath, file));
+// const themefiles = fs.readdirSync( themePath)
+//                      .filter(file => file.match(/\.css/i))
+//                      .map(file => path.resolve(themePath, file));
 
-const reactToolboxVariables = () => {
-  let returned = [];
-  ExtractValues({ files: themefiles }).then( variables => {
-    Object.keys(variables)
-          .filter( key => key.match(/-/))
-          .forEach( key => {
-            returned[key] = variables[key];
-          });
-  });
-};
+// const reactToolboxVariables = () => {
+//   let returned = [];
+//   ExtractValues({ files: themefiles }).then( variables => {
+//     Object.keys(variables)
+//           .filter( key => key.match(/-/))
+//           .forEach( key => {
+//             returned[key] = variables[key];
+//           });
+//   });
+// };
 
 // ==============================
 //  Plugins
@@ -418,13 +418,13 @@ var rules = [
               }),
               require('postcss-cssnext')({
                 browsers: ['last 2 versions', '> 2%', 'ie > 10', 'firefox > 40', 'safari > 5', 'opera > 30', 'ios 6-7', 'android 4'],
-                features: {
-                  customProperties: {
-                    variables: reactToolboxVariables(),
-                  },
-                },
+                // features: {
+                //   customProperties: {
+                //     variables: reactToolboxVariables(),
+                //   },
+                // },
               }),
-              require('postcss-nested'),
+              // require('postcss-nested'),
               require('postcss-modules-values'),
             ],
           },

@@ -16,6 +16,22 @@ see https://github.com/ai/browserslist for more information
   ]
 
 
+IF SERVING LOCAL FONTS
+=============================================================================
+  "dependencies": {
+    "material-design-icons": "^3.0.1",
+    "roboto-mono-webfont": "^2.0.986",
+    "roboto-npm-webfont": "0.0.4",
+  }
+
+
+Shared PCSS Theme
+=============================================================================
+  "dependencies": {
+    "modules-values-extract": "^1.0.3",
+  }
+
+
 Bugs / Decisions / Design
 =============================================================================
 
