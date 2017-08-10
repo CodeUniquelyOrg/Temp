@@ -1,12 +1,9 @@
 import React, { Component } from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'react-proptypes';   // eslint-disable-line no-unused-vars
-import { connect } from 'react-redux';
-// import * as actions from 'actions';
+// import { connect } from 'react-redux';
 
 // consider using themr instead => import { themr } from 'react-css-themr';
-
-// import tyreStyle from './style.pcss';
-const tyreStyle = {};
+import style from './style.pcss';
 
 const defaultColours = {
   red: '#e53935',
@@ -195,9 +192,9 @@ class Tyre extends Component {
     const offset = pressure - bottom;
     const p = (offset / range); // + bottom;
 
-    let color1 = theme && theme.error || '#e53935';
-    let color2 = theme && theme.error || '#8bc34a';
-    let color3 = theme && theme.error || '#e53935';
+    let color1 = theme && theme.error || '#f44336';
+    let color2 = theme && theme.error || '#8BC34A';
+    let color3 = theme && theme.error || '#f44336';
 
     // where the guage starts (in the 100px radius)
     const guageEdge = 40;
@@ -213,11 +210,11 @@ class Tyre extends Component {
       treadDepth = maxDepth;
     }
 
-    let treadColor = '#000';
+    let treadColor = '#212121';
     if(treadDepth < 12) {
-      treadColor = '#e53935';
+      treadColor = '#b71c1c';
     } else if(treadDepth < 20) {
-      treadColor = '#ffd54f';
+      treadColor = '#FFC107';
     }
 
     // where the rubber goes (max of 40px so start at 60px out from centre)
@@ -269,7 +266,7 @@ class Tyre extends Component {
           cx={cx}
           cy={cy}
           r="100"
-          stroke="#999"
+          stroke="#616161"
           fill="transparent"
           strokeDasharray="4 4"
           strokeWidth={thinLine}
@@ -348,7 +345,7 @@ class Tyre extends Component {
     //
     // Styling in Code
     //
-
+    /*
     // this WILL chnage the size of the guage
     const wrapperStyle = {
       width: '160px',
@@ -364,19 +361,18 @@ class Tyre extends Component {
       position: 'absolute',
       cursor: 'pointer',
     };
-
-    const tyreSvg = (
-      <div className={tyreStyle.svg} style={wrapperStyle} >
-        {tyre}
-      </div>
-    );
+    */
 
     return (
-      <div key={id} className={tyreStyle.wrapper} style={svgStyle} {...other} onClick={this.onClicked}>
-        {tyreSvg}
+      <div key={id} className={style.scaledTyre} onClick={this.onClicked}>
+        <div className={style.svg} >
+          {tyre}
+        </div>
       </div>
     );
   }
 }
 
-export default connect()(Tyre);
+// export default connect()(Tyre);
+export default Tyre;
+
