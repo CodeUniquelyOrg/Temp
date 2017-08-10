@@ -267,7 +267,7 @@ class Tyre extends Component {
           cy={cy}
           r="100"
           stroke="#616161"
-          fill="transparent"
+          fill="rgba(0,0,0,0.1)"
           strokeDasharray="4 4"
           strokeWidth={thinLine}
         />
@@ -365,7 +365,7 @@ class Tyre extends Component {
 
     return (
       <div key={id} className={style.scaledTyre} onClick={this.onClicked}>
-        <div className={style.svg} >
+        <div className={style.svg}>
           {tyre}
         </div>
       </div>

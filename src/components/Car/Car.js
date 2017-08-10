@@ -84,6 +84,7 @@ class Car extends Component {
     },
     tolerence: 0.2,  // 20%
     colour: 'blue',
+    alt: true,
   }
 
   renderTyres() {
@@ -129,6 +130,98 @@ class Car extends Component {
     });
   }
 
+  renderLeftHandSide() {
+    const {
+      vehicle,
+      tyres,
+      units,
+      tolerence,
+    } = this.props;
+
+    // what is the average pressure of all tyres
+    const average = getAveragePressure(tyres);
+
+    // get the vehicles' ideal tyre presssures
+    const ideals = (vehicle && vehicle.ideal) || [];
+
+    return tyres.map( (t,i) => {
+
+      const ideal = getIdealPressure(ideals, t.id, average);
+
+      // % of ideal pressure - shown as 1 guage deviation
+      const sigma = ideal * tolerence;
+
+      const pos = parseInt(t.id,10);
+      if (pos % 2 === 0) {
+        return (
+          <Tyre
+            key = {i}
+            className={style.altTyre}
+            id={t.id}
+
+            // the data
+            pressure={t.pressure}
+            depth={t.depth}
+            units={units}
+
+            // upper and lower limit for guage
+            top={ideal + sigma + sigma}
+            upper={ideal + sigma}
+            lower={ideal - sigma}
+            bottom={ideal - sigma - sigma}
+            sigma={sigma}
+          />
+        );
+      }
+    });
+  }
+
+  renderRightHandSide() {
+    const {
+      vehicle,
+      tyres,
+      units,
+      tolerence,
+    } = this.props;
+
+    // what is the average pressure of all tyres
+    const average = getAveragePressure(tyres);
+
+    // get the vehicles' ideal tyre presssures
+    const ideals = (vehicle && vehicle.ideal) || [];
+
+    return tyres.map( (t,i) => {
+
+      const ideal = getIdealPressure(ideals, t.id, average);
+
+      // % of ideal pressure - shown as 1 guage deviation
+      const sigma = ideal * tolerence;
+
+      const pos = parseInt(t.id,10);
+      if (pos % 2 === 1) {
+        return (
+          <Tyre
+            key = {i}
+            className={style.altTyre}
+            id={t.id}
+
+            // the data
+            pressure={t.pressure}
+            depth={t.depth}
+            units={units}
+
+            // upper and lower limit for guage
+            top={ideal + sigma + sigma}
+            upper={ideal + sigma}
+            lower={ideal - sigma}
+            bottom={ideal - sigma - sigma}
+            sigma={sigma}
+          />
+        );
+      }
+    });
+  }
+
   render() {
 
     const {
@@ -136,36 +229,44 @@ class Car extends Component {
       // tyres,
       units,
       tolerence,
+      alt,
       ...rest,
     } = this.props;
 
     if ( vehicle ) {
-      const tyres = this.renderTyres();
+      // const tyres = this.renderTyres();
 
-      //
-      // [     image
-      //
-      //   [  Axel  1  ]
-      //   [  Axel ... ]
-      //   [  Axel  n  ]
-      //
-      //                 ]
-      //
+      if (alt) {
+        return (
+          <div className={style.altRoot}>
+            <div className={style.altPlate}>
+              <div className={style.altCentrePlate}>
+                <Plate registration={vehicle.plate} isYellow={true} />
+              </div>
+            </div>
 
-      return (
-        <div className={style.root}>
+            <div className={style.altCar}>
 
-          <div className={style.plate}>
-            <Plate registration={vehicle.plate} isYellow={true} />
+              <div className={style.baseLayer}>
+                <div className={style.altMiddle}>
+                  <img src={car} />
+                </div>
+              </div>
+
+              <div className={style.altOverlay}>
+                <div className={style.altLeftSide}>
+                  { this.renderLeftHandSide() }
+                </div>
+                <div className={style.altRightSide}>
+                  { this.renderRightHandSide() }
+                </div>
+              </div>
+
+            </div>
           </div>
 
-          <div className={style.car}>
-            <img src={car} />
-            {tyres}
-          </div>
-
-        </div>
-      );
+        );
+      }
     }
 
     return null;
