@@ -51,37 +51,37 @@ SelectableList = wrapState(SelectableList);
 // THE Questions we want to ask
 const questions = [
   {
-    question: 'What ...',
+    question: 'What ...  ... ?',
     answer: 'Lorem ipsum dolor sit amet, tritani adipisci tractatos ne mea. In cum primis nemore facilisis, dicat laudem menandri at per. Malorum debitis ut vel. Ut nam exerci veritus, ad pri dolor consequuntur. Pro graeci phaedrum te, eum nobis probatus reprehendunt ex. Cu minim meliore voluptua pro, eos id solum graece sapientem.',
   },
 
   {
-    question: 'How do I ...',
+    question: 'How do I ...  ... ?',
     answer: 'Tritani fierent omnesque an pri, duo ad aeterno minimum sapientem, vis quot omittam legendos cu. Magna scaevola id vel. Ne homero perpetua eos. Per prompta feugait mnesarchum cu, sit ea laudem soluta philosophia, odio liber appetere eum ea. In ius clita dictas discere, sint dicant ut vis.',
   },
 
   {
-    question: 'If I ...',
+    question: 'If I ...  ... ?',
     answer: 'Augue doctus mea an. Alia lorem adolescens eu ius, quaeque facilisis te pro. Tation convenire quaerendum eam ut. Tale iudicabit te eos, sit ad gloriatur intellegam, et quot case mel. At meliore offendit dignissim usu, cu probo soleat pro.',
   },
 
   {
-    question: 'What ...',
+    question: 'What ...  ... ?',
     answer: 'Lorem ipsum dolor sit amet, tritani adipisci tractatos ne mea. In cum primis nemore facilisis, dicat laudem menandri at per. Malorum debitis ut vel. Ut nam exerci veritus, ad pri dolor consequuntur. Pro graeci phaedrum te, eum nobis probatus reprehendunt ex. Cu minim meliore voluptua pro, eos id solum graece sapientem.',
   },
 
   {
-    question: 'What ...',
+    question: 'What ...  ... ?',
     answer: 'Lorem ipsum dolor sit amet, tritani adipisci tractatos ne mea. In cum primis nemore facilisis, dicat laudem menandri at per. Malorum debitis ut vel. Ut nam exerci veritus, ad pri dolor consequuntur. Pro graeci phaedrum te, eum nobis probatus reprehendunt ex. Cu minim meliore voluptua pro, eos id solum graece sapientem.',
   },
 
   {
-    question: 'How do I ...',
+    question: 'How do I ...  ... ?',
     answer: 'Tritani fierent omnesque an pri, duo ad aeterno minimum sapientem, vis quot omittam legendos cu. Magna scaevola id vel. Ne homero perpetua eos. Per prompta feugait mnesarchum cu, sit ea laudem soluta philosophia, odio liber appetere eum ea. In ius clita dictas discere, sint dicant ut vis.',
   },
 
   {
-    question: 'If I ...',
+    question: 'If I ...  ... ?',
     answer: 'Augue doctus mea an. Alia lorem adolescens eu ius, quaeque facilisis te pro. Tation convenire quaerendum eam ut. Tale iudicabit te eos, sit ad gloriatur intellegam, et quot case mel. At meliore offendit dignissim usu, cu probo soleat pro.',
   },
 ];
