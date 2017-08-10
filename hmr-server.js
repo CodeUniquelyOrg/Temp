@@ -13,7 +13,7 @@ var publicPath = path.join(__dirname, 'build');
 var config = require('./webpack.config.js');
 
 // var port = process.env.APP_PORT || 4000;
-var port = config.port;
+var port = config.devServer.port;
 
 // milli-seconds in one hour
 var oneHour = 3600000;
