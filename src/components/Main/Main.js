@@ -8,7 +8,7 @@ import Login from 'pages/Login';
 
 import Terms from 'pages/Terms';
 import Dashboard from 'pages/Dashboard';
-import Settings from 'pages/Settings';
+// import Settings from 'pages/Settings';
 
 import NotFoundPage from 'pages/NotFoundPage';
 import RequireAuth from 'components/RequireAuth';
@@ -33,7 +33,6 @@ const Main = () => (
 
     <Route path = '/terms' component={RequireAuth(Terms)} />
     <Route path = '/dashboard' component={RequireAuth(Dashboard)} />
-    <Route path = '/settings' component={RequireAuth(Settings)} />
 
     <Route component = {NotFoundPage} />
 
