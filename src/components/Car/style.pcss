@@ -1,0 +1,40 @@
+.root {
+  background-color: white;
+  height: 100vh;
+}
+
+.plate {
+  position: absolute;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+}
+
+.car {
+  position: absolute;
+  left: 50%;
+  // top: 50%;
+  transform: translate3d(-50%, 0%, 0);
+}
+.car img {
+  opacity: 0.5;
+}
+
+.tyre {
+  position: absolute;
+}
+.tyre:nth-of-type(4n+1) {
+  top:0px;
+  left:-100px;
+}
+.tyre:nth-of-type(4n+2) {
+  top:0px;
+  left:176px;
+}
+.tyre:nth-of-type(4n+3) {
+  top:220px;
+  left:-100px;
+}
+.tyre:nth-of-type(4n) {
+  top:220px;
+  left:176px;
+}
