@@ -20,6 +20,7 @@ import FontIcon from 'material-ui/FontIcon';
 // import Tyre from 'components/Tyre';
 // import car from 'img/car.png';
 import Car from 'components/Car';
+import Results from 'components/Results';
 import Settings from 'components/Settings';
 import Faq from 'components/FAQ';
 
@@ -145,6 +146,7 @@ const Dashboard = class Dashboard extends Component {
             icon={<FontIcon className="material-icons">history</FontIcon>}
             label="RESULTS"
           >
+            <Results />
           </Tab>
 
           <Tab
