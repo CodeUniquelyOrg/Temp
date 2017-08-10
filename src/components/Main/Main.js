@@ -19,6 +19,8 @@ import RequireAuth from 'components/RequireAuth';
 //                         ??????
 //
 
+// import UserStore from 'components/UserStore' ;
+
 // Declaritive
 const Main = () => (
   <Switch>
@@ -40,4 +42,4 @@ const Main = () => (
 
 export default Main;
 
-// if the user is authenticated - get the user info (ut only - 1 time request)?????
+// if the user is authenticated - get the user info (but only - 1 time request)?????
