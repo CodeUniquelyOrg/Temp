@@ -4,16 +4,18 @@ import PropTypes from 'react-proptypes';
 // import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused-vars
 
-import Translate from 'components/Translate';
-
 // Materials-UI Components
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
-
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
+import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
+
+// Local Compoents
+import ExpandableContent from 'components/ExpandableContent';
+import Translate from 'components/Translate';
 
 import style from './style.pcss';
 
@@ -28,13 +30,6 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
   </div>
 );
 */
-
-const localStyles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-};
 
 let SelectableList = makeSelectable(List);
 
@@ -102,6 +97,10 @@ const Form = reduxForm({
   // warn
 });
 
+const makeAvatar = (icon) => {
+  return <Avatar icon={<FontIcon className="material-icons">{icon}</FontIcon>} />;
+};
+
 const Settings = class Settings extends Component {
 
   static propTypes = {
@@ -112,59 +111,60 @@ const Settings = class Settings extends Component {
     // this.props.saveSettings(formProps);
   }
 
+  renderUnitsQuestions() {
+    return (
+      <div>
+        <h3><Translate id="pressureUnits" /></h3>
+        <RadioButtonGroup  name="pressure" defaultSelected="kPa">
+          <RadioButton value="kPa" label="kPa" />
+          <RadioButton value="bar" label="bar" />
+          <RadioButton value="PSI" label="PSI" />
+        </RadioButtonGroup>
+
+        <br/>
+        <br/>
+        <h3><Translate id="depthUnits" /></h3>
+        <RadioButtonGroup  name="depth"  defaultSelected="mm">
+          <RadioButton value="mm" label="mm" />
+          <RadioButton value="1/32" label='1/32"' />
+        </RadioButtonGroup>
+      </div>
+    );
+  }
+
+  renderPeronalQuestions() {
+    return (
+      <div>
+        <Field name="greeting" label="greeting" component={renderField} />
+        <br/>
+        <Field name="forename" label="forename" component={renderField} />
+        <br/>
+        <Field name="surname" label="surname" component={renderField} />
+        <br/>
+      </div>
+    );
+  }
+
   render() {
     const { handleSubmit } = this.props;
 
     return (
+      <div className={style.root}>
+        <ExpandableContent
+          title="Personal Information"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('person')}
+          content = {this.renderPeronalQuestions()}
+        >
+        </ExpandableContent>
 
-      <div styles={localStyles.root}>
-
-        <List>
-
-          <Subheader>General</Subheader>
-          <ListItem
-            primaryText="Personal"
-            secondaryText="Change your name and greetings"
-            nestedItems={[
-              <div>
-                <Field name="greeting" label="greeting" component={renderField} />
-                <br/>
-                <Field name="forename" label="forename" component={renderField} />
-                <br/>
-                <Field name="surname" label="surname" component={renderField} />
-                <br/>
-              </div>
-            ]}
-          />
-
-          <Divider />
-
-          <Subheader>Units</Subheader>
-          <ListItem
-            primaryText="Measurement"
-            secondaryText="Pressure and Depth mesuarement units"
-          >
-          </ListItem>
-
-          <ListItem>
-            <div>
-              <h3><Translate id="pressureUnits" /></h3>
-              <RadioButtonGroup  name="pressure" defaultSelected="kPa">
-                <RadioButton value="kPa" label="kPa" />
-                <RadioButton value="bar" label="bar" />
-                <RadioButton value="PSI" label="PSI" />
-              </RadioButtonGroup>
-
-              <br/>
-              <br/>
-              <h3><Translate id="depthUnits" /></h3>
-              <RadioButtonGroup  name="depth"  defaultSelected="mm">
-                <RadioButton value="mm" label="mm" />
-                <RadioButton value="1/32" label='1/32"' />
-              </RadioButtonGroup>
-            </div>
-          </ListItem>
-        </List>
+        <ExpandableContent
+          title="Measurement Units"
+          secondaryText="Pressure and Depth mesuarement units"
+          icon={makeAvatar('straighten')}
+          content = {this.renderUnitsQuestions()}
+        >
+        </ExpandableContent>
       </div>
     );
   }
