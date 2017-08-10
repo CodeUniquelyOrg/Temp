@@ -21,6 +21,7 @@ import FontIcon from 'material-ui/FontIcon';
 // import car from 'img/car.png';
 import Car from 'components/Car';
 import Settings from 'components/Settings';
+import Faq from 'components/FAQ';
 
 // Styling
 import style from './style.pcss';
@@ -157,6 +158,7 @@ const Dashboard = class Dashboard extends Component {
             icon={<FontIcon className="material-icons">help</FontIcon>}
             label="HELP"
           >
+            <Faq />
           </Tab>
 
         </Tabs>
