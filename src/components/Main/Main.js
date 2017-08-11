@@ -5,6 +5,7 @@ import Logout from 'pages/Logout';
 // import HomePage from 'pages/HomePage';
 import Register from 'pages/Register';
 import Login from 'pages/Login';
+import Kiosk from 'pages/Kiosk';
 
 import Terms from 'pages/Terms';
 import Dashboard from 'pages/Dashboard';
@@ -28,6 +29,8 @@ const Main = () => (
     <Route exact path = '/' component={Login} />
     <Route exact path = '/register' component={Register} />
     <Route exact path = '/login' component={Login} />
+
+    <Route exact path = '/kiosk' component={Kiosk} />
 
     <Route exact path = '/logout' component={RequireAuth(Logout)} />
 
