@@ -152,7 +152,7 @@ class Car extends Component {
       const sigma = ideal * tolerence;
 
       const pos = parseInt(t.id,10);
-      if (pos % 2 === 0) {
+      if (pos % 2 === 1) {
         return (
           <Tyre
             key = {i}
@@ -198,7 +198,7 @@ class Car extends Component {
       const sigma = ideal * tolerence;
 
       const pos = parseInt(t.id,10);
-      if (pos % 2 === 1) {
+      if (pos % 2 === 0) {
         return (
           <Tyre
             key = {i}

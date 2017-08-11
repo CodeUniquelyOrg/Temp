@@ -4,7 +4,7 @@
 module.exports = function(injectables) {
 
   const router = new injectables.express.Router();
-  const controller = require('../controllers/tyres.controller')(injectables);
+  const controller = require('../controllers/history.controller')(injectables);
 
   const apiRoot = injectables.config.server.apiRoot;
 
@@ -15,6 +15,6 @@ module.exports = function(injectables) {
   // router.route('/:reg/images').get(controller.getOfficers);
 
   // This router handles all routes starting with - /api/v1/tyres
-  console.log(`   ${apiRoot}/tyres`); // eslint-disable-line no-console
-  injectables.app.use(`${apiRoot}/tyres`, router);
+  console.log(`   ${apiRoot}/history`); // eslint-disable-line no-console
+  injectables.app.use(`${apiRoot}/history`, router);
 };

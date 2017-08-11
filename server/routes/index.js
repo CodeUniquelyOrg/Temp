@@ -33,6 +33,9 @@ module.exports = function(injectables) {
   // 'tyres' stuff
   require('./tyres.routes')(injectables);
 
+  // 'history' stuff
+  require('./history.routes')(injectables);
+
   // FINALLY - no matching route was found - 'not found' handler
   require('./notfound.route')(injectables);
 

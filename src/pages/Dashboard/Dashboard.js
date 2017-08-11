@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { tyreData } from 'actions/tyre';
+import { getHistoryData } from 'actions/tyre';
 import { getUserData } from 'actions/user';
 
 // getUserData
@@ -20,7 +21,7 @@ import FontIcon from 'material-ui/FontIcon';
 // import Tyre from 'components/Tyre';
 // import car from 'img/car.png';
 import Car from 'components/Car';
-import Results from 'components/Results';
+import History from 'components/History';
 import Settings from 'components/Settings';
 import Faq from 'components/FAQ';
 
@@ -29,6 +30,7 @@ import style from './style.pcss';
 
 const mapStateToProps = (state) => {
   return {
+    history: state.data.history,
     tyres: state.data.tyres,
     user: state.user.user,
   };
@@ -56,8 +58,11 @@ const Dashboard = class Dashboard extends Component {
     // get 'MY' user record
     this.props.getUserData();
 
-    // HACK - DISPATCH tyre usage request to API
+    // HACK - assuming already have the reg - DISPATCH tyre usage request to API
     this.props.tyreData(regNum);
+
+    // HACK - assuming already have the reg - DISPATCH
+    this.props.getHistoryData(regNum);
   }
 
   renderAlert() {
@@ -110,13 +115,33 @@ const Dashboard = class Dashboard extends Component {
       user,
     } = this.props;
 
-    let settings;
+    let settingsElem;
     if(user) {
-      settings = (
+      settingsElem = (
         <Settings user={user} />
       );
     }
-    return settings;
+    return settingsElem;
+  }
+
+  renderHistory() {
+    const {
+      user,
+      history,
+    } = this.props;
+
+    let histroyElem;
+    if (user && history) {
+      const units = {
+        pressure: user && user.presureUnits || 'PSI',
+        depth: user && user.depthUnits || 'mm',
+      };
+
+      histroyElem = (
+        <History history={history} registration={regNum} units={units} />
+      );
+    }
+    return histroyElem;
   }
 
   render() {
@@ -124,6 +149,7 @@ const Dashboard = class Dashboard extends Component {
     const {
       user,
       tyres,
+      history,
     } = this.props;
 
     return (
@@ -144,9 +170,9 @@ const Dashboard = class Dashboard extends Component {
 
           <Tab
             icon={<FontIcon className="material-icons">history</FontIcon>}
-            label="RESULTS"
+            label="HISTORY"
           >
-            <Results />
+            {this.renderHistory()}
           </Tab>
 
           <Tab
@@ -170,4 +196,4 @@ const Dashboard = class Dashboard extends Component {
   }
 };
 
-export default connect(mapStateToProps, { tyreData, getUserData })(Dashboard);
+export default connect(mapStateToProps, { tyreData, getUserData, getHistoryData })(Dashboard);
