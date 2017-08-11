@@ -49,8 +49,8 @@ module.exports = function(injectables) {
         const readings = tyres.map(tyre => {
           return {
             id: `${tyre.axleno}${tyre.tyreno}`,
-            pressure: parseFloat(tyre.treaddepth || 0),
-            depth: parseFloat(tyre.pressurekpa || -1),
+            pressure: parseFloat(tyre.pressurekpa || 0),
+            depth: parseFloat(tyre.treaddepth || -1),
             good: tyre.treaddepthwithgoodreadings || false,
           };
         });
