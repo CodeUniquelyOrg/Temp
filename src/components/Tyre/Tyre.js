@@ -1,6 +1,7 @@
-import React, { Component } from 'react';  // eslint-disable-line no-unused-vars
-import PropTypes from 'react-proptypes';   // eslint-disable-line no-unused-vars
-// import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import PropTypes from 'react-proptypes';
+
+import { red500, amber500, lightGreen800, grey900 } from 'material-ui/styles/colors';
 
 // consider using themr instead => import { themr } from 'react-css-themr';
 import style from './style.pcss';
@@ -55,6 +56,9 @@ class Tyre extends Component {
     //   PropTypes.string,
     //   PropTypes.number,
     // ]).isRequired,
+
+    // was it a good read
+    good: PropTypes.bool.isRequired,
 
     // Circle value
     pressure: PropTypes.number.isRequired,
@@ -182,7 +186,7 @@ class Tyre extends Component {
   // So let use some fixed values to make display easier
   // So just draw a guage with width and height of 200px
   // and put it inside a view box aslo of 200px by 200px
-  buildDonut(pressure, top, maxPressure, minPressure, bottom, depth, fullDepth, theme) {
+  buildDonut(pressure, top, maxPressure, minPressure, bottom, depth, fullDepth, good, theme) {
 
     // center point will be a at 100,100
     const cx=100, cy=100;
@@ -242,6 +246,8 @@ class Tyre extends Component {
     // rotate the needle inside its sweep of 240 degrees
     const needleStyle = this.rotateNeedle(cx,cy,p,240);
 
+    let depthTextColor = good ? grey900 : red500;
+
     return (
       <svg className="donut-chart" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
 
@@ -298,6 +304,7 @@ class Tyre extends Component {
             y="18%"
             textAnchor="middle"
             filter="url(#solid)"
+            fill={depthTextColor}
             style={{ fontFamily: 'Helvetica arial', fontSize: 20 }}>
             {depthText}
           </text>
@@ -322,6 +329,7 @@ class Tyre extends Component {
   render() {
     const {
       id,
+      good,
       pressure,
       depth,
       top,
@@ -340,7 +348,7 @@ class Tyre extends Component {
     } = this.props;
 
     // build the SVG do-nut chart
-    const tyre = this.buildDonut(pressure, top, upper, lower, bottom, depth, fullDepth, theme);
+    const tyre = this.buildDonut(pressure, top, upper, lower, bottom, depth, fullDepth, good, theme);
 
     //
     // Styling in Code

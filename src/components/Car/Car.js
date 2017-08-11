@@ -57,6 +57,7 @@ class Car extends Component {
         id: PropTypes.string.isRequired,
         pressure: PropTypes.number.isRequired,
         depth: PropTypes.number.isRequired,
+        good: PropTypes.bool.isRequired,
       }),
     ).isRequired,
 
@@ -113,6 +114,7 @@ class Car extends Component {
           key = {i}
           className={style.tyre}
           id={t.id}
+          good={t.good}
 
           // the data
           pressure={t.pressure}
@@ -158,6 +160,7 @@ class Car extends Component {
             key = {i}
             className={style.altTyre}
             id={t.id}
+            good={t.good}
 
             // the data
             pressure={t.pressure}
@@ -204,6 +207,7 @@ class Car extends Component {
             key = {i}
             className={style.altTyre}
             id={t.id}
+            good={t.good}
 
             // the data
             pressure={t.pressure}

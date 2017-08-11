@@ -5,11 +5,12 @@ import Logout from 'pages/Logout';
 // import HomePage from 'pages/HomePage';
 import Register from 'pages/Register';
 import Login from 'pages/Login';
-import Kiosk from 'pages/Kiosk';
-
-import Terms from 'pages/Terms';
 import Dashboard from 'pages/Dashboard';
 // import Settings from 'pages/Settings';
+
+import Kiosk from 'pages/Kiosk';
+import Initial from 'pages/Initial';
+import Terms from 'pages/Terms';
 
 import NotFoundPage from 'pages/NotFoundPage';
 import RequireAuth from 'components/RequireAuth';
@@ -31,6 +32,7 @@ const Main = () => (
     <Route exact path = '/login' component={Login} />
 
     <Route exact path = '/kiosk' component={Kiosk} />
+    <Route exact path = '/initial' component={Initial} />
 
     <Route exact path = '/logout' component={RequireAuth(Logout)} />
 
