@@ -78,6 +78,7 @@ const Dashboard = class Dashboard extends Component {
   renderCar() {
     const {
       user,
+      history,
       tyres,
     } = this.props;
 
@@ -90,17 +91,26 @@ const Dashboard = class Dashboard extends Component {
         depth: user && user.depthUnits || 'mm',
       };
 
-      let vehicleData;
-      if (user.registrations) {
+      let vehicleData, historyData;
+
+      if (user.registrations && history) {
         user.registrations.forEach( vehicle => {
-          if ( vehicle.plate === regNum) {
+          if (vehicle.plate === regNum) {
             vehicleData = vehicle;
           }
         });
 
+        history.forEach( vehicle => {
+          if (vehicle.registration === regNum) {
+            historyData = vehicle.history;
+          }
+        });
+
         // Async requests so check if they exist yet
-        const tyreData = (tyres && tyres.tyres); //  || [];
-        if ( tyreData ) {
+        // const tyreData = (tyres && tyres.tyres); //  || [];
+        const driveThrough = historyData[0]; // latest value
+        if ( driveThrough ) {
+          const tyreData = driveThrough.tyres;
           car = (
             <Car vehicle={vehicleData} tyres={tyreData} units={units} tolerence={0.4} />
           );
