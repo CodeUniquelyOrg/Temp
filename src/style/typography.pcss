@@ -1,3 +1,22 @@
+.darkBlack {
+  color: rgb(33, 33, 33);
+}
+.lightBlack {
+  color: rgb(117, 117, 117);
+}
+.lightWeight {
+  font-weight: 300
+}
+.normalWeight {
+  font-weight: 400
+}
+.mediumWeight {
+  font-weight: 500
+}
+.boldWeight {
+  font-weight: 700
+}
+
 .textFont {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-stretch: normal;
@@ -37,19 +56,94 @@
 }
 
 .heading1 {
+  composes: textFont;
   font-size: 45px;
+  line-height: 48px;
+  margin-bottom: 11px;
+  letter-spacing: -1px;
+  composes: normalWeight;
+  composes: lightBlack;
 }
 
 .heading2 {
+  composes: textFont;
   font-size: 36px;
+  line-height: 40px;
+  padding-top: 8px;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+  composes: normalWeight;
+  composes: lightBlack;
 }
 
 .heading3 {
+  composes: textFont;
+  line-height: 32px;
+  padding-top: 16px;
+  margin-bottom: 12px;
+  letter-spacing: 0;
   font-size: 24px;
+  composes: normalWeight;
+  composes: darkBlack;
 }
 
+/* headings / titles */
 .heading4 {
+  composes: textFont;
   font-size: 20px;
+  line-height: 28px;
+  padding-top: 19px;
+  margin-bottom: 13px;
+  letter-spacing: 0;
+  font-size: 20px;
+  /* .mui-font-weight-normal; */
+  /* .mui-text-light-black; */
+}
+
+/* sub-heading */
+.heading5 {
+  composes: textFont;
+  font-size: 20px;
+  line-height: 28px;
+  padding-top: 19px;
+  margin-bottom: 13px;
+  letter-spacing: 0;
+  composes: mediumWeight;
+  composes: darkBlack;
+}
+
+/* sub-heading 2 */
+.heading6 {
+  composes: textFont;
+  font-size: 15px;
+  line-height: 28px;
+  padding-top: 2px;
+  margin-bottom: 10px;
+  letter-spacing: 0;
+  composes: normalWeight;
+  composes: darkBlack;
+}
+
+.body {
+  composes: textFont;
+  font-size: 13px;
+  line-height: 20px;
+  padding-top: 6px;
+  margin-bottom: 14px;
+  letter-spacing: 0;
+  composes: normalWeight;
+  composes: darkBlack;
+}
+
+.body2 {
+  composes: textFont;
+  font-size: 14px;
+  line-height: 24px;
+  padding-top: 4px;
+  margin-bottom: 12px;
+  letter-spacing: 0;
+  composes: mediumWeight;
+  composes: darkBlack;
 }
 
 .label {
@@ -60,8 +154,16 @@
 
 .button {
   composes: textFont;
-  font-size: 18px;
-  line-height: 24px;
+  /* font-size: 18px; */
+  /* line-height: 24px; */
+  font-size: 14px;
+  line-height: 20px;
+  padding-top: 5px;
+  margin-bottom: 15px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  composes: mediumWeight;
+  composes: darkBlack;
 }
 
 .forminput {
@@ -76,7 +178,8 @@
 }
 
 .plate {
-  composes: plateFont;
+  composes: textFont;
+  /* composes: plateFont; */
   composes: bold;
   font-size: 25px;
 }

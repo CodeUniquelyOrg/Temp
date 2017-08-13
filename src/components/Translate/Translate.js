@@ -13,11 +13,7 @@ const mapStateToProps = ({ i18n: { currentLanguage, dictionaries } }, ownProps) 
 });
 
 const Translate = ({ currentLanguage, id, number, dictionary, dispatch, ...rest }) => {
-  return (
-    <span { ...rest }>
-      { translatr(dictionary, currentLanguage, id, number) }
-    </span>
-  );
+  return <span>{translatr(dictionary, currentLanguage, id, number)}</span>;
 };
 /* eslint-enable no-unused-vars */
 

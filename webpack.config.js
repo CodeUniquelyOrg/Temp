@@ -5,7 +5,6 @@ var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CompressionPlugin  = require('compression-webpack-plugin');
-// var ExtractValues = require('modules-values-extract');
 var NofifierPlugin = require('webpack-build-notifier');
 // var autoprefixer = require('autoprefixer');
 var path = require('path');
@@ -36,26 +35,9 @@ var pagesPath         = path.resolve( srcPath, 'pages' );
 var reducerPath       = path.resolve( srcPath, 'reducers' );
 var stylePath         = path.resolve( srcPath, 'style' );
 var themePath         = path.resolve( srcPath, 'theme' );
-// var mockPath          = path.resolve( srcPath, 'mock' );
 
 // define a port to be used
 var PORT = process.env.APP_PORT || config.server.port; // 4000;
-
-// load all the *.css files in the given folder - use the 'SYNC' method
-// const themefiles = fs.readdirSync( themePath)
-//                      .filter(file => file.match(/\.css/i))
-//                      .map(file => path.resolve(themePath, file));
-
-// const reactToolboxVariables = () => {
-//   let returned = [];
-//   ExtractValues({ files: themefiles }).then( variables => {
-//     Object.keys(variables)
-//           .filter( key => key.match(/-/))
-//           .forEach( key => {
-//             returned[key] = variables[key];
-//           });
-//   });
-// };
 
 // ==============================
 //  Plugins
@@ -110,11 +92,6 @@ var plugins = [
       windows: false,
     },
   }),
-
-  // new webpack.optimize.OccurenceOrderPlugin(),
-
-  // https://github.com/webpack/docs/wiki/optimization#deduplication
-  // new webpack.optimize.DedupePlugin(),
 
   new HtmlWebpackPlugin({
     inject: true,
@@ -174,17 +151,6 @@ var plugins = [
 
   new webpack.NoEmitOnErrorsPlugin(),
 ];
-
-// ==============================
-//  Pre-loaders
-// ==============================
-// var preLoaders = [
-//   {
-//     test: /\.js$/,
-//     loaders: ['eslint'],
-//     exclude: [nodeModulesPath],
-//   },
-// ];
 
 // ==============================
 //  Loader Rules
@@ -252,9 +218,6 @@ var rules = [
   {
     test: /\.jpe?g($|\?)|\.gif($|\?)|\.png($|\?)/i,
     loader: 'file-loader',
-    // include: [
-    //   srcPath
-    // ],
     query: {
       name: 'img/[name].[ext]',  // img/[hash].[ext]'
       context: assetsPath
@@ -285,17 +248,6 @@ var rules = [
       // options: { presets: ['es2015', 'stage-0', 'react'] },
     }],
   },
-
-  // {
-  //   test: /\.jsx$/,
-  //   include: [
-  //     srcPath
-  //   ],
-  //   use: [{
-  //     loader: 'babel-loader',
-  //     // options: { presets: ['es2015', 'stage-0', 'react'] },
-  //   }],
-  // },
 
   // {
   //   test: /\.js$/i,
@@ -393,7 +345,6 @@ var rules = [
     test: /\.css|.pcss$/,
     include: [
       srcPath,
-      path.join(nodeModulesPath, 'react-toolbox/lib'),
     ],
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
@@ -418,13 +369,8 @@ var rules = [
               }),
               require('postcss-cssnext')({
                 browsers: ['last 2 versions', '> 2%', 'ie > 10', 'firefox > 40', 'safari > 5', 'opera > 30', 'ios 6-7', 'android 4'],
-                // features: {
-                //   customProperties: {
-                //     variables: reactToolboxVariables(),
-                //   },
-                // },
               }),
-              // require('postcss-nested'),
+              require('postcss-nested'),
               require('postcss-modules-values'),
             ],
           },
@@ -432,12 +378,10 @@ var rules = [
       ],
     }),
   },
-
 ];
 
 module.exports = {
 
-  // port: PORT,
   // 'eval', 'source-map', hidden-source-map, inline-source-map, eval-source-map, cheap-source-map
   devtool: 'eval',
 
@@ -465,24 +409,6 @@ module.exports = {
       'eventsource-polyfill',
     ],
   },
-
-  // entry: {
-  //   app: [
-  //     path.resolve(clientSrcPath, 'index.js'),
-  //     // blah blah blah
-  //   ],
-  //   vendor: [
-  //     'react',
-  //     'react-dom',
-  //     'prop-types',
-  //     'react-router',
-  //     // blah blah blah
-  //   ],
-  //   polyfill: [
-  //     'eventsource-polyfill',
-  //     // blah blah blah
-  //   ],
-  // },
 
   resolve: {
     alias:{
@@ -520,12 +446,6 @@ module.exports = {
     filename: '[name].[hash].js',
     publicPath: '/',
   },
-
-  // postcss: [
-  //   autoprefixer({
-  //     browsers: ['last 4 versions', '> 2%', 'ie > 10', 'firefox > 40', 'safari > 5', 'opera > 30', 'ios 6-7', 'android 4']
-  //   }),
-  // ],
 
   devServer: {
     historyApiFallback: true,

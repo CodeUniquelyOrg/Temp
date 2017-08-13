@@ -24,6 +24,7 @@ import { cyan500, indigo700, indigo500, indigo100, grey900, grey600, grey400, gr
 const muiTheme = getMuiTheme({
   palette: {
     textColor: grey900,
+    // primary1Color: indigo500,
   },
   appBar: {
     height: 50,

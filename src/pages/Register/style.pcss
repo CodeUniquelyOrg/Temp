@@ -14,15 +14,21 @@
 }
 
 .background {
-  composes: background from '../../style/shared.pcss';
+  composes: background from 'style/shared.pcss';
 }
+.blurOverlay  {
+  composes: blurOverlay from 'style/shared.pcss';
+}
+.contents  {
+  composes: contents from 'style/shared.pcss';
+}
+
 
 .form {
-  composes: form from '../../style/form.pcss';
+  composes: form from 'style/form.pcss';
 }
-
 .error {
-  composes: error from '../../style/form.pcss';
+  composes: error from 'style/form.pcss';
 }
 
 .center {
@@ -32,7 +38,7 @@
 }
 
 .label {
-  composes: label from '../../style/typography.pcss';
+  composes: label from 'style/typography.pcss';
   display: block;
   margin-top: 24px;
   color: white;
@@ -40,9 +46,9 @@
 }
 
 .input {
-  composes: forminput from '../../style/typography.pcss';
-  composes: input from '../../style/form.pcss';
-  composes: rounded2 from '../../style/shared.pcss';
+  composes: forminput from 'style/typography.pcss';
+  composes: input from 'style/form.pcss';
+  composes: rounded2 from 'style/shared.pcss';
   /* height: 50px; */
   padding: 12px;
   display: block;
@@ -61,9 +67,9 @@
 }
 
 .btn {
-  composes: button from '../../style/typography.pcss';
-  composes: button from '../../style/button.pcss';
-  composes: rounded from '../../style/shared.pcss';
+  composes: button from 'style/typography.pcss';
+  composes: button from 'style/button.pcss';
+  composes: rounded from 'style/shared.pcss';
   margin-top: 48px;
   min-height: 48px;
   width: 100%;
@@ -94,7 +100,7 @@
   color: white;
 }
 .link {
-  composes: hyperlink from '../../style/typography.pcss';
+  composes: hyperlink from 'style/typography.pcss';
   text-shadow: 0 2px 3px rgba(0,0,0,0.5);
   text-decoration: none;
   color: white;

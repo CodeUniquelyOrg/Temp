@@ -114,7 +114,9 @@ const Settings = class Settings extends Component {
   renderUnitsQuestions() {
     return (
       <div>
-        <h3><Translate id="pressureUnits" /></h3>
+        <h3 className="style.h3">
+          <Translate id="pressureUnits" />
+        </h3>
         <RadioButtonGroup  name="pressure" defaultSelected="kPa">
           <RadioButton value="kPa" label="kPa" />
           <RadioButton value="bar" label="bar" />
@@ -123,7 +125,9 @@ const Settings = class Settings extends Component {
 
         <br/>
         <br/>
-        <h3><Translate id="depthUnits" /></h3>
+        <h3 className="style.h3">
+          <Translate id="depthUnits" />
+        </h3>
         <RadioButtonGroup  name="depth"  defaultSelected="mm">
           <RadioButton value="mm" label="mm" />
           <RadioButton value="1/32" label='1/32"' />

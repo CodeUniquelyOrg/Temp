@@ -30,7 +30,7 @@ import { AUTH_USER } from 'actions/types';
 // }
 
 // what DOM element is the React app going to be initiated at
-const appElem = document.querySelector('.wrapper');
+const appElem = document.querySelector('.app');
 
 // Get a state store and cookie for the application - called 'token'
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);

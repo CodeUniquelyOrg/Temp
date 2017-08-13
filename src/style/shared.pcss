@@ -5,16 +5,58 @@
   margin: 0 6px;
   max-width: 400px;
 }
-
-.background {
-  background: url(img/tyres_blur.jpg) no-repeat center center fixed;
-  background-size: cover;
-}
-
 .rounded {
   border-radius: 24px;
 }
-
 .rounded2 {
   border-radius: 48px;
+}
+.blur {
+  filter: url('#blur');
+  filter: blur(1px);
+  opacity: 0.2;
+}
+
+/* everything inside body */
+.app {
+
+}
+
+/* the page 'max-width' is 960px, cannot be wider that a page, but can be taller */
+.page {
+  width: 100vw;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  background: url(img/tyres_blur.jpg) no-repeat center center fixed;
+  background-size: cover;
+  z-index: -1;
+}
+.blurOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  /* background: rgba(255,255,255,0.6); */
+  background: rgba(0,0,0,0);
+  z-index: 0;
+}
+.contents {
+  position: relative;
+  max-width: 960px;
+  min-width: 320px;
+  overflow-x: hidden;
+  margin: 0 auto;
+  min-height: 480px;
+  z-index: 1;
 }
