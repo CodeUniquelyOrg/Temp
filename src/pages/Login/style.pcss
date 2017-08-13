@@ -1,16 +1,17 @@
 .page {
-  composes: page from 'style/shared.pcss';
+  composes: page from 'style/shared';
 }
 .background {
-  composes: background from 'style/shared.pcss';
+  composes: background from 'style/shared';
 }
 .blurOverlay  {
-  composes: blurOverlay from 'style/shared.pcss';
+  composes: blurOverlay from 'style/shared';
 }
 .contents  {
-  composes: contents from 'style/shared.pcss';
+  composes: contents from 'style/shared';
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
 }
@@ -31,7 +32,7 @@
 }
 .form {
   composes: form from 'style/form.pcss';
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.8);
   max-width: 360px;
 }
 .error {
@@ -104,7 +105,7 @@
   color: white;
 }
 .link {
-  composes: hyperlink from 'style/typography.pcss';
+  composes: hyperlink from 'style/typography';
   text-shadow: 0 2px 3px rgba(0,0,0,0.5);
   text-decoration: none;
   color: white;

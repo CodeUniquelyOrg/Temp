@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'react-proptypes';
-
-// import { connect } from 'react-redux';
+// import PropTypes from 'react-proptypes';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';  // eslint-disable-line no-unused-vars
+import { Link } from 'react-router-dom';        // eslint-disable-line no-unused-vars
+
+// Auth 'action' to fire on submit
+import { loginUser } from 'actions/auth';
 
 // Materials-UI Components
 import TextField from 'material-ui/TextField';
@@ -17,49 +20,58 @@ import style from './style.pcss';
 // Form Validation checks
 const validate = (formProps) => {
   const errors = {};
-
   if (!formProps.email) {
     errors.email = 'Please enter an email';
   }
-
   if (!formProps.password) {
     errors.password = 'Please enter a password';
   }
-
   return errors;
 };
 
 // {...props}
-const renderField = ({ name, label, meta: { touched, error, warning }, ...rest }) => (
+const renderField = ({ name, type, label, meta: { touched, error, warning }, ...rest }) => (
   <TextField
+    type
+    name
     hintText={label}
     floatingLabelText={label}
     errorText={touched && error}
-    name={name}
   />
 );
 
+const mapStateToProps = state => {
+  return {
+    errorMessage: state.auth.error,
+    message: state.auth.message
+  };
+};
+
+// Name the form and attach the validation
 const Form = reduxForm({
-  form: 'login',      // form
-  validate,           // validate
-  // warn
+  form: 'login',
+  validate
 });
 
 class LoginForm extends Component {
 
-  static propTypes = {
-    submitted: PropTypes.func.isRequired,
-  };
+  // static propTypes = {
+  //   submitted: PropTypes.func.isRequired,
+  // };
 
-  constructor(props) {
-    super(props);
-
-    this.onSubmit = this.onSubmit.bind(this);
+  // Just call the desired auth action - do whatever it means
+  handleFormSubmit(formProps) {
+    this.props.loginUser(formProps);
   }
 
-  onSubmit(formProps) {
-    this.props.saveSettings(formProps);
-    this.props.submitted();
+  renderAlert() {
+    if(this.props.errorMessage) {
+      return (
+        <div>
+          <span><strong>Error!</strong> {this.props.errorMessage}</span>
+        </div>
+      );
+    }
   }
 
   renderError(errorMessage) {
@@ -73,23 +85,32 @@ class LoginForm extends Component {
   }
 
   renderForm() {
-
     const {
       handleSubmit,
       errorMessage,
     } = this.props;
-
     return (
-      <form className={style.form} onSubmit={handleSubmit(this.onSubmit)}>
+      <form className={style.form} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+
         {errorMessage && this.renderError(errorMessage)}
+
+        <div>
+          {this.renderAlert()}
+        </div>
+
         <div className={style.formRow}>
           <Field name="email" type="text" label="email" component={renderField} />
         </div>
         <div className={style.formRow}>
           <Field name="password" type="password" label="password" component={renderField} />
         </div>
+
         <div className={style.formButtons}>
-          <RaisedButton type="submit" primary={true} label={<Translate id="login" />} />
+          <button type="submit"><Translate id="login" /></button>
+        </div>
+
+        <div className={style.formButtons}>
+          <RaisedButton type="submit" primary={true} fullWidth={true} label={<Translate id="login" />} />
         </div>
       </form>
     );
@@ -100,4 +121,4 @@ class LoginForm extends Component {
   }
 }
 
-export default Form(LoginForm);
+export default connect(mapStateToProps, { loginUser })(Form(LoginForm));
