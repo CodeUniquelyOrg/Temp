@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
 // Auth 'action' to fire on submit
-import { loginUser } from 'actions/auth';
+import { registerUser } from 'actions/auth';
 
 // Materials-UI Components
 import RaisedButton from 'material-ui/RaisedButton';
@@ -35,7 +35,7 @@ const mapStateToProps = state => {
   };
 };
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
 
   translate = (value) => {
     return <Translate id={value} />;
@@ -101,9 +101,20 @@ class LoginForm extends Component {
             validate={[required]}
           />
         </div>
+        <div className={style.formRow}>
+          <Field
+            name="retype"
+            ref="retype"
+            type="password"
+            component={TextField}
+            hintText={this.translate('retype')}
+            hintText={this.translate('retype')}
+            validate={[required]}
+          />
+        </div>
 
         <div className={style.formButtons}>
-          <RaisedButton type="submit" primary={true} fullWidth={true} label={<Translate id="login" />} />
+          <RaisedButton type="submit" primary={true} fullWidth={true} label={<Translate id="register" />} />
         </div>
       </form>
     );
@@ -115,7 +126,7 @@ class LoginForm extends Component {
 }
 
 const Form = reduxForm({
-  form: 'login',
-})(LoginForm);
+  form: 'register',
+})(RegisterForm);
 
-export default connect(mapStateToProps, { loginUser })(Form);
+export default connect(mapStateToProps, { registerUser })(Form);

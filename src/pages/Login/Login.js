@@ -31,7 +31,7 @@ class Login extends Component {
   // }
 
   render() {
-    const { handleSubmit } = this.props;
+    // const { handleSubmit } = this.props;
     return (
       <div className={style.page}>
         <div className={style.background}>
