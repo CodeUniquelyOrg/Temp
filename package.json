@@ -26,6 +26,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
     "redux-form": "^7.0.3",
+    "redux-form-material-ui": "^4.2.0",
     "redux-thunk": "^2.2.0",
     "reset-css": "^2.2.1",
     "translatr": "^1.0.0"

@@ -72,4 +72,3 @@ class Login extends Component {
 // export default connect(mapStateToProps, { loginUser })(form(Login));
 // export default connect(mapStateToProps, { loginUser })(Login);
 export default Login;
-

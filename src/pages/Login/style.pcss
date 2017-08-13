@@ -34,6 +34,10 @@
   composes: form from 'style/form.pcss';
   background: rgba(255,255,255,0.8);
   max-width: 360px;
+
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+  }
 }
 .error {
   composes: error from 'style/form.pcss';
