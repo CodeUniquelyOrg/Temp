@@ -65,7 +65,7 @@ module.exports = function(injectables) {
         // Do we NEED to return all the data or JUST the token
         res.json({ token });
         // res.json({ user, token });
-     });
+      });
     });
   }
 

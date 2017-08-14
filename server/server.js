@@ -10,7 +10,7 @@ let compression  = require('compression');
 let jwt          = require('jwt-simple');
 let mongoose     = require('mongoose');
 let async        = require('async');
-let bcrypt       = require('bcrypt');
+let bcrypt       = require('bcrypt-nodejs');
 
 // load the dtabase
 let database     = require('./lib/db.js');

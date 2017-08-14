@@ -107,12 +107,13 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
       return next();
     }
 
-    return bcrypt.genSalt((saltError, salt) => {
+    return bcrypt.genSalt(10, (saltError, salt) => {
       if (saltError) {
         return next(saltError);
       }
 
-      return bcrypt.hash(user.password, salt, (hashError, hash) => {
+      // return bcrypt.hash(user.password, salt, (hashError, hash) => {
+      return bcrypt.hash(user.password, salt, null, (hashError, hash) => {
         if (hashError) {
           return next(hashError);
         }

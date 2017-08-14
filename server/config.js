@@ -14,8 +14,9 @@ module.exports = {
   },
 
   mongo: {
-    host: 'localhost',
-    db: 'portaldata',
+    // host: 'localhost',
+    host: 'mongo',   // mongodb://mongo/portal  - docker-compose version
+    db: 'portal',
     // user: 'test',
     // pass: 'test',
     traceDB: true,

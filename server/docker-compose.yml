@@ -1,0 +1,25 @@
+# micro site's docker-compose.yml file
+version: "2"
+services:
+  web:
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:8000"
+      - "5858:5858"
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    # volumes:
+    #  - /data/db:/data/db
+    ports:
+      - "27017:27017"
+    volumes_from:
+      - mongodata
+  mongodata:
+    image: tianon/true
+    volumes:
+      - /data/db
+    # command: echo 'Data container for Auth_Mongo'

@@ -31,10 +31,12 @@ module.exports = function database(mongoose, promise, fs) {
       traceDB,
     } = config;
 
+    // will be using 'mongo' internally in container
+    // mongodb://mongo/dummy-app
     if (config.user) {
       url = `mongodb://${user}:${pass}@${host}/${db}`;
     } else {
-      url = `mongodb://${host}:${db}`;
+      url = `mongodb://${host}/${db}`;
     }
 
     // has a replication set been configured
