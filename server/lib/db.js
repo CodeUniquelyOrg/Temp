@@ -40,11 +40,10 @@ module.exports = function database(injectables) { // mongoose, promise, fs) {
       traceDB,
     } = config;
 
-
     if (config.user) {
       url = `mongodb://${user}:${pass}@${host}/${db}`;
     } else {
-      url = `mongodb://${host}:${db}`;
+      url = `mongodb://${host}/${db}`;
     }
 
     // // has a replication set been configured
