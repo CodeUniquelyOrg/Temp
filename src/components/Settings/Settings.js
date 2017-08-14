@@ -140,44 +140,6 @@ const Settings = class Settings extends Component {
     );
   }
 
-  renderUnitsQuestions() {
-    return (
-      <div>
-        <h3 className="style.h3">
-          <Translate id="pressureUnits" />
-        </h3>
-        <RadioButtonGroup  name="pressure" defaultSelected="kPa">
-          <RadioButton value="kPa" label="kPa" />
-          <RadioButton value="bar" label="bar" />
-          <RadioButton value="PSI" label="PSI" />
-        </RadioButtonGroup>
-
-        <br/>
-        <br/>
-        <h3 className="style.h3">
-          <Translate id="depthUnits" />
-        </h3>
-        <RadioButtonGroup  name="depth"  defaultSelected="mm">
-          <RadioButton value="mm" label="mm" />
-          <RadioButton value="1/32" label='1/32"' />
-        </RadioButtonGroup>
-      </div>
-    );
-  }
-
-  renderPeronalQuestions() {
-    return (
-      <div>
-        <Field name="greeting" label="greeting" component={renderField} />
-        <br/>
-        <Field name="forename" label="forename" component={renderField} />
-        <br/>
-        <Field name="surname" label="surname" component={renderField} />
-        <br/>
-      </div>
-    );
-  }
-
   renderPeronalGreeting() {
     return (
       <div>
@@ -242,6 +204,56 @@ const Settings = class Settings extends Component {
           content = {this.renderPeronalSurname()}
         >
         </ExpandableContent>
+        <ExpandableContent
+          title="Gender"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('gesture')}
+          content = {this.renderPeronalGreeting()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Deutsche Card Number"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('gesture')}
+          content = {this.renderPeronalGreeting()}
+        >
+        </ExpandableContent>
+
+        <ExpandableContent
+          title="Address Line 1"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('home')}
+          content = {this.renderPeronalGreeting()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Address Line 2"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('home')}
+          content = {this.renderPeronalGreeting()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Address Line 3"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('home')}
+          content = {this.renderPeronalGreeting()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Address Line 4"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('home')}
+          content = {this.renderPeronalGreeting()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Address Line 5"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('home')}
+          content = {this.renderPeronalGreeting()}
+        >
+        </ExpandableContent>
 
         <ExpandableContent
           title="Pressure Units"
@@ -265,7 +277,13 @@ const Settings = class Settings extends Component {
           content = {this.renderDepthUnits()}
         >
         </ExpandableContent>
-
+        <ExpandableContent
+          title="TUV Check Date"
+          secondaryText="Tyre pressure will be mesuaremed in"
+          icon={makeAvatar('date_range')}
+          content = {this.renderPressureUnits()}
+        >
+        </ExpandableContent>
         <ExpandableContent
           title="Recommended Tyre Pressures"
           secondaryText="Tyre tread will be measured in"
@@ -273,7 +291,6 @@ const Settings = class Settings extends Component {
           content = {this.renderDepthUnits()}
         >
         </ExpandableContent>
-
         <ExpandableContent
           title="Vehicle manufacturer"
           secondaryText="Tyre tread will be measured in"
