@@ -209,7 +209,7 @@ const Settings = class Settings extends Component {
         <ExpandableContent
           title="Mobile Phone Number"
           secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('mobile')}
+          icon={makeAvatar('smartphone')}
           content = {this.renderPeronalGreeting()}
         >
         </ExpandableContent>
