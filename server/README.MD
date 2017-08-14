@@ -24,11 +24,19 @@ or
 
 https://store.docker.com/editions/community/docker-ce-server-debian (linux)
 
+Windows users will also make ure hat they install 'Python version 2.7 runtime (2.7.13)'
+https://www.python.org/downloads/
+
+
 
 ## Running the 'server-side' environment
 (Build the OS, Tools, WebApi Server, NoSQL Database Server and load some Mock Data)
 
+open the 'Docker Quickstart Terminal'
+
 At the command navigate into the server project folder
+cd ../.. (should be the root of your c drive)
+
 ```
 cd [install path]/server
 ```
@@ -37,6 +45,20 @@ cd [install path]/server
 ```
 docker-compose up --build
 ```
+
+# WINDOWS USERS #
+
+open a "Docker Command Shell"
+
+docker-machine env
+
+eval $("C:\Program Files\Docker Toolbox\docker-machine.exe" env)
+
+
+
+
+#Mac OSX Users#
+
 
 
 # Some Notes for 'container builders'
