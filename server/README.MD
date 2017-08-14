@@ -1,20 +1,40 @@
 
 # before you start
-docker build -t dummy-app .
 
-## adding in the 'data/db' folder
-run --rm -v /:/host mhart/alpine-node mkdir -p /host/data/db
+## Install docker
+```
+https://www.docker.com/get-docker
+```
 
-## Starting the server
+Scroll down the page to the bottom and to 'DOCKER COMMUNITY EDITION (CE)' and pick the appropriate  installer for your platform...
 
+
+## Running the 'server-side' environment
+(Build the OS, Tools, WebApi Server, NoSQL Database Server and load some Mock Data)
+
+At the command navigate into the server project folder
+```
+cd [install path]/server
+```
+
+###one line - start the build process
 ```
 docker-compose up --build
 ```
 
+
 # Some Notes for 'container builders'
+```
+docker build -t dummy-app .
+```
+
+## adding in the 'data/db' folder
+```
+run --rm -v /:/host mhart/alpine-node mkdir -p /host/data/db
+```
 
 ## Removing old container images
-sometimes you need to get rid of old container (becasue there is new code, for example)
+Sometimes you need to get rid of old container (becasue there is new code, for example)
 ```
 docker-compose ps
 ```
@@ -29,14 +49,18 @@ server_mongodata_1                                    /true                     
 docker rm 5c1308b01c7f_5c1308b01c7f_5c1308b01c7f_server_web_1
 ```
 
-or remove them all
+or *JUST remove them all* in one fell swoop
 ```
 docker-compose rm
 ```
 
 ##removing 'docker' images
 
+```
 $> docker images
+```
+
+Generates a list like this
 ```
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 server_webapi       latest              b3d0888a166f        2 minutes ago       135MB
@@ -44,10 +68,12 @@ mhart/alpine-node   latest              80d51c10ba0a        4 days ago          
 mongo               latest              b39de1d79a53        5 days ago          359MB
 ```
 
-then just pass in the varius IMAGE ID's that you wish to delete to docker using rmi option
-for example if you want to remove server_webapi and mongo
+then just pass in the various IMAGE ID's that you wish to delete to docker using the 'rmi' option
+for example if you want to remove server_webapi, mongo and mhart/alpine-node
 
-$> docker rmi b3d0888a166f b39de1d79a53 80d51c10ba0a -f
+```
+$> docker rmi -f b3d0888a166f b39de1d79a53 80d51c10ba0a
+```
 
 ## building the container images
 ```
