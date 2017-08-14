@@ -9,6 +9,22 @@ https://www.docker.com/get-docker
 Scroll down the page to the bottom and to 'DOCKER COMMUNITY EDITION (CE)' and pick the appropriate  installer for your platform...
 
 
+https://store.docker.com/editions/community/docker-ce-desktop-windows (windows 10)
+https://download.docker.com/win/stable/DockerToolbox.exe (windows less than 10)
+
+or
+
+https://store.docker.com/editions/community/docker-ce-desktop-mac (mac)
+
+or
+
+https://store.docker.com/editions/community/docker-ce-azure (azure)
+
+or
+
+https://store.docker.com/editions/community/docker-ce-server-debian (linux)
+
+
 ## Running the 'server-side' environment
 (Build the OS, Tools, WebApi Server, NoSQL Database Server and load some Mock Data)
 
