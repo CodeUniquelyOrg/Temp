@@ -9,6 +9,8 @@ module.exports = function shell(injectables, callback) {
 
   function dropCollections(done) {
     const collections = Object.keys(mongoose.connection.collections);
+
+    console.log('');
     async.forEach(collections, (name,cb) => {
 
       if (name === 'identitycounters') {
@@ -18,14 +20,15 @@ module.exports = function shell(injectables, callback) {
       const collection = mongoose.connection.collections[name];
 
       console.log('Dropping ' + name);
+
       try {
         // mongoose.model(name).resetCount( err => {
         //   if (err) {
         //     return cb(err);
         //   }
-          collection.drop( () => {
-            cb();
-          });
+        collection.drop( () => {
+          cb();
+        });
         // });
       } catch(e) {
         console.log(e);
@@ -33,7 +36,6 @@ module.exports = function shell(injectables, callback) {
       }
     }, done);
   }
-
 
   function convertPSI(psi) {
     return psi * 6.8947573;
@@ -73,7 +75,7 @@ module.exports = function shell(injectables, callback) {
           return done(error);
         }
 
-        console.log('ADDED USERS'); // eslint-disable-line no-console
+        console.log('\nADDED USERS'); // eslint-disable-line no-console
         return done();
       });
     });
@@ -85,9 +87,9 @@ module.exports = function shell(injectables, callback) {
 
   // load all the data - Async
   async.waterfall([
-    // (cb1) => {
-    //   dropCollections(cb1);
-    // },
+    (cb1) => {
+      dropCollections(cb1);
+    },
     (cb1) => {
       loadUsers(cb1);
     },

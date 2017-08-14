@@ -1,22 +1,22 @@
 {
   "users":[
     {
-      "email":    "steves@codeuniquely.co.uk",
+      "email": "steves@codeuniquely.co.uk",
       "password": "password",
       "greeting": "Hi",
       "foreName": "Steve",
       "lastName": "Saxton",
-
+      "roles": [ "Driver", "Manager", "Admin" ],
+      "termsAccepted": true,
       "presureUnits": "PSI",
       "depthUnits": "mm",
-
       "registrations": [
         {
-          "plate" : "HD LS 704"
+          "plate": "HD LS 704"
         },
         {
-          "plate" : "L5 MNE",
-          "ideal" : [
+          "plate": "L5 MNE",
+          "ideal": [
             {
               "id": "11",
               "pressure": 234.422
@@ -36,8 +36,8 @@
           ]
         },
         {
-          "plate" : "L5 CDU",
-          "ideal" : [
+          "plate": "L5 CDU",
+          "ideal": [
             {
               "id": "11",
               "pressure": 234.422
@@ -59,13 +59,21 @@
       ]
     },
     {
-      "email":    "admin@codeuniquely.co.uk",
+      "email": "admin@codeuniquely.co.uk",
       "password": "password",
+      "roles": [ "Admin" ],
       "disabled": true
     },
     {
-      "email":    "user@codeuniquely.co.uk",
+      "email": "manager@codeuniquely.co.uk",
       "password": "password",
+      "roles": [ "Manager" ],
+      "disabled": true
+    },
+    {
+      "email": "driver@codeuniquely.co.uk",
+      "password": "password",
+      "roles": [ "Driver" ],
       "disabled": true
     }
   ]

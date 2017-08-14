@@ -18,6 +18,13 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
   const config = injectables.config;
   const Schema = mongoose.Schema;
 
+  const roleOptions = [
+    'Driver',
+    'Manager',
+    'Admin',
+  ];
+
+
   // allowed pressure Units
   const pressureUnits = [
     'kPa',
@@ -48,6 +55,7 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
   // lastName:  ''
   // email: { type: String, required: true },
   // password: { type: String, required: true },
+  // roles: [{ type: String, enum:options, required: true }],
   // created: { type: Date, default: Date.now, required: true },
   // resetToken: { type: String },
   // resetDate: { type: Date },
@@ -67,6 +75,7 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
     // email: { type: String, required: true. index:{ unique:true, name:'email' } },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    roles: [{ type: String, enum:roleOptions, required: true }],
     disabled: { type: Boolean },
 
     // account tracking properties
