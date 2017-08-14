@@ -111,6 +111,35 @@ const Settings = class Settings extends Component {
     // this.props.saveSettings(formProps);
   }
 
+  renderPressureUnits() {
+    return (
+      <div>
+        <h3 className="style.h3">
+          <Translate id="pressureUnits" />
+        </h3>
+        <RadioButtonGroup  name="pressure" defaultSelected="kPa">
+          <RadioButton value="kPa" label="kPa" />
+          <RadioButton value="bar" label="bar" />
+          <RadioButton value="PSI" label="PSI" />
+        </RadioButtonGroup>
+      </div>
+    );
+  }
+
+  renderDepthUnits() {
+    return (
+      <div>
+        <h3 className="style.h3">
+          <Translate id="depthUnits" />
+        </h3>
+        <RadioButtonGroup  name="depth"  defaultSelected="mm">
+          <RadioButton value="mm" label="mm" />
+          <RadioButton value="1/32" label='1/32"' />
+        </RadioButtonGroup>
+      </div>
+    );
+  }
+
   renderUnitsQuestions() {
     return (
       <div>
@@ -149,26 +178,131 @@ const Settings = class Settings extends Component {
     );
   }
 
+  renderPeronalGreeting() {
+    return (
+      <div>
+        <Field name="greeting" label="greeting" component={renderField} />
+      </div>
+    );
+  }
+  renderPeronalForename() {
+    return (
+      <div>
+        <Field name="forename" label="forename" component={renderField} />
+      </div>
+    );
+  }
+  renderPeronalSurname() {
+    return (
+      <div>
+        <Field name="surname" label="surname" component={renderField} />
+      </div>
+    );
+  }
+
   render() {
     const { handleSubmit } = this.props;
 
     return (
       <div className={style.root}>
+
         <ExpandableContent
-          title="Personal Information"
+          title="Mobile Phone Number"
           secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('person')}
-          content = {this.renderPeronalQuestions()}
+          icon={makeAvatar('mobile')}
+          content = {this.renderPeronalGreeting()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Password"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('lock')}
+          content = {this.renderPeronalGreeting()}
         >
         </ExpandableContent>
 
         <ExpandableContent
-          title="Measurement Units"
-          secondaryText="Pressure and Depth mesuarement units"
-          icon={makeAvatar('straighten')}
-          content = {this.renderUnitsQuestions()}
+          title="Greeting"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('person')}
+          content = {this.renderPeronalGreeting()}
         >
         </ExpandableContent>
+        <ExpandableContent
+          title="Forenme"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('person')}
+          content = {this.renderPeronalForename()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Surname"
+          secondaryText="Your name and preferred greeting"
+          icon={makeAvatar('person')}
+          content = {this.renderPeronalSurname()}
+        >
+        </ExpandableContent>
+
+        <ExpandableContent
+          title="Pressure Units"
+          secondaryText="Tyre pressure will be mesuaremed in"
+          icon={makeAvatar('slow_motion_video')}
+          content = {this.renderPressureUnits()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Depth Units"
+          secondaryText="Tyre tread will be measured in"
+          icon={makeAvatar('straighten')}
+          content = {this.renderDepthUnits()}
+        >
+        </ExpandableContent>
+
+        <ExpandableContent
+          title="Vehicle Registration Plate"
+          secondaryText="Tyre tread will be measured in"
+          icon={makeAvatar('drive_eta')}
+          content = {this.renderDepthUnits()}
+        >
+        </ExpandableContent>
+
+        <ExpandableContent
+          title="Recommended Tyre Pressures"
+          secondaryText="Tyre tread will be measured in"
+          icon={makeAvatar('slow_motion_video')}
+          content = {this.renderDepthUnits()}
+        >
+        </ExpandableContent>
+
+        <ExpandableContent
+          title="Vehicle manufacturer"
+          secondaryText="Tyre tread will be measured in"
+          icon={makeAvatar('drive_eta')}
+          content = {this.renderDepthUnits()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Vehicle model"
+          secondaryText="Tyre tread will be measured in"
+          icon={makeAvatar('drive_eta')}
+          content = {this.renderDepthUnits()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Vehicle color"
+          secondaryText="Tyre tread will be measured in"
+          icon={makeAvatar('format_paint')}
+          content = {this.renderDepthUnits()}
+        >
+        </ExpandableContent>
+        <ExpandableContent
+          title="Vehicle year"
+          secondaryText="Tyre tread will be measured in"
+          icon={makeAvatar('date_range')}
+          content = {this.renderDepthUnits()}
+        >
+        </ExpandableContent>
+
       </div>
     );
   }

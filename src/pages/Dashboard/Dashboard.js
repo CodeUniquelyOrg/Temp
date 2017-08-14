@@ -199,6 +199,14 @@ const Dashboard = class Dashboard extends Component {
             <Faq />
           </Tab>
 
+          <Tab
+            icon={<FontIcon className="material-icons">language</FontIcon>}
+            label="LANGUAGE"
+          >
+            <h2>
+              most likely to be a setting
+            </h2>
+          </Tab>
         </Tabs>
 
       </div>
