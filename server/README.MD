@@ -83,12 +83,21 @@ docker-machine start default.
 docker-compose build
 
 
+##NAT on VirtialBox VM
+0.0.0.0 27017 -> 27017
+0.0.0.0 8000  -> 8000
+0.0.0.0 5858  -> 5858
+
+
 ## 'spin up' the docker container
 ```
 docker-compose up
 ```
 
 docker build -t web .
+
+
+#Stuff you might need to do at some point
 
 
 # Some Bits and Bobs of notes for 'container builders' / cleaning up / resetting

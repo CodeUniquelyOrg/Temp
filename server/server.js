@@ -1,4 +1,4 @@
-let path         = require('path');
+ path         = require('path');
 let express      = require('express');
 let queries      = require('express-api-queryhandler');
 let bodyParser   = require('body-parser');
@@ -123,16 +123,26 @@ db.connect((err, url, options) => {
 
       let server = app.listen(PORT, '0.0.0.0', (err) => {
         if( err ) {
+          console.log('Error Occurred', err);
           callback(err);
         } else  {
-          let host = server.address().address;
-          if ( host === '::' ) {
-            host = 'localhost';
+
+          try {
+
+            let hostFull = server.address();
+            let host = hostFull.address;
+            // let host = server.address().address;
+            if ( host === '::' ) {
+              host = 'localhost';
+            }
+            const port = server.address().port;
+            // console.log('UI running on port ' + port + ', waiting for bundling to finish...'); // eslint-disable-line
+            console.log('API listening at http://%s:%s\n', host, port); // eslint-disable-line no-console
+            // callback(null, port);
+
+          } catch( e ) {
+            console.log('e is ', e);
           }
-          const port = server.address().port;
-          // console.log('UI running on port ' + port + ', waiting for bundling to finish...'); // eslint-disable-line
-          console.log('API listening at http://%s:%s\n', host, port); // eslint-disable-line no-console
-          // callback(null, port);
         }
       });
     });

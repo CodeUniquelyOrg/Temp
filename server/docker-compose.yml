@@ -2,11 +2,15 @@
 version: "2"
 services:
   web:
+    # replace with an image we just recated and stored (in docker)
+    # image: username/repository:tag
     build: .
-    volumes:
-      - ./:/app
+    # volumes:
+    #  - ./:/app
     ports:
+      # express js port - defined n config => port 80 will work here
       - "8000:8000"
+      # nodemon debug port -so we can attach VS Code to debug
       - "5858:5858"
     links:
       - mongo

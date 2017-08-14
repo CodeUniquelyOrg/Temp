@@ -1,6 +1,6 @@
-# create a file named Dockerfile
+# Jusr create a file named Dockerfile
 
-# FROM mhart/alpine-node:latest
+# import the node version we're using
 FROM node:6.10.3
 
 ADD package.json /tmp/package.json
@@ -8,7 +8,7 @@ RUN cd /tmp && npm install
 RUN mkdir -p /app && cp -a /tmp/node_modules /app/
 
 # ADD ./*.* to /app/*.*
-# but i want o leave the code where it is right now for edit / debug / recompile
+# but I want to leave the code where it is right now for edit / debug / recompile
 
 WORKDIR /app
 ADD . /app
@@ -16,6 +16,6 @@ ADD . /app
 EXPOSE 8000
 
 # Define environment variable
-ENV NAME Web
+ENV NAME webapi
 
 CMD ["npm", "start"]
