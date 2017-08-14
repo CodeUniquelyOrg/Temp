@@ -15,4 +15,7 @@ ADD . /app
 
 EXPOSE 8000
 
+# Define environment variable
+ENV NAME Web
+
 CMD ["npm", "start"]

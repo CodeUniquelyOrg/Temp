@@ -1,7 +1,7 @@
 
-# before you start
+# Installing DOCKER CONTAINERS
 
-## Install docker
+## download docker
 ```
 https://www.docker.com/get-docker
 ```
@@ -9,59 +9,89 @@ https://www.docker.com/get-docker
 Scroll down the page to the bottom and to 'DOCKER COMMUNITY EDITION (CE)' and pick the appropriate  installer for your platform...
 
 
-https://store.docker.com/editions/community/docker-ce-desktop-windows (windows 10)
-https://download.docker.com/win/stable/DockerToolbox.exe (windows less than 10)
-
-or
+#Mac OSX Users#
 
 https://store.docker.com/editions/community/docker-ce-desktop-mac (mac)
-
 or
-
-https://store.docker.com/editions/community/docker-ce-azure (azure)
-
-or
-
 https://store.docker.com/editions/community/docker-ce-server-debian (linux)
 
-Windows users will also make ure hat they install 'Python version 2.7 runtime (2.7.13)'
-https://www.python.org/downloads/
 
-
+and then just copy the project code into a folder somewhere on yor machine.
+(wherever you normally work)
 
 ## Running the 'server-side' environment
 (Build the OS, Tools, WebApi Server, NoSQL Database Server and load some Mock Data)
 
-open the 'Docker Quickstart Terminal'
-
-At the command navigate into the server project folder
-cd ../.. (should be the root of your c drive)
-
+Open a terminal window and at the command navigate into the server project folder
 ```
-cd [install path]/server
+cd [install path to project]/server
 ```
 
-###one line - start the build process
+and enter one simple command
 ```
 docker-compose up --build
 ```
 
 # WINDOWS USERS #
 
-open a "Docker Command Shell"
+## down load the appropaite docker installer (or docker toolbox)
 
+https://store.docker.com/editions/community/docker-ce-desktop-windows (windows 10)
+https://download.docker.com/win/stable/DockerToolbox.exe (windows less than 10)
+
+or
+
+https://store.docker.com/editions/community/docker-ce-azure (azure)
+
+
+## ensure that you have python installed ##
+Make sure that 'Python version 2.7 runtime (2.7.13 is the latest at time of writing)'
+https://www.python.org/downloads/
+
+#Check if the OS can run docker Vm Shell
+https://www.microsoft.com/en-us/download/confirmation.aspx?id=592
+
+
+##Make sure you have the lates PowerShell Modules installed
+https://www.microsoft.com/en-us/download/confirmation.aspx?id=51451
+
+##Follow these Instructions
+https://docs.docker.com/toolbox/toolbox_install_windows/#how-to-uninstall-toolbox
+
+
+Copy the source code into a folder under your personal user directoy
+c:/users/[user.name]/[directory]
+
+Open the 'Docker Quickstart Terminal' that was installed by "Docker Toolbox"
+
+
+Navigate into the folder tht you copied the source code into
+```
+cd [directory]/server
+```
+
+##Make sure that the Docker-Machine' is insalled and set env variables.
+```
 docker-machine env
-
 eval $("C:\Program Files\Docker Toolbox\docker-machine.exe" env)
+```
+
+## make sure that docker-machine is started
+docker-machine start default.
+
+##build the sever container
+docker-compose build
 
 
+## 'spin up' the docker container
+```
+docker-compose up
+```
+
+docker build -t web .
 
 
-#Mac OSX Users#
-
-
-
-# Some Notes for 'container builders'
+# Some Bits and Bobs of notes for 'container builders' / cleaning up / resetting
 ```
 docker build -t dummy-app .
 ```
@@ -76,7 +106,6 @@ Sometimes you need to get rid of old container (becasue there is new code, for e
 ```
 docker-compose ps
 ```
-
                        Name                                     Command             State             Ports
 ---------------------------------------------------------------------------------------------------------------------
 5c1308b01c7f_5c1308b01c7f_5c1308b01c7f_server_web_1   npm start                     Exit 0
@@ -92,7 +121,7 @@ or *JUST remove them all* in one fell swoop
 docker-compose rm
 ```
 
-##removing 'docker' images
+##removing individual 'docker' images
 
 ```
 $> docker images
@@ -113,7 +142,13 @@ for example if you want to remove server_webapi, mongo and mhart/alpine-node
 $> docker rmi -f b3d0888a166f b39de1d79a53 80d51c10ba0a
 ```
 
-## building the container images
+
+# building container images one time (rather than everytime)
 ```
-docker-compose --build
+docker-compose build
+```
+
+## then just 'spin up' the stack to use it.
+```
+docker-compose up
 ```
