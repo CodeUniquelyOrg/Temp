@@ -16,6 +16,20 @@ see https://github.com/ai/browserslist for more information
   ]
 
 
+COLORS
+White
+Silver
+Black
+Grey
+Blue
+Red
+Brown
+Green
+Yellow  < 1%
+Orange
+Other
+
+
 IF SERVING LOCAL FONTS
 =============================================================================
   "dependencies": {
