@@ -34,6 +34,8 @@ class SettingsGroup extends Component {
     background: 'white',
   };
 
+  // WHEN YOU AHVE AN EMPTY DIV - IE11 IS SORTA BROKEN - HEIGHT:0 in Styles
+
   constructor(props) {
     super(props);
     // set initial state => REDUX THIS
@@ -119,6 +121,9 @@ class SettingsGroup extends Component {
         <FontIcon className={`material-icons ${style.next}`} style={{ fontSize:'32px' }} >navigate_next</FontIcon>
       </div>
     );
+
+    // rotational issue with the use of DRAWER on mobiles
+    // when the page rotates the UI does not update .....
 
     return (
 
