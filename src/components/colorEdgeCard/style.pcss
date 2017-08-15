@@ -1,0 +1,30 @@
+.root {
+}
+.bottomPad {
+  padding-bottom: 30px;
+}
+.fullWidth {
+  composes:  root;
+  width: 100%;
+}
+.halfWidth {
+  composes:  root;
+  width: calc(50% - 15px);
+}
+.card {
+  display: flex;
+  flex-direction: row;
+  min-height: 134px;
+  overflow: hidden;
+}
+.edge {
+  width: 10px;
+  min-width: 10px;
+  max-width: 10px;
+  min-height: 134px;
+}
+.contents
+{
+  padding: 16px;
+  flex: 1 0 0%;
+}

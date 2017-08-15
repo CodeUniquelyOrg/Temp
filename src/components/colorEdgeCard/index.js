@@ -1,0 +1,1 @@
+export default from './colorEdgeCard.js'; // eslint-disable-line
