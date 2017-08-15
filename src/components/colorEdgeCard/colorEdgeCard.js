@@ -1,38 +1,39 @@
-import React, { PropTypes, Component } from 'react';
-// import PropTypes from 'react-proptypes';
-import { default as Framework } from '@c.p/reactify';
-import { default as theme } from 'theme';
+import React, { Component } from 'react';
+import PropTypes from 'react-proptypes';
 
+// Material UI Components
+import Paper from 'material-ui/Paper';
+
+// Local Styling
 import style from './style.pcss';
-
-const {
-  Core: {
-    Paper,
-  },
-} = Framework;
 
 class ColorEdgeCard extends Component {
 
   static propTypes = {
     edged: PropTypes.bool,
     color: PropTypes.string,
+    background: PropTypes.string,
     fullWidth: PropTypes.bool,
   };
 
   static defaultProps = {
     edged: true,
     fullWidth: false,
-    color: 'white',
+    color: '#313131',     // needs to be themeble
+    background: 'white',  // needs to be themeble
   };
 
   renderChildren() {
     const {
       color,
+      background,
       children,
     } = this.props;
+
+    // want to clone each <child (inject)=> background={background} color={color} />
     return React.Children.map(children, child => {
       if (child) {
-        return React.cloneElement(child, { color });
+        return React.cloneElement(child, { color, background });
       }
       return false;
     });
@@ -42,6 +43,7 @@ class ColorEdgeCard extends Component {
     const {
       edged,
       color,
+      background,
       children,
       fullWidth,
       ...rest
@@ -49,12 +51,9 @@ class ColorEdgeCard extends Component {
 
     let edgeElem;
     if (edged) {
-      // const edgeClass = style[color] || style.white;
-      edgeElem = <div className={style.edge} style={{ backgroundColor: color }}/>;
+      edgeElem = <div className={style.edge} style={{ backgroundColor: background }}/>;
     }
 
-    // want to clone each <this.props.child color={color} >
-    // can we use a CONTEXT ????
     const rootStyle = fullWidth ? style.fullWidth : style.halfWidth;
 
     return (

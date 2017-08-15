@@ -12,10 +12,14 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
+import Drawer from 'material-ui/Drawer';
 
 // Local Compoents
-import ExpandableContent from 'components/ExpandableContent';
 import Translate from 'components/Translate';
+import ExpandableContent from 'components/ExpandableContent';
+
+// import { SettingsGroup } from 'components/Settings';
+import SettingsGroup from './SettingsGroup';
 
 import style from './style.pcss';
 
@@ -162,168 +166,193 @@ const Settings = class Settings extends Component {
     );
   }
 
+  //
+  // !!! HACK !!!
+  //
+  renderMobile() {
+    return (
+      <div>
+        <Field name="mobile" label="mobile" component={renderField} />
+      </div>
+    );
+  }
+  mobileUpdated() {
+    // on nothing
+  }
+
+  renderPassword() {
+    return (
+      <div>
+        <Field type="password" name="password" label="password" component={renderField} />
+      </div>
+    );
+  }
+  passwordUpdated() {
+    // on nothing
+  }
+
   render() {
     const { handleSubmit } = this.props;
 
     return (
       <div className={style.root}>
 
-        <ExpandableContent
-          title="Mobile Phone Number"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('smartphone')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Password"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('lock')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
+        <SettingsGroup icon="smartphone" title="Mobile Phone Number" onUpdate={this.mobileUpdated} >
+          {this.renderMobile()}
+        </SettingsGroup>
 
-        <ExpandableContent
-          title="Greeting"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('person')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Forenme"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('person')}
-          content = {this.renderPeronalForename()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Surname"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('person')}
-          content = {this.renderPeronalSurname()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Gender"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('gesture')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Deutsche Card Number"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('gesture')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
+        <SettingsGroup icon="lock" title="Password" fixed="************" onUpdate={this.passwordUpdated} >
+          {this.renderPassword()}
+        </SettingsGroup>
 
-        <ExpandableContent
-          title="Address Line 1"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('home')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Address Line 2"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('home')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Address Line 3"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('home')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Address Line 4"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('home')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Address Line 5"
-          secondaryText="Your name and preferred greeting"
-          icon={makeAvatar('home')}
-          content = {this.renderPeronalGreeting()}
-        >
-        </ExpandableContent>
+        <SettingsGroup icon="settings" title="Preferences" onUpdate={this.passwordUpdated} >
 
-        <ExpandableContent
-          title="Pressure Units"
-          secondaryText="Tyre pressure will be mesuaremed in"
-          icon={makeAvatar('slow_motion_video')}
-          content = {this.renderPressureUnits()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Depth Units"
-          secondaryText="Tyre tread will be measured in"
-          icon={makeAvatar('straighten')}
-          content = {this.renderDepthUnits()}
-        >
-        </ExpandableContent>
+          <SettingsGroup icon="language" title="Language" onUpdate={this.passwordUpdated} >
+            {this.renderPressureUnits()}
+          </SettingsGroup>
 
-        <ExpandableContent
-          title="Vehicle Registration Plate"
-          secondaryText="Tyre tread will be measured in"
-          icon={makeAvatar('drive_eta')}
-          content = {this.renderDepthUnits()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="TUV Check Date"
-          secondaryText="Tyre pressure will be mesuaremed in"
-          icon={makeAvatar('date_range')}
-          content = {this.renderPressureUnits()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Recommended Tyre Pressures"
-          secondaryText="Tyre tread will be measured in"
-          icon={makeAvatar('slow_motion_video')}
-          content = {this.renderDepthUnits()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Vehicle manufacturer"
-          secondaryText="Tyre tread will be measured in"
-          icon={makeAvatar('drive_eta')}
-          content = {this.renderDepthUnits()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Vehicle model"
-          secondaryText="Tyre tread will be measured in"
-          icon={makeAvatar('drive_eta')}
-          content = {this.renderDepthUnits()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Vehicle color"
-          secondaryText="Tyre tread will be measured in"
-          icon={makeAvatar('format_paint')}
-          content = {this.renderDepthUnits()}
-        >
-        </ExpandableContent>
-        <ExpandableContent
-          title="Vehicle year"
-          secondaryText="Tyre tread will be measured in"
-          icon={makeAvatar('date_range')}
-          content = {this.renderDepthUnits()}
-        >
-        </ExpandableContent>
+          <SettingsGroup icon="straighten" title="Depth Measurement" onUpdate={this.passwordUpdated} >
+            {this.renderDepthUnits()}
+          </SettingsGroup>
+
+          <SettingsGroup icon="slow_motion_video" title="Pressures Measurement" onUpdate={this.passwordUpdated} >
+            {this.renderPressureUnits()}
+          </SettingsGroup>
+
+        </SettingsGroup>
+
+        <SettingsGroup icon="drive_eta" title="Vehicle" onUpdate={this.passwordUpdated} >
+        </SettingsGroup>
+
+        <SettingsGroup icon="person" title="Personal" onUpdate={this.passwordUpdated} >
+          {this.renderPeronalGreeting()}
+          {this.renderPeronalForename()}
+          {this.renderPeronalSurname()}
+
+          <SettingsGroup icon="home" title="Address" onUpdate={this.passwordUpdated} >
+          </SettingsGroup>
+
+        </SettingsGroup>
 
       </div>
     );
   }
 };
+
+/*
+  INVASIVE QUESTIONS
+
+  <ExpandableContent
+    title="Gender"
+    secondaryText="Your name and preferred greeting"
+    icon={makeAvatar('gesture')}
+    content = {this.renderPeronalGreeting()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Deutsche Card Number"
+    secondaryText="Your name and preferred greeting"
+    icon={makeAvatar('gesture')}
+    content = {this.renderPeronalGreeting()}
+  >
+  </ExpandableContent>
+
+*/
+
+/*
+  VEHICLE QUESTIONS
+
+  <ExpandableContent
+    title="Vehicle Registration Plate"
+    secondaryText="Tyre tread will be measured in"
+    icon={makeAvatar('drive_eta')}
+    content = {this.renderDepthUnits()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Recommended Tyre Pressures"
+    secondaryText="Tyre tread will be measured in"
+    icon={makeAvatar('slow_motion_video')}
+    content = {this.renderDepthUnits()}
+  >
+  </ExpandableContent>
+
+  <ExpandableContent
+    title="TUV Check Date"
+    secondaryText="Tyre pressure will be mesuaremed in"
+    icon={makeAvatar('date_range')}
+    content = {this.renderPressureUnits()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Vehicle manufacturer"
+    secondaryText="Tyre tread will be measured in"
+    icon={makeAvatar('drive_eta')}
+    content = {this.renderDepthUnits()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Vehicle model"
+    secondaryText="Tyre tread will be measured in"
+    icon={makeAvatar('drive_eta')}
+    content = {this.renderDepthUnits()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Vehicle color"
+    secondaryText="Tyre tread will be measured in"
+    icon={makeAvatar('format_paint')}
+    content = {this.renderDepthUnits()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Vehicle year"
+    secondaryText="Tyre tread will be measured in"
+    icon={makeAvatar('date_range')}
+    content = {this.renderDepthUnits()}
+  >
+  </ExpandableContent>
+*/
+
+/*
+  ADDRESS QUESIONS
+
+  <ExpandableContent
+    title="Address Line 1"
+    secondaryText="Your name and preferred greeting"
+    icon={makeAvatar('home')}
+    content = {this.renderPeronalGreeting()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Address Line 2"
+    secondaryText="Your name and preferred greeting"
+    icon={makeAvatar('home')}
+    content = {this.renderPeronalGreeting()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Address Line 3"
+    secondaryText="Your name and preferred greeting"
+    icon={makeAvatar('home')}
+    content = {this.renderPeronalGreeting()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Address Line 4"
+    secondaryText="Your name and preferred greeting"
+    icon={makeAvatar('home')}
+    content = {this.renderPeronalGreeting()}
+  >
+  </ExpandableContent>
+  <ExpandableContent
+    title="Address Line 5"
+    secondaryText="Your name and preferred greeting"
+    icon={makeAvatar('home')}
+    content = {this.renderPeronalGreeting()}
+  >
+  </ExpandableContent>
+*/
 
 export default Form(Settings);
 // export default connect(mapStateToProps, { getUserData })(Form(Settings));

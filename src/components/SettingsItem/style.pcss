@@ -1,0 +1,51 @@
+.sharedHeader {
+  width:100%
+}
+.hasSubtitle {
+  composes: sharedHeader;
+  height:72px;
+}
+.noSubtitle {
+  composes: sharedHeader;
+  height:48px;
+  line-height: 48px;
+  vertical-align: middle;
+}
+.sharedTitleProps {
+  text-overflow: ellipsis;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.fullLine {
+  display: flex;
+  padding: 0 12px;
+}
+.icon {
+  width: 48px;
+  height:48px;
+  position: relative;
+  top: 4px;
+}
+.headings {
+  flex: 1;
+  padding-left: 24px;
+}
+.title {
+  composes: sharedTitleProps;
+  line-height: 28px;
+  height: 28px;
+  font-size: 18px;
+  vertical-align: bottom;
+}
+.secondary {
+  composes: sharedTitleProps;
+  line-height: 20px;
+  height: 20px;
+  font-weight: 400;
+  font-size: 12px;
+  vertical-align: top;
+}
+.button {
+  max-width: 100px;
+}

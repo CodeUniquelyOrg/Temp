@@ -12,7 +12,6 @@ const INITIAL_STATE = {
 export default function (state = INITIAL_STATE, action) {
   switch(action.type) {
     case USER_DATA: {
-      console.log('USER_DATA IS ', action.payload); // eslint-disable-line no-console
       return { ...state, user: action.payload };
     }
   }

@@ -1,0 +1,53 @@
+.root {
+}
+
+.groupLine {
+  display: flex;
+  padding: 0 12px;
+  height: 72px;
+  align-items: center;
+}
+.icon {
+  width: 48px;
+  height:48px;
+  position: relative;
+  top: 4px;
+}
+.title {
+  composes: heading4 from 'style/typography.pcss';
+  flex: 1 0 0%;
+  padding-left: 24px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.currentValue {
+  composes: heading5 from 'style/typography.pcss';
+  cursor: pointer;
+}
+.next {
+  width:48px;
+  height:48px;
+  max-width: 48px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.drawerContents {
+  padding:24px;
+  padding-top: 0;
+}
+.drawerHeader {
+  display: flex;
+  /* padding 24px; */
+  height: 72px;
+  flex-direction: row;
+  justify-content: space-between;;
+  line-height: 72px;
+  align-items: center;
+}
+.drawerTitle {
+  /* color: #515151 */
+}
+.drawerChildren {
+  padding:24px 18px;
+}
