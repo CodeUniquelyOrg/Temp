@@ -8,8 +8,13 @@ import {
 
 import config from 'src/config';
 
-// Obtained from config
-const CLIENT_ROOT_URL = config.server.portalRoot;    // 'http://localhost:4000;
+// Obtained from config - for example 'http://localhost:4000;
+const CLIENT_ROOT_URL = () => {
+  if (process.env.HOST && process.env.PORT) {
+    return `http://${process.env.HOST}:${process.env.PORT}`;
+  }
+  return config.server.portalRoot;
+};
 
 import { ErrorHandler, Post } from 'src/lib/Request';
 

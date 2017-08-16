@@ -15,6 +15,13 @@ const getToken = () => {
 //   localStorage.setItem('token', token);
 // };
 
+const getServer = () => {
+  if (process.env.HOST && process.env.PORT) {
+    return `http://${process.env.HOST}:${process.env.PORT}/api/v1`;
+  }
+  return API_ROOT;
+};
+
 const format = (k,v) => v !== null ? `${k}=${encodeURIComponent(v)}` : '';
 
 const toQueryString = (obj) => {
@@ -33,16 +40,17 @@ const serialize = (json) => {
   return '';
 };
 
-// axios.get(`${API_ROOT}/users?minage=18&year=2017`, {
+// e.g. axios.get(`${API_ROOT}/users?minage=18&year=2017`, {
 const makeApiRroute = ( url, params ) => {
   const trimmed = url ? url.trim() : undefined;
+  const server = getServer();
   if (trimmed) {
     if (trimmed.indexOf('/') === 0 ) {
-      return `${API_ROOT}${trimmed}${serialize(params)}`;
+      return `${server}${trimmed}${serialize(params)}`;
     }
-    return `${API_ROOT}/${trimmed}${serialize(params)}`;
+    return `${server}/${trimmed}${serialize(params)}`;
   }
-  return API_ROOT;
+  return server;
 };
 
 // Middleware error handler for API requests

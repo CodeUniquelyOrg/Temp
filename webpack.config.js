@@ -12,6 +12,9 @@ var fs = require('fs');
 
 var config = require('./config.js');
 
+// get my HOST ip address
+var myLocalIp = require('my-local-ip');
+
 // Define the environment
 var env = 'development';
 
@@ -38,6 +41,7 @@ var themePath         = path.resolve( srcPath, 'theme' );
 
 // define a port to be used
 var PORT = process.env.APP_PORT || config.server.port; // 4000;
+var HOST = myLocalIp();
 
 // ==============================
 //  Plugins
@@ -48,6 +52,8 @@ var plugins = [
     'process.env': {
       ENV: JSON.stringify(env),
       NODE_ENV: JSON.stringify(env),
+      HOST: JSON.stringify(HOST),
+      PORT: JSON.stringify(PORT),
     },
   }),
 

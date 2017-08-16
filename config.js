@@ -12,6 +12,7 @@ module.exports = {
     offline: true,
 
     port: 5000,
+    // host: 'localhost', // will be inserted by 'my-local-ip'
     portalRoot: 'http://localhost:5000',
     apiRoot: 'http://localhost:8000/api/v1',
 
