@@ -6,8 +6,9 @@ import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 import { GridList, GridTile } from 'material-ui/GridList';
 import { Card, CardHeader, CardTitle, CardText } from 'material-ui/Card';
-// import IconButton from 'material-ui/IconButton';
-// import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+
+// import a colour values
+import { red500, green500, grey500 } from 'material-ui/styles/colors';
 
 import {
   Table,
@@ -20,11 +21,17 @@ import {
 
 // Local Componets
 import Translate from 'components/Translate';
+import Icon from 'components/Icon';
 
-import style from './style.pcss';
+// Styling for the component
+import style from './style';
 
-const makeAvatar = (icon) => {
-  return <Avatar icon={<FontIcon className="material-icons">{icon}</FontIcon>} />;
+// const makeAvatar = (icon) => {
+//   return <Avatar icon={<FontIcon className="material-icons">{icon}</FontIcon>} />;
+// };
+
+const getNormalisedRegNumber = (regNum) => {
+  return regNum.replace(/\s/g, '');
 };
 
 // {
@@ -51,6 +58,10 @@ const getHistoryForReg = (history, registration) => {
   return data || [];
 };
 
+// const minPressure = 30 * 6.89476;   // FIX THESE
+// const maxPressure = 36 * 6.89476;   // FIX THESE
+const minDepth = 4;                 // LEGAL MIMIMUM !!!!
+
 const History = class Settings extends Component {
 
   static propTypes = {
@@ -60,6 +71,7 @@ const History = class Settings extends Component {
       pressure: PropTypes.string.isRequired,
       depth: PropTypes.string.isRequired,
     }),
+    ideal: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
@@ -81,6 +93,68 @@ const History = class Settings extends Component {
         return 'Rear Right';
     }
     return 'unknown';
+  }
+
+  getIdealPressure(id) {
+    const {
+      ideal,
+    } = this.props;
+
+    let pressure;
+    if (ideal && ideal.length > 0) {
+      ideal.forEach( i => {
+        if (i.id === id) {
+          pressure = i.pressure;
+        }
+      });
+    }
+    return pressure;
+  }
+
+  tyreStatus(tyres) {
+    let status;
+    tyres.forEach( tyre => {
+
+      // get the ideal pressure
+      const idealPressure = this.getIdealPressure(tyre.id);
+      if (typeof idealPressure !== 'undefined') {
+
+        const maxPressure = idealPressure * 1.20;
+        const minPressure = idealPressure * 0.80;
+
+        if (status !== -1) {
+          if (tyre.pressure < minPressure || tyre.pressure > maxPressure) {
+
+            if (tyre.pressure < minPressure) {
+              console.log( 'UNDER PRESSURE ', { id:tyre.id, pressure:tyre.pressure, limit:minPressure }); // eslint-disable-line
+            }
+            if (tyre.pressure > maxPressure) {
+              console.log( 'OVER PRESSURE ', { id:tyre.id, pressure:tyre.pressure, limit:maxPressure }); // eslint-disable-line
+            }
+            status =-1;
+          }
+        }
+      }
+
+      // we are missing depth measuremen for tyre
+      if (status !== -1 && tyre.depth === -1) {
+        console.log( 'NO READING ', { id:tyre.id }); // eslint-disable-line
+        status = 0;
+      }
+
+      // tyre tread depth is below 'minimum legal limit'
+      if (tyre.depth !== -1  && tyre.depth < minDepth) {
+        console.log( 'ILLEGAL TREAD', { id:tyre.id, depth:tyre.depth }); // eslint-disable-line
+        status =-1;
+      }
+
+    });
+    // if nothing has flagged as 'missing' or 'danger' on tyre
+    if (typeof status === 'undefined') {
+      console.log( 'GOOD TYRE'); // eslint-disable-line
+      status = 1;
+    }
+    return status;
   }
 
   // FORMAT TEXT COLOURS
@@ -142,12 +216,16 @@ const History = class Settings extends Component {
     // <CardTitle title="Your Readings" subtitle="tyre pressure and depth measurements" />
     const table = this.renderTable(tyres);
 
+    const status = this.tyreStatus(tyres);
+    const background = status === -1 ? red500 : status === 1 ? green500 : grey500;
+    console.log('STATUS IS ', status ); // eslint-disable-line
+
     return (
       <Card>
         <CardHeader
           title={registration}
           subtitle={date}
-          avatar={makeAvatar('drive_eta')}
+          avatar={ <Icon name="drive_eta" color={background}/>}
         />
         <CardText>
           {table}

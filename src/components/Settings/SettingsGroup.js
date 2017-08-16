@@ -5,22 +5,16 @@ import PropTypes from 'react-proptypes';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
-import Avatar from 'material-ui/Avatar';
 import Drawer from 'material-ui/Drawer';
 
 // import a colour values
 import { grey500 } from 'material-ui/styles/colors';
 
+// Local Components
+import Icon from 'components/Icon';
+
 // Import Styles
 import style from './group.pcss';
-
-// make the avatar icon on the left hand side
-const makeAvatar = (icon) => {
-  if ( icon.indexOf('mdi-') === 0) {
-    return <Avatar icon={<FontIcon className={`mdi ${icon}`}/>} />;
-  }
-  return <Avatar icon={<FontIcon className="material-icons">{icon}</FontIcon>} />;
-};
 
 class SettingsGroup extends Component {
 
@@ -30,7 +24,9 @@ class SettingsGroup extends Component {
     description: PropTypes.string,
     // secondaryText: PropTypes.string,
     background: PropTypes.string,
+
     onUpdate: PropTypes.func,
+    current: PropTypes.func,
   };
 
   static defaultProps = {
@@ -68,6 +64,14 @@ class SettingsGroup extends Component {
     });
   };
 
+  getCurrent = () => {
+    let current;
+    if (this.props.current) {
+      current = this.props.current();
+    }
+    return current || 'not set';
+  }
+
   // want to clone each <child (inject)=> onClose={onClose} onUpdate={onUpdate} />
   // renderChildren() {
   //   return React.Children.map(children, child => {
@@ -99,11 +103,7 @@ class SettingsGroup extends Component {
     };
 
     // get the icon
-    const iconElem = (
-      <div className={style.icon}>
-        {makeAvatar(icon)}
-      </div>
-    );
+    const iconElem = <Icon name={icon}/>;
 
     const titleElem = (
       <div className={style.title} style={{ color: titleColor }}>
@@ -113,7 +113,7 @@ class SettingsGroup extends Component {
 
     const currentValueElem = (
       <div className={style.currentValue} style={{ color: grey500 }}>
-        not set
+        {this.getCurrent()}
       </div>
     );
 

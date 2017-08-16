@@ -1,6 +1,40 @@
 {
   "users":[
     {
+      "email": "alex.codd@wheelright.co.uk",
+      "password": "password",
+      "greeting": "Hello",
+      "foreName": "Alex",
+      "lastName": "Codd",
+      "roles": [ "Driver", "Manager", "Admin" ],
+      "termsAccepted": true,
+      "presureUnits": "PSI",
+      "depthUnits": "mm",
+      "registrations": [
+        {
+          "plate": "HD LS 704",
+          "ideal": [
+            {
+              "id": "11",
+              "pressure": 234.422
+            },
+            {
+              "id": "12",
+              "pressure": 234.422
+            },
+            {
+              "id": "21",
+              "pressure": 234.422
+            },
+            {
+              "id": "22",
+              "pressure": 234.422
+            }
+          ]
+        }
+      ]
+    },
+    {
       "email": "steves@codeuniquely.co.uk",
       "password": "password",
       "greeting": "Hi",

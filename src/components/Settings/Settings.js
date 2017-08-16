@@ -176,6 +176,16 @@ const Settings = class Settings extends Component {
       </div>
     );
   }
+  renderEmail() {
+    return (
+      <div>
+        <Field name="email" label="email" component={renderField} />
+      </div>
+    );
+  }
+  identity() {
+    return 'steves@codeuniquely.co.uk';
+  }
   mobileUpdated() {
     // on nothing
   }
@@ -194,15 +204,19 @@ const Settings = class Settings extends Component {
   render() {
     const { handleSubmit } = this.props;
 
+    // <SettingsList>  => checks if there are SettingsGroup or SettingsSwitch
+
     return (
       <div className={style.root}>
 
-        <SettingsGroup icon="smartphone" title="Mobile Phone Number" onUpdate={this.mobileUpdated} >
+        <SettingsGroup icon="lock" title="Account Info" current={this.identity} onUpdate={this.mobileUpdated} >
+          {this.renderEmail()}
           {this.renderMobile()}
+
+          {this.renderPassword()}
         </SettingsGroup>
 
-        <SettingsGroup icon="lock" title="Password" fixed="************" onUpdate={this.passwordUpdated} >
-          {this.renderPassword()}
+        <SettingsGroup icon="drive_eta" title="Vehicles" onUpdate={this.passwordUpdated} >
         </SettingsGroup>
 
         <SettingsGroup icon="mdi-account-settings" title="Preferences" onUpdate={this.passwordUpdated} >
@@ -219,9 +233,6 @@ const Settings = class Settings extends Component {
             {this.renderPressureUnits()}
           </SettingsGroup>
 
-        </SettingsGroup>
-
-        <SettingsGroup icon="drive_eta" title="Vehicle" onUpdate={this.passwordUpdated} >
         </SettingsGroup>
 
         <SettingsGroup icon="person" title="Personal" onUpdate={this.passwordUpdated} >

@@ -26,6 +26,9 @@ module.exports = function(injectables) {
     // extract the registration number - ONLY going to be ONE (for now)
     const registration = req.params.reg || '';
 
+    // remove the whitespace from the registration
+    condensed = registration.replace(/\s/g, '');
+
     const data = [
       {
         registration: registration,
@@ -39,29 +42,30 @@ module.exports = function(injectables) {
 
       response.forEach( record => {
         const dateTime = record.magsensorhighdttm;
-        const plate = record.plate;
-        const tyres = record.t;
+        const plate = record.plate.replace(/\s/g, '');
 
-        // if(plate !== registration) {
-        //    skip the record - its not the same plate
-        // }
+        // only take entries that match he plate
+        if (plate === condensed) {
 
-        const readings = tyres.map(tyre => {
-          return {
-            id: `${tyre.axleno}${tyre.tyreno}`,
-            pressure: parseFloat(tyre.pressurekpa || 0),
-            depth: parseFloat(tyre.treaddepth || -1),
-            good: tyre.treaddepthwithgoodreadings || false,
+          const tyres = record.t;
+
+          const readings = tyres.map(tyre => {
+            return {
+              id: `${tyre.axleno}${tyre.tyreno}`,
+              pressure: parseFloat(tyre.pressurekpa || 0),
+              depth: parseFloat(tyre.treaddepth || -1),
+              good: tyre.treaddepthwithgoodreadings || false,
+            };
+          });
+
+          const driveOver = {
+            timestamp: dateTime,
+            tyres: readings,
           };
-        });
 
-        const driveOver = {
-          timestamp: dateTime,
-          tyres: readings,
-        };
-
-        // just pust them into the first record
-        data[0].history.push(driveOver);
+          // just pust them into the first record
+          data[0].history.push(driveOver);
+        }
       });
 
       // send the response back

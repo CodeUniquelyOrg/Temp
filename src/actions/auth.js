@@ -4,6 +4,7 @@
 import {
   AUTH_USER,
   UNAUTH_USER,
+  AUTH_ERROR,
 } from './types';
 
 import config from 'src/config';

@@ -27,7 +27,7 @@ module.exports = function(injectables) {
     // func to be had here  ....
     const data = req.body;
 
-    console.log('\nLOGIN DATA is \n', data );
+    console.log('\nLOGIN DATA is \n', data ); // eslint-disable-line
 
     // if there is no data or some of it is missing - UNAUTHORIZED
     if (!data || !data.email || !data.password) {
@@ -71,7 +71,6 @@ module.exports = function(injectables) {
 
   // POST .../auth/logout/ [formdata]
   function logout(req, res) {
-    console.log('\LOGOUT CALLED\n');
     // record last loggedIn date & time
     // auth.removedToken();
     return res.sendStatus(status.OK);
@@ -85,7 +84,7 @@ module.exports = function(injectables) {
       password,
     } = req.body;
 
-    console.log('\nREGISTER DATA is \n', req.body );
+    console.log('\nREGISTER DATA is \n', req.body ); // eslint-disable-line
 
     // if there is no data or some of it is missing - UNAUTHORIZED
     // there are other fileds but I don't care about them right now ...
@@ -98,29 +97,30 @@ module.exports = function(injectables) {
       if(err) {
         return next(err);
       }
-      if (user) {
+      if (!user) {
         return res.sendStatus(status.FORBIDDEN);  // deactivted user
       }
-        // Create the new record
-        Users.post( { email, password }, (err,response) => {
-          if(err) {
-            return next(err);
-          }
 
-          const token = auth.generateToken( response );
+      // Create the new record
+      Users.post( { email, password }, (err,response) => {
+        if(err) {
+          return next(err);
+        }
 
-          // add in some properties and also
-          // user.flag = 1;    // DUMMY
-          // user.token = token;
+        const token = auth.generateToken( response );
 
-          // dont send back this junk password part
-          // delete user.password;
-          // delete user.__v;
+        // add in some properties and also
+        // user.flag = 1;    // DUMMY
+        // user.token = token;
 
-          // Do we NEED to return all the data or JUST the token
-          // res.sendStatus(status.CREATED).json(response, token);
-          res.sendStatus(status.CREATED).json(token);
-        });
+        // dont send back this junk password part
+        // delete user.password;
+        // delete user.__v;
+
+        // Do we NEED to return all the data or JUST the token
+        // res.sendStatus(status.CREATED).json(response, token);
+        res.sendStatus(status.CREATED).json(token);
+      });
     });
   }
 

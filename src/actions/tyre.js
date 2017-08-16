@@ -10,11 +10,15 @@ import {
 import { ErrorHandler, Get } from 'src/lib/Request';
 
 export const tyreData = (regNum) => {
+
+  // get a condensded plate before you send it
+  const condensed = regNum.replace(/\s/g, '');
+
   // =======================
   // 'redux-thunk' signature
   // =======================
   return (dispatch) => {
-    Get(`/tyres/${regNum}`, null, (error,response) => {
+    Get(`/tyres/${condensed}`, null, (error,response) => {
 
       if (error) {
         return ErrorHandler(dispatch, error, DATA_ERROR);
@@ -29,11 +33,16 @@ export const tyreData = (regNum) => {
 };
 
 export const getHistoryData = (regNum) => {
+
+  // get a condensded plate before you send it
+  const condensed = regNum.replace(/\s/g, '');
+
   // =======================
   // 'redux-thunk' signature
   // =======================
   return (dispatch) => {
-    Get(`/history/${regNum}`, null, (error,response) => {
+
+    Get(`/history/${condensed}`, null, (error,response) => {
 
       if (error) {
         return ErrorHandler(dispatch, error, DATA_ERROR);

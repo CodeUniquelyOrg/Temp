@@ -5,21 +5,16 @@ import { tyreData } from 'actions/tyre';
 import { getHistoryData } from 'actions/tyre';
 import { getUserData } from 'actions/user';
 
-// getUserData
-
-// import HeaderBar from 'components/HeaderBar';   // eslint-disable-line no-unused-vars
-// import FooterBar from 'components/FooterBar';   // eslint-disable-line no-unused-vars
-
-import { Tabs, Tab } from 'material-ui/Tabs';
-import FontIcon from 'material-ui/FontIcon';
-
 // =====================================
 // UI Styling and other stuff ike that
 // =====================================
-// import Navigation from 'components/Navigation';
-// import Plate from 'components/Plate';
-// import Tyre from 'components/Tyre';
-// import car from 'img/car.png';
+
+// Material UI Components
+import { Tabs, Tab } from 'material-ui/Tabs';
+import FontIcon from 'material-ui/FontIcon';
+import Badge from 'material-ui/Badge';
+
+// Local Components
 import Car from 'components/Car';
 import History from 'components/History';
 import Settings from 'components/Settings';
@@ -37,18 +32,15 @@ const mapStateToProps = (state) => {
 };
 
 // USE A DUMMY PLATE FOR NOW
-const regNum = 'L5 MNE';
+const regNum = 'HD LS 704'; // L5 MNE';
 
-//
+// ==================================================
 // *** WILl NEED TO use the TRANSLATE OBJECT HERE ***
-//
-// const getNavigationItems = () => {
-//   return [
-//     { label: 'me',       icon: 'person',    path: '/settings' },
-//     { label: 'results',  icon: 'history',   path: '/history'  },
-//     { label: 'help',     icon: 'help',      path: '/faq'      },
-//   ];
-// };
+// ==================================================
+
+const getNormalisedRegNumber = (regNum) => {
+  return regNum.replace(/\s/g, '');
+};
 
 const Dashboard = class Dashboard extends Component {
 
@@ -73,6 +65,28 @@ const Dashboard = class Dashboard extends Component {
         </div>
       );
     }
+  }
+
+  getIdealVehicleValues() {
+    const {
+      user,
+    } = this.props;
+
+    let ideal;
+    if ( user ) {
+      if (user.registrations) { // && history) {
+
+        // database data will have condensed plate pattern
+        // const condensed = getNormalisedRegNumber(regNum);
+
+        user.registrations.forEach( vehicle => {
+          if (vehicle.plate === regNum) {
+            ideal = vehicle.ideal;
+          }
+        });
+      }
+    }
+    return ideal;
   }
 
   renderCar() {
@@ -100,8 +114,11 @@ const Dashboard = class Dashboard extends Component {
           }
         });
 
+        // database data wuill have condensed plate pattern
+        const condensed = getNormalisedRegNumber(regNum);
+
         history.forEach( vehicle => {
-          if (vehicle.registration === regNum) {
+          if (vehicle.registration === condensed) {
             historyData = vehicle.history;
           }
         });
@@ -120,6 +137,29 @@ const Dashboard = class Dashboard extends Component {
     return car;
   }
 
+  renderHistory() {
+    const {
+      user,
+      history,
+    } = this.props;
+
+    let histroyElem;
+    if (user && history) {
+      const units = {
+        pressure: user && user.presureUnits || 'PSI',
+        depth: user && user.depthUnits || 'mm',
+      };
+
+      const condensed = getNormalisedRegNumber(regNum);
+
+      const ideal = this.getIdealVehicleValues();
+      histroyElem = (
+        <History history={history} registration={condensed} units={units} ideal={ideal} />
+      );
+    }
+    return histroyElem;
+  }
+
   renderSettings() {
     const {
       user,
@@ -134,26 +174,6 @@ const Dashboard = class Dashboard extends Component {
     return settingsElem;
   }
 
-  renderHistory() {
-    const {
-      user,
-      history,
-    } = this.props;
-
-    let histroyElem;
-    if (user && history) {
-      const units = {
-        pressure: user && user.presureUnits || 'PSI',
-        depth: user && user.depthUnits || 'mm',
-      };
-
-      histroyElem = (
-        <History history={history} registration={regNum} units={units} />
-      );
-    }
-    return histroyElem;
-  }
-
   render() {
 
     const {
@@ -161,6 +181,12 @@ const Dashboard = class Dashboard extends Component {
       tyres,
       history,
     } = this.props;
+
+    const badgeStyles = {
+      position: 'absolute',
+    };
+
+    const activeTasksBadge = <Badge style={badgeStyles} secondary={true} badgeContent={6} />;
 
     return (
       <div className={style.root}>
@@ -179,7 +205,12 @@ const Dashboard = class Dashboard extends Component {
           </Tab>
 
           <Tab
-            icon={<FontIcon className="material-icons">history</FontIcon>}
+            icon={
+              <div>
+                <FontIcon className="material-icons">history</FontIcon>
+                {activeTasksBadge}
+              </div>
+            }
             label="HISTORY"
           >
             {this.renderHistory()}
