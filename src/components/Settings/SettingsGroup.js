@@ -16,6 +16,9 @@ import style from './group.pcss';
 
 // make the avatar icon on the left hand side
 const makeAvatar = (icon) => {
+  if ( icon.indexOf('mdi-') === 0) {
+    return <Avatar icon={<FontIcon className={`mdi ${icon}`}/>} />;
+  }
   return <Avatar icon={<FontIcon className="material-icons">{icon}</FontIcon>} />;
 };
 

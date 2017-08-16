@@ -205,7 +205,7 @@ const Settings = class Settings extends Component {
           {this.renderPassword()}
         </SettingsGroup>
 
-        <SettingsGroup icon="settings" title="Preferences" onUpdate={this.passwordUpdated} >
+        <SettingsGroup icon="mdi-account-settings" title="Preferences" onUpdate={this.passwordUpdated} >
 
           <SettingsGroup icon="language" title="Language" onUpdate={this.passwordUpdated} >
             {this.renderPressureUnits()}
