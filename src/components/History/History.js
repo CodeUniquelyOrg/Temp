@@ -19,8 +19,9 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
-// Local Componets
+// Local Components
 import Translate from 'components/Translate';
+import ExpandableContent from 'components/ExpandableContent';
 import Icon from 'components/Icon';
 
 // Styling for the component
@@ -189,9 +190,9 @@ const History = class Settings extends Component {
       <Table fixedHeader={false} fixedFooter={false} selectable={false} multiSelectable={false}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
           <TableRow>
-            <TableHeaderColumn tooltip="The Tyre">Tyre</TableHeaderColumn>
-            <TableHeaderColumn tooltip="The Pressure">Pressure</TableHeaderColumn>
-            <TableHeaderColumn tooltip="The Depth">Depth</TableHeaderColumn>
+            <TableHeaderColumn>Tyre</TableHeaderColumn>
+            <TableHeaderColumn>Pressure</TableHeaderColumn>
+            <TableHeaderColumn>Depth</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
@@ -207,66 +208,79 @@ const History = class Settings extends Component {
     );
   }
 
-  renderCard(date, tyres) {
+  formatDate(datestring) {
+    const date = new Date(datestring);
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    return date.toLocaleDateString('de-DE', options );
+  }
+
+  formatTime(datestring) {
+    const date = new Date(datestring);
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+    return date.toLocaleDateString('de-DE', options );
+  }
+
+  // renderCard(date, tyres) {
+  //   const {
+  //     registration,
+  //     ...rest,
+  //   } = this.props;
+
+  //   // <CardTitle title="Your Readings" subtitle="tyre pressure and depth measurements" />
+  //   const table = this.renderTable(tyres);
+
+  //   const status = this.tyreStatus(tyres);
+  //   const background = status === -1 ? red500 : status === 1 ? green500 : grey500;
+  //   // console.log('STATUS IS ', status ); // eslint-disable-line
+
+  //   // title={registration}
+  //   // secondaryText={date}
+
+  //   return (
+  //     <ExpandableContent
+  //       title={registration}
+  //       secondaryText={date}
+  //       icon={ <Icon name="drive_eta" color={background} />}
+  //       content = {table}
+  //     />
+  //   );
+  // }
+
+  renderList(history) {
     const {
       registration,
       ...rest,
     } = this.props;
 
-    // <CardTitle title="Your Readings" subtitle="tyre pressure and depth measurements" />
-    const table = this.renderTable(tyres);
+    return history.map( (record, i) => {
 
-    const status = this.tyreStatus(tyres);
-    const background = status === -1 ? red500 : status === 1 ? green500 : grey500;
-    console.log('STATUS IS ', status ); // eslint-disable-line
+      const tyres = record.tyres;
+      const date =  this.formatDate(record.timestamp);
+      const time =  this.formatTime(record.timestamp);
 
-    return (
-      <Card>
-        <CardHeader
-          title={registration}
-          subtitle={date}
-          avatar={ <Icon name="drive_eta" color={background}/>}
-        />
-        <CardText>
-          {table}
-        </CardText>
-      </Card>
-    );
-  }
+      // get the table of data
+      const table = this.renderTable(tyres);
+      const status = this.tyreStatus(tyres);
+      const background = status === -1 ? red500 : status === 1 ? green500 : grey500;
 
-  // [
-  //   {
-  //     "timestamp": "2017-09-10T08:29:49.000",
-  //     "tyres": [
-  //       { "id": "11", "pressure": 120.65123635, "depth": 3.53515371 },
-  //       { "id": "12", "pressure": 242.56028291, "depth": 7.04479222 },
-  //       { "id": "21", "pressure": 240.33778381, "depth": 7.19137197 },
-  //       { "id": "22", "pressure": 242.12916137, "depth": 4.99517161 }
-  //     ]
-  //   },
-  // ]
-  renderGrid(history) {
-    return history.map( (record) => {
+      // title={registration}
+      // secondaryText={date}
 
-      // cols={tile.featured ? 2 : 1}
-      // rows={tile.featured ? 2 : 1}
-      // title={date}
-      // titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-      // actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-      // actionPosition="left"
-      // titlePosition="bottom"
-
-      // const date = new Date(record.timestamp);
-      // const date = new Intl.DateTimeFormat('de-DE').format(record.timestamp);
-      const date = record.timestamp;
       return (
-        <GridTile
-          key={date}
-          cols={1}
-          rows={1}
-        >
-          {this.renderCard(date, record.tyres)}
-        </GridTile>
+        <ExpandableContent key={i}
+          title={date}
+          secondaryText={time}
+          icon={ <Icon name="drive_eta" color={background} />}
+          content = {table}
+        />
       );
     });
   }
@@ -278,24 +292,15 @@ const History = class Settings extends Component {
       ...rest,
     } = this.props;
 
+    // get the registration history for the required vehicle
     const regHistory = getHistoryForReg(history, registration);
-
-    // cellHeight={300}
 
     return (
       <div className={style.root}>
-        <GridList
-          cols={1}
-          cellHeight={320}
-          padding={1}
-          className={style.gridList}
-        >
-          {this.renderGrid(regHistory)}
-        </GridList>
+        {this.renderList(regHistory)}
       </div>
     );
   }
 };
 
 export default History;
-// export default connect(mapStateToProps, { getUserData })(Form(Settings));

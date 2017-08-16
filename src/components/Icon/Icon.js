@@ -20,11 +20,12 @@ const makeAvatar = (name,color) => {
 };
 
 const Icon = ({ name, color = grey500 }) => {
-  return (
-    <div className={style.root}>
-      {makeAvatar(name, color)}
-    </div>
-  );
+  // return (
+  //   <div className={style.root}>
+  //     {makeAvatar(name, color)}
+  //   </div>
+  // );
+  return makeAvatar(name, color);
 };
 
 Icon.propTypes = {
