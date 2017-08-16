@@ -21,6 +21,9 @@ import reducers from 'reducers';
 // Load AUTH_USER from teh action types
 import { AUTH_USER } from 'actions/types';
 
+// Tokens API
+import { getToken } from 'lib/Tokens';   // ALIAS !!!!
+
 // Initialize 'Google Analytics' with the portal ID
 // ReactGA.initialize('UA-000000-01');
 
@@ -36,22 +39,17 @@ const appElem = document.querySelector('.app');
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
-// const token = cookie.get('token');
-const token = localStorage.getItem('token');
+// do we have a TOKEN
+const token = getToken();
 
 // Set 'redux' to 'authenicated' if we have a token
-// -LA8R: CHECK THE TOKEN ISVALID
+// L8R: *** CHECK THE TOKEN IS STILL VALID ***
 if (token) {
   store.dispatch({ type: AUTH_USER });
 }
 
 // Alternate with GA attached
 // <Router history={browserHistory} routes={routes} onUpdate={logPageView} />
-
-// <Route path="*" component={NotFoundPage} />
-//   <div>
-//    <Route path="**" component={App} />
-//  </div>
 
 const portal = (
   <Provider store={store}>

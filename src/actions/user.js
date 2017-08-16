@@ -13,9 +13,7 @@ export const getUserData = () => {
   // 'redux-thunk' signature
   // =======================
   return (dispatch) => {
-
     // get 'MY' data from the server
-
     Get('/users/me', null, (error,response) => {
       if (error) {
         return ErrorHandler(dispatch, error, DATA_ERROR);

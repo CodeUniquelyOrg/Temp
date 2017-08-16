@@ -11,13 +11,17 @@ module.exports = {
   server: {
     offline: true,
 
+    // portalRoot: 'http://localhost:5000',
+    protocol: 'http',
+    host: 'localhost',
     port: 5000,
-    // host: 'localhost', // will be inserted by 'my-local-ip'
-    portalRoot: 'http://localhost:5000',
-    apiRoot: 'http://localhost:8000/api/v1',
+    root: '',
 
-    // portalRoot: 'http://192.168.16.86:5000',
     // apiRoot: 'http://192.168.16.86:8000/api/v1',
+    apiProtocol: 'http',
+    apiHost: 'localhost',
+    apiPort: 8000,
+    apiRoot: '/api/v1',
   },
 
   // mock: {

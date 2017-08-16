@@ -8,13 +8,11 @@ import {
 
 import config from 'src/config';
 
+// Tokens API
+import { removeToken } from 'lib/Tokens';   // ALIAS !!!!
+
 // Obtained from config - for example 'http://localhost:4000;
-const CLIENT_ROOT_URL = () => {
-  if (process.env.HOST && process.env.PORT) {
-    return `http://${process.env.HOST}:${process.env.PORT}`;
-  }
-  return config.server.portalRoot;
-};
+const CLIENT_ROOT_URL = process.env.CLIENT_ROOT || `${config.server.protocol}://${config.server.host}:${config.server.port}${config.server.root}`;
 
 import { ErrorHandler, Post } from 'src/lib/Request';
 
@@ -42,7 +40,7 @@ export const loginUser = ({ email, password }) => {
       }
 
       // otherwise => set as 'Authenticated'
-      localStorage.setItem('token', response.data.token);
+      // tokens.setToken(response.data.token);
 
       // Need to make the rquest for user (passing ID)
       // and store the answer in state ?????
@@ -72,7 +70,7 @@ export const registerUser = ({ email, firstName, lastName, password  }) => {
   return (dispatch) => {
     const lowerEmail = email.toLowerCase();
     Post( '/auth/register', { email:lowerEmail, firstName, lastName, password }, dispatch, response => {
-      localStorage.setItem('token', response.data.token);
+      // tokens.setToken(response.data.token);
       dispatch({ type: AUTH_USER });
       window.location.href = CLIENT_ROOT_URL + '/dashboard';
     });
@@ -82,7 +80,7 @@ export const registerUser = ({ email, firstName, lastName, password  }) => {
 // function call o logout  user - > redirect to login (or) / root ???
 export function logoutUser() {
   return function (dispatch) {
-    localStorage.removeItem('token');
+    removeToken();
     dispatch({ type: UNAUTH_USER });
     window.location.href = CLIENT_ROOT_URL + '/';
   };

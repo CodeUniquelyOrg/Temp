@@ -5,6 +5,7 @@ var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CompressionPlugin  = require('compression-webpack-plugin');
+var WebpackOnBuildPlugin = require('on-build-webpack');
 var NofifierPlugin = require('webpack-build-notifier');
 // var autoprefixer = require('autoprefixer');
 var path = require('path');
@@ -34,6 +35,7 @@ var fontPath          = path.resolve(assetsPath, 'fonts');
 var srcPath           = path.resolve( __dirname, 'src' );
 var actionPath        = path.resolve( srcPath, 'actions' );
 var componentsPath    = path.resolve( srcPath, 'components' );
+var libPath           = path.resolve( srcPath, 'lib' );
 var pagesPath         = path.resolve( srcPath, 'pages' );
 var reducerPath       = path.resolve( srcPath, 'reducers' );
 var stylePath         = path.resolve( srcPath, 'style' );
@@ -52,9 +54,13 @@ var plugins = [
     'process.env': {
       ENV: JSON.stringify(env),
       NODE_ENV: JSON.stringify(env),
-      HOST: JSON.stringify(HOST),
-      PORT: JSON.stringify(PORT),
+      CLIENT_ROOT: JSON.stringify(config.server.protocol + '://' + HOST + ':' + PORT + config.server.root),
+      API_ROOT: JSON.stringify(config.server.apiProtocol + '://' + HOST + ':' + config.server.apiPort + config.server.apiRoot),
     },
+  }),
+
+  new WebpackOnBuildPlugin(function(stats) {
+    console.log('\n\nDev Server is running on ' + HOST + ':' + PORT + '\n\n' ); // eslint-disable-line
   }),
 
   new NofifierPlugin({
@@ -424,9 +430,10 @@ module.exports = {
       img: imgPath,
       font: fontPath,
       src: srcPath,
-      pages: pagesPath,
-      components: componentsPath,
       actions: actionPath,
+      components: componentsPath,
+      lib: libPath,
+      pages: pagesPath,
       reducers: reducerPath,
       style: stylePath,
       theme: themePath,

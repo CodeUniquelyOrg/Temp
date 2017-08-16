@@ -3,7 +3,7 @@ module.exports = {
   version: '0.0.1',
 
   server: {
-    port: process.env.PORT || 8000,
+    port: process.env.PORT || 80,
     apiRoot: '/api/v1',
   },
 

@@ -13,7 +13,7 @@ RUN mkdir -p /app && cp -a /tmp/node_modules /app/
 WORKDIR /app
 ADD . /app
 
-EXPOSE 8000
+EXPOSE 80
 
 # Define environment variable
 ENV NAME webapi

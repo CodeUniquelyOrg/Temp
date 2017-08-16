@@ -9,8 +9,9 @@ import { Step, Stepper, StepLabel } from 'material-ui/Stepper';
 // HACKY WAY TO DO IT
 import config from 'src/config';
 
-// Obtained from config
-const CLIENT_ROOT_URL = config.server.portalRoot;    // 'http://localhost:4000;
+// Obtained from config - for example 'http://localhost:4000;
+// Obtained from config - for example 'http://localhost:4000;
+const CLIENT_ROOT_URL = process.env.CLIENT_ROOT || `${config.server.protocol}://${config.server.host}:${config.server.port}${config.server.root}`;
 
 //
 // A contrived example using a transition between steps

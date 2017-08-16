@@ -1,26 +1,11 @@
 import axios from 'axios';
 import config from 'src/config';
 
-// Obtained from config
-// const CLIENT_ROOT_URL = config.server.portalRoot;   // 'http://localhost:4000;
+// Tokens API
+import { getToken, setToken } from 'lib/Tokens';   // ALIAS !!!!
 
-// 'http://localhost:4000/api/v1';
-const API_ROOT = config.server.apiRoot;
-
-const getToken = () => {
-  return localStorage.getItem('token');
-};
-
-// const setToken = (token) => {
-//   localStorage.setItem('token', token);
-// };
-
-const getServer = () => {
-  if (process.env.HOST && process.env.PORT) {
-    return `http://${process.env.HOST}:${process.env.PORT}/api/v1`;
-  }
-  return API_ROOT;
-};
+// Obtained from config - for example 'http://localhost:4000/api/v1;
+const API_ROOT = process.env.API_ROOT || `${config.server.apiProtocol}://${config.server.apiHost}:${config.server.apiPort}${config.server.apiRoot}`;
 
 const format = (k,v) => v !== null ? `${k}=${encodeURIComponent(v)}` : '';
 
@@ -43,7 +28,7 @@ const serialize = (json) => {
 // e.g. axios.get(`${API_ROOT}/users?minage=18&year=2017`, {
 const makeApiRroute = ( url, params ) => {
   const trimmed = url ? url.trim() : undefined;
-  const server = getServer();
+  const server = API_ROOT;
   if (trimmed) {
     if (trimmed.indexOf('/') === 0 ) {
       return `${server}${trimmed}${serialize(params)}`;
@@ -191,9 +176,6 @@ const Delete = ( url, data, callback )  => {
 axios.interceptors.request.use( config => {
   const token = getToken();
   if (token !== null) {
-    // if (!config.headers) {
-    //   config.headers = {};
-    // }
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -201,14 +183,14 @@ axios.interceptors.request.use( config => {
   return Promise.reject(err);
 });
 
-// axios.interceptors.response.use(response => {
-//   if (response.data && response.data.token) {
-//     localStorage.setItem('token', response.data.token);
-//   }
-//   return response;
-// }, err => {
-//   // Do something with response error
-//   return Promise.reject(err);
-// });
+axios.interceptors.response.use(response => {
+  if (response.data && response.data.token) {
+    setToken(response.data.token);
+  }
+  return response;
+}, err => {
+  // Do something with response error
+  return Promise.reject(err);
+});
 
 export { Get, Post, Delete, Put, ErrorHandler };
