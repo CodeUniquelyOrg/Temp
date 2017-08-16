@@ -31,7 +31,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-// USE A DUMMY PLATE FOR NOW
+// USE A DUMMY PLATE FOR NOW !!!!!!!!!!!!!!!!!!!!
 const regNum = 'HD LS 704'; // L5 MNE';
 
 // ==================================================
@@ -51,7 +51,7 @@ const Dashboard = class Dashboard extends Component {
     this.props.getUserData();
 
     // HACK - assuming already have the reg - DISPATCH tyre usage request to API
-    this.props.tyreData(regNum);
+    // this.props.tyreData(regNum);
 
     // HACK - assuming already have the reg - DISPATCH
     this.props.getHistoryData(regNum);

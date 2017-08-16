@@ -4,14 +4,23 @@ import QRCode  from 'qrcode.react';
 import style from './style.pcss';
 
 const encodeTicks = ()  => {
-  var nowticks = Math.floor((new Date().getTime()) / 256);
-  var possible = '_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-';
+  // var nowticks = Math.floor((new Date().getTime()) / 256);
+  // var possible = '_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-';
+
+  // Kiosk Identifier
+  const kiosk = 'AEF';
+
+  // var nowticks = Math.floor((new Date().getTime()) / 1024);  // could just mask out the bottom 10 bits
+  var nowticks = Math.floor((new Date().getTime()) >>> 10);
+  var possible = 'ABCDEFGHJKLMNPQRSTVWXY1234567890';
   var response = '';
   while(nowticks > 0) {
-    response += possible.charAt(nowticks % 0x40);
-    nowticks = Math.floor(nowticks / 64);
+    response += possible.charAt(nowticks % 32);  // effectively reverses the digits into string
+    nowticks = Math.floor(nowticks / 32);
   }
-  return response;
+
+  // return response + 'Z' + kiosk;
+  return response.split('').reverse().join('') + 'Z' + kiosk;
 };
 
 class Kiosk extends Component {

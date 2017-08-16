@@ -245,7 +245,7 @@ class Car extends Component {
           <div className={style.altRoot}>
             <div className={style.altPlate}>
               <div className={style.altCentrePlate}>
-                <Plate registration={vehicle.plate} isYellow={true} />
+                <Plate registration={vehicle.plate} isYellow={false} />
               </div>
             </div>
 
