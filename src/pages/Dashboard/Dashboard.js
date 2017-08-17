@@ -207,7 +207,7 @@ const Dashboard = class Dashboard extends Component {
           <Tab
             icon={
               <div>
-                <FontIcon className="material-icons">history</FontIcon>
+                <FontIcon color="#ffffff" className="material-icons">history</FontIcon>
                 {activeTasksBadge}
               </div>
             }

@@ -1,37 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 
-import { red500, amber500, lightGreen800, grey900 } from 'material-ui/styles/colors';
+import FontIcon from 'material-ui/FontIcon';
+
+import { red500, amber500, blue500, indigo500, green500, lightGreen800, grey900, white } from 'material-ui/styles/colors';
 
 // consider using themr instead => import { themr } from 'react-css-themr';
 import style from './style.pcss';
-
-const defaultColours = {
-  red: '#e53935',
-  amber: '#ffd54f',
-  green: '#8bc34a',
-  blue: '#72bcd4',
-};
-
-// const Wrapper = props => (
-//   <div onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave} style={props.style} className={props.className}>
-//     {props.children}
-//   </div>
-// );
-
-// const ToolTipWrapper = Tooltip(Wrapper);
-
-// const ToolTipRag = ({ tooltip, ...props }) => (
-//   <ToolTipWrapper tooltip={tooltip} {...props}>
-//     <Rag {...props}/>
-//   </ToolTipWrapper>
-// );
-
-// const mapStateToProps = (state)  => {
-//   return {
-//     authenticated: state.auth.authenticated,
-//   };
-// };
 
 const labelNames = (id) => {
   switch(id) {
@@ -52,68 +27,33 @@ class Tyre extends Component {
   static propTypes = {
 
     id: PropTypes.string.isRequired,  // -  will it be a string ???
-    // id: PropTypes.oneOfType([
-    //   PropTypes.string,
-    //   PropTypes.number,
-    // ]).isRequired,
+
+    // pressure value
+    pressure: PropTypes.number.isRequired,
+    over: PropTypes.bool.isRequired,
+    under: PropTypes.bool.isRequired,
+
+    // depth to display
+    depth: PropTypes.number.isRequired,
+    legal: PropTypes.bool.isRequired,
 
     // was it a good read
     good: PropTypes.bool.isRequired,
 
-    // Circle value
-    pressure: PropTypes.number.isRequired,
-
-    // AMBER value
-    depth: PropTypes.number.isRequired,
-
-    // optionally where is the outer limit of te tyre
-    fullDepth: PropTypes.number,
-
-    // First line of text under the Circle
-    // label: PropTypes.string.isRequired,
-
-    // maximum allowed presssure
-    top: PropTypes.number.isRequired,
-
-    // upper pressure limit for tyre
-    upper: PropTypes.number.isRequired,
-
-    // lower pressure limit for tyre
-    lower: PropTypes.number.isRequired,
-
-    // minimum allowed presssure
-    bottom: PropTypes.number.isRequired,
-
-    // deviation
-    sigma: PropTypes.number.isRequired,
-
-    units: PropTypes.PropTypes.shape({
-      pressure: PropTypes.string.isRequired,
-      depth: PropTypes.string.isRequired,
-    }),
+    // units: PropTypes.PropTypes.shape({
+    //   pressure: PropTypes.string.isRequired,
+    //   depth: PropTypes.string.isRequired,
+    // }),
 
     // function callback (optional) when tyre clicked
     onClick: PropTypes.func,  // eslint-disable-line react/require-default-props
-
-    // PCSS Object, similar code style as react toolbox allowing
-    // for Tyre color overrides and size overrides
-    theme: PropTypes.object,
-
-    // Link - where to go to get MORE information about this tyre
-    linkTo: PropTypes.string,
   }
 
-  static defaultProps = {
-    fullDepth: 10,
-    theme: undefined,
-    linkTo: '#',
-    units: {
-      pressure: 'PSI',
-      depth: 'mm',
-    },
-  }
+  // static defaultProps = {
+  //   fullDepth: 10,
+  // }
 
-  onClicked = (/* event */) => {
+  onClicked = () => {
     if (this.props.onClick) {
       this.props.onClick();
     }
@@ -145,40 +85,24 @@ class Tyre extends Component {
     return d;
   }
 
-  rotateNeedle(cx,cy, value, range) {
-    if (value < 0 || value > 1) {
-      return false;
-    }
+  buildDonutAlt(pressure, top, maxPressure, minPressure, bottom, depth, fullDepth, good, theme) {
+    // center point will be a at 100,100
+    const cx=100, cy=100;
 
-    // Has value => 0-100% which will sweep over [range] degrees
-    // from the right hand side to the left hand side
-    const degrees = (value * range) + ((180 - range) / 2);
+    const range = top - bottom;
+    const offset = pressure - bottom;
+    const p = (offset / range); // + bottom;
 
-    return `rotate(${degrees} ${cx} ${cy})`;
-  }
+    // const depthText = `${this.convertDepthUnits(depth)} ${this.props.units.depth}`;
+    // const pressureText = `${this.convertPressureUnits(pressure)} ${this.props.units.pressure}`;
 
-  convertPressureUnits(pressure) {
-    const {
-      units,
-    } = this.props;
+    const arcPath = this.describeArc(cx, cy, 75, 20, 0, p * 360);
 
-    if (units.pressure === 'PSI') {
-      return Math.round(pressure * 0.145038,0);
-    } else if ( units.pressure === 'bar') {
-      return Math.round(pressure * 0.01,2);
-    }
-    return Math.round(pressure,0);
-  }
-
-  convertDepthUnits(depth) {
-    const {
-      units,
-    } = this.props;
-
-    if (units.depth === '1/32"') {
-      return Math.round(depth * 1.259842519685037,2);
-    }
-    return Math.round(depth,0);
+    return (
+      <svg className="donut-chart" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+        <path d={arcPath} fill={indigo500} />
+      </svg>
+    );
   }
 
   // SVG will scale to fit the size we put it in anyway,
@@ -196,9 +120,9 @@ class Tyre extends Component {
     const offset = pressure - bottom;
     const p = (offset / range); // + bottom;
 
-    let color1 = theme && theme.error || '#f44336';
-    let color2 = theme && theme.error || '#8BC34A';
-    let color3 = theme && theme.error || '#f44336';
+    let color1 = red500;
+    let color2 = grey900;
+    let color3 = red500;
 
     // where the guage starts (in the 100px radius)
     const guageEdge = 40;
@@ -321,61 +245,51 @@ class Tyre extends Component {
     );
   }
 
-  getColor(name, theme) {
-    return theme && theme[name] ? theme[name] : defaultColours[name];
-  }
-
   // render the editable value
   render() {
     const {
       id,
-      good,
       pressure,
-      depth,
-      top,
-      upper,
-      lower,
-      bottom,
-      onClick,    // eslint-disable-line react/require-default-props, no-unused-vars
-      linkTo,
-      fullDepth,
-      theme,
-      units,      // removing from ..other
-      sigma,      // removing from ..other
-      dispatch,   // removing from ..other
+      over,
+      under,
+      units,      // removing from ...rest
 
-      ...other
+      depth,
+      legal,
+      good,
+
+      onClick,    // eslint-disable-line react/require-default-props, no-unused-vars
+      dispatch,   // removing from ...rest
+
+      ...rest
     } = this.props;
 
     // build the SVG do-nut chart
-    const tyre = this.buildDonut(pressure, top, upper, lower, bottom, depth, fullDepth, good, theme);
+    // const tyre = this.buildDonut(pressure, top, upper, lower, bottom, depth, fullDepth, good, theme);
+    // const tyre = this.buildDonutAlt(pressure, top, upper, lower, bottom, depth, fullDepth, good, theme);
 
-    //
-    // Styling in Code
-    //
-    /*
-    // this WILL chnage the size of the guage
-    const wrapperStyle = {
-      width: '160px',
-      height: '160px',
-      backgroundColor: 'rgba(0,0,0,0.1)',
-      borderRadius: '50%',
-    };
+    const background = (under || over) ? red500 : green500;
 
-    // This will SCALE the guage to that size
-    const svgStyle = {
-      width: '100%',
-      height: '100%',
-      position: 'absolute',
-      cursor: 'pointer',
-    };
-    */
+    let overUnderIndicator;
+    if (under || over) {
+      overUnderIndicator = (
+        <div className={`${ under ? style.under : style.over}`}>
+          <FontIcon color={white} className="material-icons" style={{ fontSize:24 }} >error</FontIcon>
+        </div>
+      );
+    }
 
     return (
-      <div key={id} className={style.scaledTyre} onClick={this.onClicked}>
-        <div className={style.svg}>
-          {tyre}
+      <div className={style.scaledTyre} onClick={this.onClicked}>
+        <div className={style.circle} style={{ backgroundColor:background }}>
+          <div className={style.pressureText}>
+            {pressure}
+          </div>
+          <div className={style.unitsText}>
+            psi
+          </div>
         </div>
+        {overUnderIndicator}
       </div>
     );
   }
@@ -383,4 +297,3 @@ class Tyre extends Component {
 
 // export default connect()(Tyre);
 export default Tyre;
-

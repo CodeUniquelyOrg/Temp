@@ -16,18 +16,51 @@ import spacing from 'material-ui/styles/spacing';
 // .divider-color         { border-color: #BDBDBD; }      - grey400
 
 // various colours and size for the theme
-import { cyan500, indigo700, indigo500, indigo100, grey900, grey600, grey400, grey100, lightGreen800 } from 'material-ui/styles/colors';
+import {
+  cyan500,
+  red500,
+  indigo700,
+  indigo500,
+  indigo100,
+  grey900,
+  grey600,
+  grey400,
+  grey100,
+  lightGreen800,
+  lightGreen500,
+  white,
+  darkBlack,
+  fullBlack
+} from 'material-ui/styles/colors';
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
 // More on Colors: http://www.material-ui.com/#/customization/colors
+
 const muiTheme = getMuiTheme({
   palette: {
-    textColor: grey900,
     // primary1Color: indigo500,
+    // primary2Color: indigo700,
+    // primary3Color: grey400,
+    accent1Color: lightGreen500,
+    // accent2Color: grey100,
+    // accent3Color: grey600,
+    // textColor: darkBlack,
+    // alternateTextColor: white,
+    // canvasColor: white,
+    // borderColor: grey400,
+    // disabledColor: fade(darkBlack, 0.3),
+    // pickerHeaderColor: indigo500,
+    // clockCircleColor: fade(darkBlack, 0.07),
+    // shadowColor: fullBlack,
   },
-  appBar: {
-    height: 50,
+  badge: {
+    // color: '#ffffff',
+    // primaryColor: '#3f51b5',
+    // primaryTextColor: '#ffffff',
+    secondaryColor: red500,
+    // secondaryTextColor: '#ffffff',
+    // textColor:'rgba(0, 0, 0, 0.87)'
   },
 });
 

@@ -34,6 +34,25 @@ const getAveragePressure = (data)  => {
   return (sigma && sigma / data.length) || 230; // about 32 PSI
 };
 
+const convertPressureUnits = (pressure, units) => {
+  if (units.pressure === 'PSI') {
+    return Math.round(pressure * 0.145038,0);
+  } else if ( units.pressure === 'bar') {
+    return Math.round(pressure * 0.01,2);
+  }
+  return Math.round(pressure,0);
+};
+
+const convertDepthUnits = (depth, units) => {
+  if (units.depth === '1/32"') {
+    return Math.round(depth * 1.259842519685037,2);
+  }
+  return Math.round(depth,0);
+};
+
+// HACK - THIS NEEDS TO BE SET-UP & PASSED IN CONFIG
+const legalLimit = 4;
+
 class Car extends Component {
 
   static propTypes = {
@@ -107,7 +126,7 @@ class Car extends Component {
       const ideal = getIdealPressure(ideals, t.id, average);
 
       // % of ideal pressure - shown as 1 guage deviation
-      const sigma = ideal * tolerence;
+      const sigma = ideal * tolerence / 2;
 
       return (
         <Tyre
@@ -152,27 +171,28 @@ class Car extends Component {
 
       // % of ideal pressure - shown as 1 guage deviation
       const sigma = ideal * tolerence;
+      const over = t.id === '11' ? ideal + sigma : 100;   // DEMO HACK
+      const under = ideal - sigma;
 
       const pos = parseInt(t.id,10);
       if (pos % 2 === 1) {
         return (
           <Tyre
-            key = {i}
-            className={style.altTyre}
+
+            key={t.id}
             id={t.id}
+
+            className={style.altTyre}
+
+            // presssure data
+            pressure={convertPressureUnits(t.pressure,units)}
+            under={t.pressure < under}
+            over={t.pressure > over}
+
+            // depth data
+            depth={convertDepthUnits(t.depth,units)}
+            legal={t.depth >= legalLimit}
             good={t.good}
-
-            // the data
-            pressure={t.pressure}
-            depth={t.depth}
-            units={units}
-
-            // upper and lower limit for guage
-            top={ideal + sigma + sigma}
-            upper={ideal + sigma}
-            lower={ideal - sigma}
-            bottom={ideal - sigma - sigma}
-            sigma={sigma}
           />
         );
       }
@@ -199,27 +219,28 @@ class Car extends Component {
 
       // % of ideal pressure - shown as 1 guage deviation
       const sigma = ideal * tolerence;
+      const over = ideal + sigma;
+      const under = t.id === '22' ? ideal - sigma : 500;   // DEMO HACK
 
       const pos = parseInt(t.id,10);
       if (pos % 2 === 0) {
         return (
           <Tyre
-            key = {i}
-            className={style.altTyre}
+            key={t.id}
             id={t.id}
+
+            className={style.altTyre}
+
+            // presssure data
+            pressure={convertPressureUnits(t.pressure,units)}
+            under={t.pressure < under}
+            over={t.pressure > over}
+
+            // depth data
+            depth={convertDepthUnits(t.depth,units)}
+            legal={t.depth >= legalLimit}
             good={t.good}
 
-            // the data
-            pressure={t.pressure}
-            depth={t.depth}
-            units={units}
-
-            // upper and lower limit for guage
-            top={ideal + sigma + sigma}
-            upper={ideal + sigma}
-            lower={ideal - sigma}
-            bottom={ideal - sigma - sigma}
-            sigma={sigma}
           />
         );
       }
@@ -238,11 +259,11 @@ class Car extends Component {
     } = this.props;
 
     if ( vehicle ) {
-      // const tyres = this.renderTyres();
 
       if (alt) {
         return (
           <div className={style.altRoot}>
+
             <div className={style.altPlate}>
               <div className={style.altCentrePlate}>
                 <Plate registration={vehicle.plate} isYellow={false} />
@@ -267,6 +288,7 @@ class Car extends Component {
               </div>
 
             </div>
+
           </div>
 
         );

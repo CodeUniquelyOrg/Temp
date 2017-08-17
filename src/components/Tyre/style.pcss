@@ -1,14 +1,56 @@
+/*
+  View from 300 min to say 1200)
+  6vw => 18 to 72px
+*/
 .scaledTyre {
   display: flex;
-  width: 90%;
+  width: calc(100px + 6vw);
+  height: calc(100px + 6vw);
+  /* width: 90%; */
   /* height: 90%; */
   min-width: 120px;
   min-height: 120px;
   max-width: 200px;
   max-height: 200px;
+  position: relative;
 }
-.svg {
+.circle {
+  position: absolute;
   width: 100%;
   height: 100%;
   cursor: pointer;
-};
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.pressureText {
+  font-size: calc(32px + 2vw);
+  text-shadow: 0 3px 7px rgba(0,0,0,0.3);
+  color:  white;
+}
+.unitsText {
+  font-size: calc(8px + 1vw);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  line-height: 0.5em;
+  color:  white;
+}
+.over {
+  position: absolute;
+  width: 100%;
+  top: 8px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  text-align: center;
+  color:  white;
+}
+.under {
+  position: absolute;
+  width: 100%;
+  /* bottom: 8px; */
+  bottom: calc(2px + 1vw);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  text-align: center;
+  color:  white;
+}
+
