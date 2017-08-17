@@ -3,6 +3,14 @@
 //
 import {
   USER_DATA,
+
+  UPDATE_MOBILE,
+  UPDATE_EMAIL,
+  UPDATE_TITLE,
+  UPDATE_GREETING,
+  UPDATE_FORENAME,
+  UPDATE_SURNAME,
+
   DATA_ERROR,
 } from './types';
 

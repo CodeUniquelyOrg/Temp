@@ -13,6 +13,14 @@ export const DATA_ERROR = 'data_error';
 // User actions
 export const USER_DATA = 'USER_DATA';
 
+// Value Updates
+export const UPDATE_MOBILE = 'USER:UPDATE_MOBILE';
+export const UPDATE_EMAIL = 'USER:UPDATE_EMAIL';
+export const UPDATE_TITLE = 'USER:UPDATE_TITLE';
+export const UPDATE_GREETING = 'USER:UPDATE_GREETING';
+export const UPDATE_FORENAME = 'USER:UPDATE_FORENAME';
+export const UPDATE_SURNAME = 'USER:UPDATE_SURNAME';
+
 // Translation actions
 export const SET_CURRENT_LANGUAGE = 'SET_CURRENT_LANGUAGE';
 export const SET_DICTIONARIES = 'SET_DICTIONARIES';

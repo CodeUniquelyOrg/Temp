@@ -49,10 +49,6 @@ class Tyre extends Component {
     onClick: PropTypes.func,  // eslint-disable-line react/require-default-props
   }
 
-  // static defaultProps = {
-  //   fullDepth: 10,
-  // }
-
   onClicked = () => {
     if (this.props.onClick) {
       this.props.onClick();
@@ -89,7 +85,6 @@ class Tyre extends Component {
   }
 
   describeBobble(x, y, radius, spread, startAngle) {
-    // let innerStart = this.polarToCartesian(x, y, radius, endAngle);
     return this.polarToCartesian(x, y, radius + spread/2, startAngle);
   }
 
@@ -121,21 +116,27 @@ class Tyre extends Component {
     // <path d={arcPath2} fill={colour} stroke={colour} />
     // <stop offset="50%" stopColor={amber500}/>
 
-    const colour = good ? anticlock ? redA400 : lightGreenA400 : grey500;
+    // const thumbColor = good ? anticlock ? redA400 : lightGreenA400 : grey500;
+    const endColor = good ? lightGreenA400 : grey500;
+    const startColor = good ? redA400 : grey500;
+
+    const grad = `grad${this.props.id}`;
+    const url = `url(#grad${this.props.id})`;
+
     return (
       <svg className="indicator" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
         <defs>
-          <linearGradient id="grad1">
-            <stop offset="0%" stopColor={lightGreen800}/>
-            <stop offset="100%" stopColor={red500}/>
+          <linearGradient id={grad}>
+            <stop offset="0%" stopColor={endColor}/>
+            <stop offset="100%" stopColor={startColor}/>
           </linearGradient>
         </defs>
-        <path fill="url(#grad1)" transform='rotate(180 100 100)' d={arcPath} />
+        <path fill={url} transform='rotate(180 100 100)' d={arcPath} />
       </svg>
     );
   }
 
-  buildBooble(percent, anticlock, good) {
+  buildBobble(percent, anticlock, good) {
     const cx=100, cy=100;
 
     let bobble;
@@ -147,11 +148,11 @@ class Tyre extends Component {
       bobble = this.describeBobble(cx, cy, 90, 10, pos);
     }
 
-    const colour = good ? anticlock ? redA400 : green500 : grey500;
+    const thumbColor = good ? anticlock ? redA400 : green500 : grey500;
     return (
       <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
         <circle cx={bobble.x} cy={bobble.y} r={10} fill={white} />
-        <circle cx={bobble.x} cy={bobble.y} r={5} fill={colour} />
+        <circle cx={bobble.x} cy={bobble.y} r={5} fill={thumbColor} />
       </svg>
     );
   }
@@ -174,10 +175,6 @@ class Tyre extends Component {
 
       ...rest
     } = this.props;
-
-    // build the SVG do-nut chart
-    // const tyre = this.buildDonut(pressure, top, upper, lower, bottom, depth, fullDepth, good, theme);
-    // const tyre = this.buildDonutAlt(pressure, top, upper, lower, bottom, depth, fullDepth, good, theme);
 
     const background = (under || over) ? red500 : lightGreen800;
 
@@ -210,7 +207,7 @@ class Tyre extends Component {
 
     const bobble = (
       <div className={style.bobble}>
-        {this.buildBooble(percent, anticlock, good)}
+        {this.buildBobble(percent, anticlock, good)}
       </div>
     );
 
