@@ -16,14 +16,16 @@
 }
 .circle {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 30px);
+  height: calc(100% - 30px);
+  margin: 15px;
   cursor: pointer;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* z-index: 1; */
 }
 .pressureText {
   font-size: calc(32px + 2vw);
@@ -36,21 +38,24 @@
   line-height: 0.5em;
   color:  white;
 }
-.over {
+.sharedIcon {
   position: absolute;
   width: 100%;
-  top: 8px;
   text-shadow: 0 1px 3px rgba(0,0,0,0.3);
   text-align: center;
-  color:  white;
+  & span {
+    background: #F44336;
+    border-radius: 50%;
+  }
+}
+.over {
+  composes: sharedIcon;
+  top: 0px;
 }
 .under {
-  position: absolute;
-  width: 100%;
-  /* bottom: 8px; */
-  bottom: calc(2px + 1vw);
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  text-align: center;
-  color:  white;
+  composes: sharedIcon;
+  bottom: 0px;
 }
-
+.indicator {
+  z-index: -1;
+}

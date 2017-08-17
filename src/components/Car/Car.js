@@ -107,49 +107,49 @@ class Car extends Component {
     alt: true,
   }
 
-  renderTyres() {
-    const {
-      vehicle,
-      tyres,
-      units,
-      tolerence,
-    } = this.props;
+  // renderTyres() {
+  //   const {
+  //     vehicle,
+  //     tyres,
+  //     units,
+  //     tolerence,
+  //   } = this.props;
 
-    // what is the average pressure of all tyres
-    const average = getAveragePressure(tyres);
+  //   // what is the average pressure of all tyres
+  //   const average = getAveragePressure(tyres);
 
-    // get the vehicles' ideal tyre presssures
-    const ideals = (vehicle && vehicle.ideal) || [];
+  //   // get the vehicles' ideal tyre presssures
+  //   const ideals = (vehicle && vehicle.ideal) || [];
 
-    return tyres.map( (t,i) => {
+  //   return tyres.map( (t,i) => {
 
-      const ideal = getIdealPressure(ideals, t.id, average);
+  //     const ideal = getIdealPressure(ideals, t.id, average);
 
-      // % of ideal pressure - shown as 1 guage deviation
-      const sigma = ideal * tolerence / 2;
+  //     // % of ideal pressure - shown as 1 guage deviation
+  //     const sigma = ideal * tolerence / 2;
 
-      return (
-        <Tyre
-          key = {i}
-          className={style.tyre}
-          id={t.id}
-          good={t.good}
+  //     return (
+  //       <Tyre
+  //         key = {i}
+  //         className={style.tyre}
+  //         id={t.id}
+  //         good={t.good}
 
-          // the data
-          pressure={t.pressure}
-          depth={t.depth}
-          units={units}
+  //         // the data
+  //         pressure={t.pressure}
+  //         depth={t.depth}
+  //         units={units}
 
-          // upper and lower limit for guage
-          top={ideal + sigma + sigma}
-          upper={ideal + sigma}
-          lower={ideal - sigma}
-          bottom={ideal - sigma - sigma}
-          sigma={sigma}
-        />
-      );
-    });
-  }
+  //         // upper and lower limit for guage
+  //         top={ideal + sigma + sigma}
+  //         upper={ideal + sigma}
+  //         lower={ideal - sigma}
+  //         bottom={ideal - sigma - sigma}
+  //         sigma={sigma}
+  //       />
+  //     );
+  //   });
+  // }
 
   renderLeftHandSide() {
     const {
@@ -191,7 +191,7 @@ class Car extends Component {
 
             // depth data
             depth={convertDepthUnits(t.depth,units)}
-            legal={t.depth >= legalLimit}
+            worn={legalLimit}
             good={t.good}
           />
         );
@@ -221,6 +221,7 @@ class Car extends Component {
       const sigma = ideal * tolerence;
       const over = ideal + sigma;
       const under = t.id === '22' ? ideal - sigma : 500;   // DEMO HACK
+      const limit = t.id !== '22' ? legalLimit : 8;
 
       const pos = parseInt(t.id,10);
       if (pos % 2 === 0) {
@@ -238,7 +239,7 @@ class Car extends Component {
 
             // depth data
             depth={convertDepthUnits(t.depth,units)}
-            legal={t.depth >= legalLimit}
+            worn={limit}
             good={t.good}
 
           />
