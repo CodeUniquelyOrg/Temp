@@ -33,6 +33,7 @@ const dictionary = {
   greeting:       'Bevorzugter Gruß',
   forename:       'Vorname',
   surname:        'Familienname',
+  mobile:         'Mobile Number',
   pressureUnits:  'Druckeinheiten',
   depthUnits:     'Tiefeneinheiten',
   personal:       'Persönliche',

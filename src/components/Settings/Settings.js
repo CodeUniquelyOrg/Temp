@@ -11,12 +11,15 @@ import Divider from 'material-ui/Divider';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
-import TextField from 'material-ui/TextField';
+// import TextField from 'material-ui/TextField';
 import Drawer from 'material-ui/Drawer';
 
 // Local Compoents
 import Translate from 'components/Translate';
 import ExpandableContent from 'components/ExpandableContent';
+
+// Redux to Materila-UI wrappers
+import { TextField } from 'redux-form-material-ui';
 
 // import { SettingsGroup } from 'components/Settings';
 import SettingsGroup from './SettingsGroup';
@@ -105,6 +108,19 @@ const makeAvatar = (icon) => {
   return <Avatar icon={<FontIcon className="material-icons">{icon}</FontIcon>} />;
 };
 
+// =============================================
+// validation functions
+// =============================================
+const required = value => (value == null ? 'Required' : undefined);
+
+const email = value =>
+  (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+    ? 'Invalid email'
+    : undefined);
+
+// ==========================================
+//  STARTING FORM HERE - SPLITTING INTO PARTS
+// ==========================================
 const Settings = class Settings extends Component {
 
   static propTypes = {
@@ -113,6 +129,10 @@ const Settings = class Settings extends Component {
 
   handleFormSubmit(formProps) {
     // this.props.saveSettings(formProps);
+  }
+
+  translate = (value) => {
+    return <Translate id={value} />;
   }
 
   renderPressureUnits() {
@@ -145,23 +165,56 @@ const Settings = class Settings extends Component {
   }
 
   renderPeronalGreeting() {
+    // <Field name="greeting" label="greeting" component={renderField} />
     return (
       <div>
-        <Field name="greeting" label="greeting" component={renderField} />
+        <Field
+          name="greeting"
+          ref="greeting"
+          component={TextField}
+          hintText={this.translate('greeting')}
+          validate={[required]}
+        />
+      </div>
+    );
+  }
+  renderTitle() {
+    // <Field name="greeting" label="greeting" component={renderField} />
+    return (
+      <div>
+        <Field
+          name="title"
+          ref="title"
+          component={TextField}
+          hintText={this.translate('title')}
+          validate={[required]}
+        />
       </div>
     );
   }
   renderPeronalForename() {
     return (
       <div>
-        <Field name="forename" label="forename" component={renderField} />
+        <Field
+          name="forename"
+          ref="forename"
+          component={TextField}
+          hintText={this.translate('forename')}
+          validate={[required]}
+        />
       </div>
     );
   }
   renderPeronalSurname() {
     return (
       <div>
-        <Field name="surname" label="surname" component={renderField} />
+        <Field
+          name="surname"
+          ref="surname"
+          component={TextField}
+          hintText={this.translate('surname')}
+          validate={[required]}
+        />
       </div>
     );
   }
@@ -172,14 +225,26 @@ const Settings = class Settings extends Component {
   renderMobile() {
     return (
       <div>
-        <Field name="mobile" label="mobile" component={renderField} />
+        <Field
+          name="mobile"
+          ref="mobile"
+          component={TextField}
+          hintText={this.translate('mobile')}
+          validate={[required]}
+        />
       </div>
     );
   }
   renderEmail() {
     return (
       <div>
-        <Field name="email" label="email" component={renderField} />
+        <Field
+          name="email"
+          ref="email"
+          component={TextField}
+          hintText={this.translate('email')}
+          validate={[required, email]}
+        />
       </div>
     );
   }
@@ -193,12 +258,32 @@ const Settings = class Settings extends Component {
   renderPassword() {
     return (
       <div>
-        <Field type="password" name="password" label="password" component={renderField} />
+        <Field
+          name="password"
+          ref="password"
+          component={TextField}
+          hintText={this.translate('password')}
+          validate={[required]}
+        />
       </div>
     );
   }
   passwordUpdated() {
     // on nothing
+  }
+
+  renderLanguages() {
+    return (
+      <div>
+        <Field
+          name="password"
+          ref="password"
+          component={TextField}
+          hintText={this.translate('password')}
+          validate={[required]}
+        />
+      </div>
+    );
   }
 
   render() {
@@ -212,7 +297,6 @@ const Settings = class Settings extends Component {
         <SettingsGroup icon="lock" title="Account Info" current={this.identity} onUpdate={this.mobileUpdated} >
           {this.renderEmail()}
           {this.renderMobile()}
-
           {this.renderPassword()}
         </SettingsGroup>
 

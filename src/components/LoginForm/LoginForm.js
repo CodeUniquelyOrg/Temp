@@ -46,16 +46,6 @@ class LoginForm extends Component {
     this.props.loginUser(formProps);
   }
 
-  renderAlert() {
-    if(this.props.errorMessage) {
-      return (
-        <div>
-          <span><strong>Error!</strong> {this.props.errorMessage}</span>
-        </div>
-      );
-    }
-  }
-
   renderError(errorMessage) {
     return (
       <div className={style.error}>

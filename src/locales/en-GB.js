@@ -32,6 +32,7 @@ const dictionary = {
   greeting:       'Preferred Greeting',
   forename:       'First Name',
   surname:        'Surname',
+  mobile:         'Mobile Number',
   pressureUnits:  'Pressure Units',
   depthUnits:     'Depth Units',
   personal:       'Personal Stuff',

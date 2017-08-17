@@ -225,7 +225,7 @@ const History = class Settings extends Component {
       hour: 'numeric',
       minute: 'numeric',
     };
-    return date.toLocaleDateString('de-DE', options );
+    return date.toLocaleTimeString('de-DE', options );
   }
 
   // renderCard(date, tyres) {
