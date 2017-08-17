@@ -3,7 +3,7 @@ import PropTypes from 'react-proptypes';
 
 import FontIcon from 'material-ui/FontIcon';
 
-import { green500, red500, redA400, amber500, lightGreenA400, lightGreen800, grey500, white, black } from 'material-ui/styles/colors';
+import { green500, red500, redA400, amber500, lightGreenA400, lightGreen800, grey500, grey900, white, black } from 'material-ui/styles/colors';
 
 // consider using themr instead => import { themr } from 'react-css-themr';
 import style from './style.pcss';
@@ -132,6 +132,7 @@ class Tyre extends Component {
           </linearGradient>
         </defs>
         <path fill={url} transform='rotate(180 100 100)' d={arcPath} />
+        <line x1={100} y1={0} x2={100} y2={10} stroke={grey900} stroke-width={2} />
       </svg>
     );
   }
