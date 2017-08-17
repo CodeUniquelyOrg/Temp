@@ -3,7 +3,7 @@ import PropTypes from 'react-proptypes';
 
 import FontIcon from 'material-ui/FontIcon';
 
-import { red500, redA400, lightGreenA400, lightGreen800, grey500, white, black } from 'material-ui/styles/colors';
+import { green500, red500, redA400, amber500, lightGreenA400, lightGreen800, grey500, white, black } from 'material-ui/styles/colors';
 
 // consider using themr instead => import { themr } from 'react-css-themr';
 import style from './style.pcss';
@@ -74,15 +74,6 @@ class Tyre extends Component {
     let outerEnd = this.polarToCartesian(x, y, radius + spread, startAngle);
     let largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
 
-    // return [
-    //   'M', x - R, y,
-    //   'A', R, R, 0, 1, 0, x + R, y,
-    //   'A', R, R, 0, 1, 0, x - R, y,
-    //   'M', x - innerR, y,
-    //   'A', innerR, innerR, 0, 1, 0, x + innerR, y,
-    //   'A', innerR, innerR, 0, 1, 0, x - innerR, y,
-    //   'Z'];
-
     let d = [
       'M', outerStart.x, outerStart.y,
       'A', radius + spread, radius + spread, 0, largeArcFlag, 0, outerEnd.x, outerEnd.y,
@@ -97,22 +88,70 @@ class Tyre extends Component {
     return d;
   }
 
+  describeBobble(x, y, radius, spread, startAngle) {
+    // let innerStart = this.polarToCartesian(x, y, radius, endAngle);
+    return this.polarToCartesian(x, y, radius + spread/2, startAngle);
+  }
+
   // center point will be a at 100,100
   buildIndicator(percent, anticlock, good) {
     const cx=100, cy=100;
 
-    let arcPath;
+    // let arcPath;
+    // if (anticlock) {
+    //   const start = 360 - (180* percent);
+    //   arcPath = this.describeArc(cx, cy, 80, 20, start, 360);
+    // } else {
+    //   arcPath = this.describeArc(cx, cy, 80, 20, 0, percent * 180);
+    // }
+    // const arcPath1 = this.describeArc(cx, cy, 90, 10, 200, 360);
+    // const arcPath2 = this.describeArc(cx, cy, 90, 10, 0, 160);
+    const arcPath = this.describeArc(cx, cy, 90, 10, 20, 340);
+
+    let bobble;
     if (anticlock) {
-      const start = 360 - (180* percent);
-      arcPath = this.describeArc(cx, cy, 80, 20, start, 360);
+      const pos = 360 - (180 * percent);
+      bobble = this.describeBobble(cx, cy, 90, 10, pos);
     } else {
-      arcPath = this.describeArc(cx, cy, 80, 20, 0, percent * 180);
+      const pos = 180 * percent;
+      bobble = this.describeBobble(cx, cy, 90, 10, pos);
     }
+
+    // <path d={arcPath1} fill={colour} stroke={colour} />
+    // <path d={arcPath2} fill={colour} stroke={colour} />
+    // <stop offset="50%" stopColor={amber500}/>
 
     const colour = good ? anticlock ? redA400 : lightGreenA400 : grey500;
     return (
       <svg className="indicator" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
-        <path d={arcPath} fill={colour} stroke={white} />
+        <defs>
+          <linearGradient id="grad1">
+            <stop offset="0%" stopColor={lightGreen800}/>
+            <stop offset="100%" stopColor={red500}/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#grad1)" transform='rotate(180 100 100)' d={arcPath} />
+      </svg>
+    );
+  }
+
+  buildBooble(percent, anticlock, good) {
+    const cx=100, cy=100;
+
+    let bobble;
+    if (anticlock) {
+      const pos = 360 - (180 * percent);
+      bobble = this.describeBobble(cx, cy, 90, 10, pos);
+    } else {
+      const pos = 180 * percent;
+      bobble = this.describeBobble(cx, cy, 90, 10, pos);
+    }
+
+    const colour = good ? anticlock ? redA400 : green500 : grey500;
+    return (
+      <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+        <circle cx={bobble.x} cy={bobble.y} r={10} fill={white} />
+        <circle cx={bobble.x} cy={bobble.y} r={5} fill={colour} />
       </svg>
     );
   }
@@ -169,6 +208,12 @@ class Tyre extends Component {
       </div>
     );
 
+    const bobble = (
+      <div className={style.bobble}>
+        {this.buildBooble(percent, anticlock, good)}
+      </div>
+    );
+
     return (
       <div className={style.scaledTyre} onClick={this.onClicked}>
         <div>
@@ -183,6 +228,7 @@ class Tyre extends Component {
           {overUnderIndicator}
         </div>
         {wearIndicator}
+        {bobble}
       </div>
     );
   }

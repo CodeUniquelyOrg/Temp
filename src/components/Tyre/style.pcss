@@ -13,6 +13,8 @@
   max-width: 200px;
   max-height: 200px;
   position: relative;
+
+  filter: drop-shadow(0px 7px 7px rgba(0,0,0,0.3));
 }
 .circle {
   position: absolute;
@@ -57,5 +59,12 @@
   bottom: 0px;
 }
 .indicator {
+  position: absolute;
   z-index: -1;
 }
+.bobble {
+  position: absolute;
+  filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.5));
+  z-index:2;
+}
+
