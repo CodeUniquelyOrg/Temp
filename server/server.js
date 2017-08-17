@@ -1,4 +1,4 @@
- path         = require('path');
+let path         = require('path');
 let express      = require('express');
 let queries      = require('express-api-queryhandler');
 let bodyParser   = require('body-parser');
@@ -11,6 +11,7 @@ let jwt          = require('jwt-simple');
 let mongoose     = require('mongoose');
 let async        = require('async');
 let bcrypt       = require('bcrypt-nodejs');
+let locale       = require('locale');
 
 // load the dtabase
 let database     = require('./lib/db.js');
@@ -38,6 +39,16 @@ app.use(queries.filter());
 app.use(queries.pagination({ limit: 1000 }));
 app.use(queries.sort());
 
+// Local Supoor attached - configured
+app.use(locale(config.locales.supported, config.locales.default));
+
+// ALWAYS SET THIS HEADER
+app.use(function(req, res, next) {
+  const locale = req.locale.trim();
+  res.header('Content-Language', locale);
+  next();
+});
+
 // Be Explicit about 'allowed headers' in client requests
 const headers = require('./lib/headers')(config);
 app.use(headers);
@@ -51,6 +62,7 @@ const injectables = {
   config: config,
   express: express,
   jwt: jwt,
+  locale: locale,
   mongoose: mongoose,
   request: request,
   status: status,

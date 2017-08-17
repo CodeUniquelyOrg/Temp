@@ -19,6 +19,7 @@ import Car from 'components/Car';
 import History from 'components/History';
 import Settings from 'components/Settings';
 import Faq from 'components/FAQ';
+import Translate from 'components/Translate';
 
 // Styling
 import style from './style.pcss';
@@ -199,7 +200,7 @@ const Dashboard = class Dashboard extends Component {
 
           <Tab
             icon={<FontIcon className="material-icons">drive_eta</FontIcon>}
-            label="MAIN"
+            label={<Translate id="main" />}
           >
             {this.renderCar()}
           </Tab>
@@ -211,21 +212,21 @@ const Dashboard = class Dashboard extends Component {
                 {activeTasksBadge}
               </div>
             }
-            label="HISTORY"
+            label={<Translate id="history" />}
           >
             {this.renderHistory()}
           </Tab>
 
           <Tab
             icon={<FontIcon className="material-icons">settings</FontIcon>}
-            label="SETTINGS"
+            label={<Translate id="settings" />}
           >
             {this.renderSettings()}
           </Tab>
 
           <Tab
             icon={<FontIcon className="material-icons">help</FontIcon>}
-            label="HELP"
+            label={<Translate id="help" />}
           >
             <Faq />
           </Tab>

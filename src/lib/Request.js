@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from 'src/config';
 
 // Tokens API
-import { getToken, setToken } from 'lib/Tokens';   // ALIAS !!!!
+import { getToken, setToken, setLanguage } from 'lib/Tokens';
 
 // Obtained from config - for example 'http://localhost:4000/api/v1;
 const API_ROOT = process.env.API_ROOT || `${config.server.apiProtocol}://${config.server.apiHost}:${config.server.apiPort}${config.server.apiRoot}`;
@@ -184,6 +184,12 @@ axios.interceptors.request.use( config => {
 });
 
 axios.interceptors.response.use(response => {
+
+  if (response.headers && response.headers['content-language']) {
+    const locale = response.headers['content-language'];
+    setLanguage(locale);
+  }
+
   if (response.data && response.data.token) {
     setToken(response.data.token);
   }

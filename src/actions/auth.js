@@ -40,9 +40,6 @@ export const loginUser = ({ email, password }) => {
         return ErrorHandler(dispatch, err, AUTH_ERROR);
       }
 
-      // otherwise => set as 'Authenticated'
-      // tokens.setToken(response.data.token);
-
       // Need to make the rquest for user (passing ID)
       // and store the answer in state ?????
       dispatch({ type: AUTH_USER });

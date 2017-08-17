@@ -39,5 +39,11 @@ module.exports = function(injectables) {
   // FINALLY - no matching route was found - 'not found' handler
   require('./notfound.route')(injectables);
 
+  // 2nd level 'Gate' - you must also have these criteria
+  // app.use(auth.managersOnly);
+
+  // 2nd level 'Gate' - you must also have these criteria
+  // app.use(auth.adminOnly);
+
   console.log('\n\n'); // eslint-disable-line no-console
 };

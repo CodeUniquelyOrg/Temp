@@ -2,8 +2,14 @@ module.exports = {
 
   version: '0.0.1',
 
+  locales: {
+    supported: ['de-DE', 'de', 'en-GB'],
+    default: 'en=-GB',
+  },
+
   server: {
-    port: process.env.PORT || 80,
+    // port: process.env.PORT || 80,
+    port: process.env.PORT || 8000,
     apiRoot: '/api/v1',
   },
 
@@ -14,8 +20,8 @@ module.exports = {
   },
 
   mongo: {
-    // host: 'localhost',
-    host: 'mongo',   // mongodb://mongo/portal  - docker-compose version
+    host: 'localhost',
+    // host: 'mongo',   // - docker-compose version
     db: 'portal',
     // user: 'test',
     // pass: 'test',

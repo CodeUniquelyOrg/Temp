@@ -14,10 +14,13 @@ const dictionary = {
   forgotPassword: 'Haben Sie Ihr Passwort vergessen',
   backToLogin:    'zurück zur Anmeldung',
 
+  // ERROR Messages
+  error:          'Fehler',
+
   // navigation
-  home:           'Anfang',
+  main:           'Anfang',
+  history:        'Ergebnisse',
   settings:       'Einstellungen',
-  results:        'Ergebnisse',
   help:           'Hilfe',
 
   // terms

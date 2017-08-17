@@ -17,6 +17,7 @@
     "express-api-queryhandler": "^0.4.3",
     "http-status": "^1.0.1",
     "jwt-simple": "^0.5.1",
+    "locale": "^0.1.0",
     "mongoose": "^4.11.6",
     "nodemon": "^1.11.0",
     "soap": "^0.19.2",

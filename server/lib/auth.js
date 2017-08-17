@@ -37,7 +37,6 @@ module.exports = function support(injectables){
 
   function generateToken(user, exp = config.auth.expire) {
 
-    console.log('EXPIRES IS ', exp);
     let expTime = new Date().getTime() + exp;
 
     const obj = {

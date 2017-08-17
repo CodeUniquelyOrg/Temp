@@ -19,10 +19,10 @@ import App from 'components/App';                       // eslint-disable-line n
 import reducers from 'reducers';
 
 // Load AUTH_USER from teh action types
-import { AUTH_USER } from 'actions/types';
+import { AUTH_USER, SET_CURRENT_LANGUAGE } from 'actions/types';
 
 // Tokens API
-import { getToken } from 'lib/Tokens';   // ALIAS !!!!
+import { getToken, getLanguage } from 'lib/Tokens';
 
 // Initialize 'Google Analytics' with the portal ID
 // ReactGA.initialize('UA-000000-01');
@@ -46,6 +46,12 @@ const token = getToken();
 // L8R: *** CHECK THE TOKEN IS STILL VALID ***
 if (token) {
   store.dispatch({ type: AUTH_USER });
+}
+
+// also dispath the chnaging of a language
+const locale = getLanguage();
+if (locale) {
+  store.dispatch({ type: SET_CURRENT_LANGUAGE, data: locale });
 }
 
 // Alternate with GA attached

@@ -13,11 +13,14 @@ const dictionary = {
   forgotPassword: 'forgot your password',
   backToLogin:    'back to login',
 
+  // ERROR Messages
+  error:          'Error',
+
   // navigation
-  home:           'home',
-  settings:       'settings',
-  results:        'results',
-  help:           'help',
+  main:           'MAIN',
+  history:        'HISTORY',
+  settings:       'SETTINGS',
+  help:           'HELP',
 
   // terms
   termsAndConditions: 'Terms and Conditions',

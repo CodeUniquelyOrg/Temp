@@ -92,7 +92,7 @@ module.exports = function database(injectables) { // mongoose, promise, fs) {
     }
 
     // set 'mongoClient' - removed Deprecation warning
-   // options.useMongoClient = true;
+    // options.useMongoClient = true;
 
     // FIX the 'Promise' DEPRECATION ISSUE - provide a promise library
     mongooseRef.Promise = global.Promise; // promise;

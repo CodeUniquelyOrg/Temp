@@ -3,7 +3,7 @@ import {
   SET_LANGUAGES,
   SET_DICTIONARIES,
   ADD_DICTIONARY
-} from 'actions/translate';
+} from 'actions/types';
 
 // import initialState from './initialState';
 import INITIAL_STATE from 'src/locales';
@@ -17,6 +17,7 @@ export default function (state = INITIAL_STATE, action) {
       let newState = Object.assign( {}, state );
       newState.currentLanguage = action.data;
       return newState;
+      // return { ...state, currentLanguage: action.data };
     }
 
     case SET_LANGUAGES: {

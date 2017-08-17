@@ -59,8 +59,8 @@ class LoginForm extends Component {
   renderError(errorMessage) {
     return (
       <div className={style.error}>
-        <Translate id="error"  />
-        <strong>Error!</strong>
+        <strong><Translate id="error" /></strong>
+        &nbsp;
         {errorMessage}
       </div>
     );
@@ -75,10 +75,6 @@ class LoginForm extends Component {
       <form className={style.form} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
 
         {errorMessage && this.renderError(errorMessage)}
-
-        <div>
-          {this.renderAlert()}
-        </div>
 
         <div className={style.formRow}>
           <Field
