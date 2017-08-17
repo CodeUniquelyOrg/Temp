@@ -3,6 +3,9 @@ import PropTypes from 'react-proptypes';
 
 import Plate from 'components/Plate';
 import Tyre from 'components/Tyre';
+import ColorEdgeCard from'components/ColorEdgeCard';
+
+import { red500, grey900, white, black } from 'material-ui/styles/colors';
 
 import car from 'img/car.png';
 import style from './style.pcss';
@@ -151,6 +154,16 @@ class Car extends Component {
   //   });
   // }
 
+  clicked = (id) => {
+    // do somthing with the click on the
+    console.log('CLICKED ', id);  // eslint-disable-line no-console
+    this.card = (
+      <ColorEdgeCard color={red500}>
+        <h3>history and info about tyre goes here</h3>
+      </ColorEdgeCard>
+    );
+  }
+
   renderLeftHandSide() {
     const {
       vehicle,
@@ -193,6 +206,8 @@ class Car extends Component {
             depth={convertDepthUnits(t.depth,units)}
             worn={legalLimit}
             good={t.good}
+
+            onClick={this.clicked}
           />
         );
       }
@@ -242,6 +257,7 @@ class Car extends Component {
             worn={limit}
             good={t.good}
 
+            onClick={this.clicked}
           />
         );
       }

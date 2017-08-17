@@ -51,7 +51,7 @@ class Tyre extends Component {
 
   onClicked = () => {
     if (this.props.onClick) {
-      this.props.onClick();
+      this.props.onClick(this.props.id);
     }
   };
 
@@ -132,7 +132,7 @@ class Tyre extends Component {
           </linearGradient>
         </defs>
         <path fill={url} transform='rotate(180 100 100)' d={arcPath} />
-        <line x1={100} y1={0} x2={100} y2={10} stroke={grey900} stroke-width={2} />
+        <line x1={100} y1={0} x2={100} y2={10} stroke={grey900} strokeWidth={2} />
       </svg>
     );
   }
