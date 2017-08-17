@@ -276,6 +276,7 @@ const History = class Settings extends Component {
 
       return (
         <ExpandableContent key={i}
+          open={i===0}
           title={date}
           secondaryText={time}
           icon={ <Icon name="drive_eta" color={background} />}

@@ -19,17 +19,19 @@ class ExpandableContent extends Component {
     fill: PropTypes.bool,
     BgImg: PropTypes.string,
     BgColor: PropTypes.string,
+    open: PropTypes.bool,
   };
 
   static defaultProps = {
     color: '#000',
+    open: false,
   }
 
   constructor(props) {
     super(props);
     this.toggleMore = this.toggleMore.bind(this);
     this.state = {
-      moreShown: false,
+      moreShown: this.props.open,
     };
   }
 
