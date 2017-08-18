@@ -48,9 +48,9 @@ const convertPressureUnits = (pressure, units) => {
 
 const convertDepthUnits = (depth, units) => {
   if (units.depth === '1/32"') {
-    return Math.round(depth * 1.259842519685037,2);
+    return Math.round(depth * 1.259842519685037,1);
   }
-  return Math.round(depth,0);
+  return Math.round(depth,2);
 };
 
 // HACK - THIS NEEDS TO BE SET-UP & PASSED IN CONFIG
@@ -184,7 +184,7 @@ class Car extends Component {
 
       // % of ideal pressure - shown as 1 guage deviation
       const sigma = ideal * tolerence;
-      const over = t.id === '11' ? ideal + sigma : 100;   // DEMO HACK
+      const over = ideal + sigma;
       const under = ideal - sigma;
 
       const pos = parseInt(t.id,10);
@@ -235,8 +235,8 @@ class Car extends Component {
       // % of ideal pressure - shown as 1 guage deviation
       const sigma = ideal * tolerence;
       const over = ideal + sigma;
-      const under = t.id === '22' ? ideal - sigma : 500;   // DEMO HACK
-      const limit = t.id !== '22' ? legalLimit : 8;
+      const under = ideal - sigma;
+      const limit = legalLimit;
 
       const pos = parseInt(t.id,10);
       if (pos % 2 === 0) {

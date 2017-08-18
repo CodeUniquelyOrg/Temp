@@ -8,8 +8,8 @@
         "tyreno":1,
         "driveoverid":91007,
         "width":24,
-        "treaddepth":5.1999998e+000,
-        "pressurekpa":2.284134979248047e+002,
+        "treaddepth":3.69999998e+000,
+        "pressurekpa":2.784134979248047e+002,
         "treaddepthwithgoodreadings":true,
         "load":450.00
       },
@@ -19,7 +19,7 @@
         "driveoverid":91007,
         "width":24,
         "treaddepth":9.1999998e+000,
-        "pressurekpa":2.275163574218750e+002,
+        "pressurekpa":1.775163574218750e+002,
         "treaddepthwithgoodreadings":false,
         "load":550.00
       },
@@ -38,9 +38,9 @@
         "tyreno":2,
         "driveoverid":91007,
         "width":22,
-        "treaddepth":6.0000000e+000,
-        "pressurekpa":2.476747436523438e+002,
-        "treaddepthwithgoodreadings":false,
+        "treaddepth":2.8000000e+000,
+        "pressurekpa":2.376747436523438e+002,
+        "treaddepthwithgoodreadings":true,
         "load":350.00
       }
     ]

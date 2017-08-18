@@ -130,7 +130,7 @@ const Dashboard = class Dashboard extends Component {
         if ( driveThrough ) {
           const tyreData = driveThrough.tyres;
           car = (
-            <Car vehicle={vehicleData} tyres={tyreData} units={units} tolerence={0.4} />
+            <Car vehicle={vehicleData} tyres={tyreData} units={units} tolerence={0.2} />
           );
         }
       }

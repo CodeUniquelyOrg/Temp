@@ -87,9 +87,9 @@ module.exports = function shell(injectables, callback) {
 
   // load all the data - Async
   async.waterfall([
-    (cb1) => {
-      dropCollections(cb1);
-    },
+    // (cb1) => {
+    //   dropCollections(cb1);
+    // },
     (cb1) => {
       loadUsers(cb1);
     },

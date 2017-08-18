@@ -21,9 +21,14 @@
 }
 .circle {
   position: absolute;
-  width: calc(100% - 32px);
-  height: calc(100% - 32px);
-  margin: 16px;
+  /* width: calc(100% - 32px); */
+  /* height: calc(100% - 32px); */
+  width: calc(60px + 6vw);
+  height: calc(60px + 6vw);
+
+  margin: 20px;
+  // margin: calc(20px - 1vw);
+
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -42,29 +47,37 @@
   color:  white;
 }
 .sharedIcon {
+  // opacity:0.5;
   position: absolute;
   width: 100%;
   text-shadow: 0 1px 3px rgba(0,0,0,0.3);
   text-align: center;
   & span {
-    background: #F44336;
+    /* background: #F44336; */
+    background: transparent;
     border-radius: 50%;
   }
 }
 .over {
   composes: sharedIcon;
-  top: 0px;
+  top: 14px;
 }
 .under {
   composes: sharedIcon;
-  bottom: 0px;
+  bottom: 10px;
 }
 .indicator {
   position: absolute;
 }
 .bobble {
+  /* width:20px; */
+  /* height:20px; */
   position: absolute;
   filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.5));
+}
+.bobbleFill {
+  border-radius:50%;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0) 0%, rgba(254,254,254,1) 50%, rgba(254,254,254,1) 50%, rgba(252,252,252,1) 100%);
 }
 
 /* Cool Arc Gradient Fill */
@@ -120,10 +133,10 @@
   transform: rotate(180deg);
 }
 .color:nth-child(5):after {
-  background-color: #FF3800;
+  background-color: #FF0000 // #FF3800;
   transform: rotate(240deg);
 }
 .color:nth-child(6):after {
-  background-color: #FF8100;
+  background-color: #FF3800 // #FF8100;
   transform: rotate(300deg);
 }

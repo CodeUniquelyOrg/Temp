@@ -63,7 +63,7 @@ class Tyre extends Component {
     };
   }
 
-  describeArc(x, y, radius, spread, startAngle, endAngle) {
+  describeArc(x, y, radius, spread, startAngle, endAngle, maxRadius=1) {
     let innerStart = this.polarToCartesian(x, y, radius, endAngle);
     let innerEnd = this.polarToCartesian(x, y, radius, startAngle);
     let outerStart = this.polarToCartesian(x, y, radius + spread, endAngle);
@@ -71,13 +71,13 @@ class Tyre extends Component {
     let largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
 
     let d = [
-      'M', outerStart.x, outerStart.y,
-      'A', radius + spread, radius + spread, 0, largeArcFlag, 0, outerEnd.x, outerEnd.y,
+      'M', outerStart.x / maxRadius, outerStart.y / maxRadius,
+      'A', (radius + spread) / maxRadius, (radius + spread) / maxRadius, 0, largeArcFlag, 0, outerEnd.x / maxRadius, outerEnd.y / maxRadius,
       // 'L', innerEnd.x, innerEnd.y,
-      'A', spread /2, spread /2, 0, 1, 0, innerEnd.x, innerEnd.y,
-      'A', radius, radius, 0, largeArcFlag, 1, innerStart.x, innerStart.y,
+      'A', (spread / 2) / maxRadius, (spread / 2) / maxRadius, 0, 1, 0, innerEnd.x / maxRadius, innerEnd.y / maxRadius,
+      'A', radius / maxRadius, radius / maxRadius, 0, largeArcFlag, 1, innerStart.x / maxRadius, innerStart.y / maxRadius,
       // 'L', outerStart.x, outerStart.y,
-      'A', spread /2, spread /2, 0, 1, 0, outerStart.x, outerStart.y,
+      'A', (spread / 2) / maxRadius, (spread / 2) / maxRadius, 0, 1, 0, outerStart.x / maxRadius, outerStart.y / maxRadius,
       'Z'
     ].join(' ');
 
@@ -127,12 +127,12 @@ class Tyre extends Component {
 
   buildGreyGuage() {
     const cx=100, cy=100;
-    const arcPath = this.describeArc(cx, cy, 90, 10, 20, 340);
+    const arcPath = this.describeArc(cx, cy, 85, 10, 16, 340);
     return (
       <div className={style.indicator}>
         <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
           <path fill={grey500} transform='rotate(180 100 100)' d={arcPath} />
-          <line x1={100} y1={0} x2={100} y2={10} stroke={grey900} strokeWidth={2} />
+          <line x1={100} y1={0} x2={100} y2={20} stroke={grey900} strokeWidth={2} />
         </svg>
       </div>
     );
@@ -142,16 +142,6 @@ class Tyre extends Component {
     const cx=100, cy=100;
     return (
       <div className="masked">
-        <div className={style.indicator}>
-          <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
-            <defs>
-              <clipPath id="svgPath1" clipPathUnits="objectBoundingBox">
-                <path transform='rotate(180 0.5 0.5)' fill="#FFFFFF" d="M 0.328989928337165 0.030153689607046 A 0.5 0.5 0 1 0 0.671010071662834 0.030153689607046 A 0.025 0.025 0 1 0 0.653909064496551 0.077138320646341 A 0.45 0.45 0 1 1 0.346090935503449 0.077138320646341 A 0.025 0.025 0 1 0 0.328989928337165 0.030153689607046 Z">
-                </path>
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
         <div className={style.clipped}>
           <ul className={style.umbrella}>
             <li className={style.color}></li>
@@ -161,6 +151,21 @@ class Tyre extends Component {
             <li className={style.color}></li>
             <li className={style.color}></li>
           </ul>
+        </div>
+        <div className={style.indicator}>
+          <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+            <defs>
+              <clipPath id="svgPath1" clipPathUnits="objectBoundingBox">
+                <path
+                  transform='rotate(180 0.5 0.5)'
+                  fill="#FFFFFF"
+                  d="M 0.3375404319203071 0.053646005126693624 A 0.475 0.475 0 1 0 0.6309277440130746 0.043400694429298524 A 0.025 0.025 0 1 0 0.6171458762222247 0.09146377922621447 A 0.425 0.425 0 1 1 0.3546414390865905 0.10063063616598904 A 0.025 0.025 0 1 0 0.3375404319203071 0.053646005126693624 Z"
+                >
+                </path>
+              </clipPath>
+            </defs>
+            <line x1={100} y1={0} x2={100} y2={20} stroke={grey900} strokeWidth={2} />
+          </svg>
         </div>
       </div>
     );
@@ -172,17 +177,22 @@ class Tyre extends Component {
     let bobble;
     if (anticlock) {
       const pos = 360 - (180 * percent);
-      bobble = this.describeBobble(cx, cy, 90, 10, pos);
+      bobble = this.describeBobble(cx, cy, 85, 10, pos);
     } else {
       const pos = 180 * percent;
-      bobble = this.describeBobble(cx, cy, 90, 10, pos);
+      bobble = this.describeBobble(cx, cy, 85, 10, pos);
     }
 
     const thumbColor = good ? anticlock ? redA400 : green500 : grey500;
+    // return (
+    //   <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+    //     <circle cx={bobble.x} cy={bobble.y} r={10} fill={white} />
+    //     <circle cx={bobble.x} cy={bobble.y} r={5} fill={thumbColor} />
+    //   </svg>
+    // );
     return (
       <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
-        <circle cx={bobble.x} cy={bobble.y} r={10} fill={white} />
-        <circle cx={bobble.x} cy={bobble.y} r={5} fill={thumbColor} />
+        <circle className="bobbleFill" cx={bobble.x} cy={bobble.y} r={10} fill="white" />
       </svg>
     );
   }
@@ -210,9 +220,18 @@ class Tyre extends Component {
 
     let overUnderIndicator;
     if (under || over) {
+
+      const name = over ? 'mdi mdi-arrow-up-bold' : 'mdi mdi-arrow-down-bold';
+      // const name = over ? 'mdi mdi-arrow-up-bold-circle' : 'mdi mdi-arrow-down-bold-circle';
+      // const name = over ? 'mdi mdi-menu-up-outline' : 'mdi mdi-menu-down-outline';
+
+      //   <div className={`${ under ? style.under : style.over}`}>
+      // <FontIcon color={white} className="material-icons" style={{ fontSize:32 }} >error</FontIcon>
+      //  <div className={style.under}>
+
       overUnderIndicator = (
         <div className={`${ under ? style.under : style.over}`}>
-          <FontIcon color={white} className="material-icons" style={{ fontSize:32 }} >error</FontIcon>
+          <FontIcon color={white} className={name} style={{ fontSize:32 }} />
         </div>
       );
     }
@@ -226,7 +245,7 @@ class Tyre extends Component {
     if (anticlock) {
       percent = (worn - normalizedDepth) / worn;
     } else {
-      percent = (normalizedDepth - worn + 1) * 0.1;
+      percent = (normalizedDepth - worn) * 0.1;
     }
 
     let wearIndicator;
@@ -244,19 +263,21 @@ class Tyre extends Component {
 
     return (
       <div className={style.scaledTyre} onClick={this.onClicked}>
-        {wearIndicator}
-        <div>
-          <div className={style.circle} style={{ backgroundColor:background }}>
-            <div className={style.pressureText}>
-              {pressure}
+        <div div={style.inside}>
+          {wearIndicator}
+          {bobble}
+          <div>
+            <div className={style.circle} style={{ backgroundColor:background }}>
+              <div className={style.pressureText}>
+                {pressure}
+              </div>
+              <div className={style.unitsText}>
+                psi
+              </div>
             </div>
-            <div className={style.unitsText}>
-              psi
-            </div>
+            {overUnderIndicator}
           </div>
-          {overUnderIndicator}
         </div>
-        {bobble}
       </div>
     );
   }
