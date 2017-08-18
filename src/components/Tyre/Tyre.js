@@ -132,7 +132,7 @@ class Tyre extends Component {
       <div className={style.indicator}>
         <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
           <path fill={grey500} transform='rotate(180 100 100)' d={arcPath} />
-          <line x1={100} y1={0} x2={100} y2={20} stroke={grey900} strokeWidth={2} />
+          <line x1={100} y1={3} x2={100} y2={17} stroke="rgba(92,92,92,0.8)" strokeWidth={2} />
         </svg>
       </div>
     );
@@ -160,7 +160,7 @@ class Tyre extends Component {
                 <path transform='rotate(180 0.5 0.5)' fill="#FFFFFF" d={arcPath} />
               </clipPath>
             </defs>
-            <line x1={100} y1={0} x2={100} y2={20} stroke={grey900} strokeWidth={2} />
+            <line x1={100} y1={3} x2={100} y2={17} stroke="rgba(92,92,92,0.8)" strokeWidth={2} />
           </svg>
         </div>
       </div>
