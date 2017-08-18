@@ -88,46 +88,46 @@ class Tyre extends Component {
     return this.polarToCartesian(x, y, radius + spread/2, startAngle);
   }
 
-  // center point will be a at 100,100
-  buildIndicator(percent, anticlock, good) {
-    const cx=100, cy=100;
-
-    // let arcPath;
-    // if (anticlock) {
-    //   const start = 360 - (180* percent);
-    //   arcPath = this.describeArc(cx, cy, 80, 20, start, 360);
-    // } else {
-    //   arcPath = this.describeArc(cx, cy, 80, 20, 0, percent * 180);
-    // }
-    // const arcPath1 = this.describeArc(cx, cy, 90, 10, 200, 360);
-    // const arcPath2 = this.describeArc(cx, cy, 90, 10, 0, 160);
-    // <path d={arcPath1} fill={colour} stroke={colour} />
-    // <path d={arcPath2} fill={colour} stroke={colour} />
-    // <stop offset="50%" stopColor={amber500}/>
-
-    const arcPath = this.describeArc(cx, cy, 90, 10, 20, 340);
-    const endColor = good ? lightGreenA400 : grey500;
-    const startColor = good ? redA400 : grey500;
-    const grad = `grad${this.props.id}`;
-    const url = `url(#grad${this.props.id})`;
-
-    return (
-      <svg className="indicator" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
-        <defs>
-          <linearGradient id={grad}>
-            <stop offset="0%" stopColor={endColor}/>
-            <stop offset="100%" stopColor={startColor}/>
-          </linearGradient>
-        </defs>
-        <path fill={url} transform='rotate(180 100 100)' d={arcPath} />
-        <line x1={100} y1={0} x2={100} y2={10} stroke={grey900} strokeWidth={2} />
-      </svg>
-    );
-  }
+  // // center point will be a at 100,100
+  // buildIndicator(percent, anticlock, good) {
+  //   const cx=100, cy=100;
+  //
+  //   // let arcPath;
+  //   // if (anticlock) {
+  //   //   const start = 360 - (180* percent);
+  //   //   arcPath = this.describeArc(cx, cy, 80, 20, start, 360);
+  //   // } else {
+  //   //   arcPath = this.describeArc(cx, cy, 80, 20, 0, percent * 180);
+  //   // }
+  //   // const arcPath1 = this.describeArc(cx, cy, 90, 10, 200, 360);
+  //   // const arcPath2 = this.describeArc(cx, cy, 90, 10, 0, 160);
+  //   // <path d={arcPath1} fill={colour} stroke={colour} />
+  //   // <path d={arcPath2} fill={colour} stroke={colour} />
+  //   // <stop offset="50%" stopColor={amber500}/>
+  //
+  //   const arcPath = this.describeArc(cx, cy, 90, 10, 20, 340);
+  //   const endColor = good ? lightGreenA400 : grey500;
+  //   const startColor = good ? redA400 : grey500;
+  //   const grad = `grad${this.props.id}`;
+  //   const url = `url(#grad${this.props.id})`;
+  //
+  //   return (
+  //     <svg className="indicator" width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+  //       <defs>
+  //         <linearGradient id={grad}>
+  //           <stop offset="0%" stopColor={endColor}/>
+  //           <stop offset="100%" stopColor={startColor}/>
+  //         </linearGradient>
+  //       </defs>
+  //       <path fill={url} transform='rotate(180 100 100)' d={arcPath} />
+  //       <line x1={100} y1={0} x2={100} y2={10} stroke={grey900} strokeWidth={2} />
+  //     </svg>
+  //   );
+  // }
 
   buildGreyGuage() {
     const cx=100, cy=100;
-    const arcPath = this.describeArc(cx, cy, 85, 10, 16, 340);
+    const arcPath = this.describeArc(cx, cy, 85, 10, 20, 340);
     return (
       <div className={style.indicator}>
         <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
@@ -140,6 +140,7 @@ class Tyre extends Component {
 
   buildRainbowGuage() {
     const cx=100, cy=100;
+    const arcPath = this.describeArc(cx, cy, 85, 10, 20, 340, 200);
     return (
       <div className="masked">
         <div className={style.clipped}>
@@ -156,12 +157,7 @@ class Tyre extends Component {
           <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
             <defs>
               <clipPath id="svgPath1" clipPathUnits="objectBoundingBox">
-                <path
-                  transform='rotate(180 0.5 0.5)'
-                  fill="#FFFFFF"
-                  d="M 0.3375404319203071 0.053646005126693624 A 0.475 0.475 0 1 0 0.6309277440130746 0.043400694429298524 A 0.025 0.025 0 1 0 0.6171458762222247 0.09146377922621447 A 0.425 0.425 0 1 1 0.3546414390865905 0.10063063616598904 A 0.025 0.025 0 1 0 0.3375404319203071 0.053646005126693624 Z"
-                >
-                </path>
+                <path transform='rotate(180 0.5 0.5)' fill="#FFFFFF" d={arcPath} />
               </clipPath>
             </defs>
             <line x1={100} y1={0} x2={100} y2={20} stroke={grey900} strokeWidth={2} />
@@ -184,17 +180,34 @@ class Tyre extends Component {
     }
 
     const thumbColor = good ? anticlock ? redA400 : green500 : grey500;
+
+    // return (
+    //   <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+    //     <circle cx={bobble.x} cy={bobble.y} r={10} fill="white" />
+    //   </svg>
+    // );
+
+    const mask = `hole${this.props.id}`;
+    const url = `url(#hole${this.props.id})`;
+
+    return (
+      <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+        <defs>
+          <mask id={mask}>
+            <rect width="100%" height="100%" fill="white"/>
+            <circle cx={bobble.x} cy={bobble.y} r={5} fill="black" />
+          </mask>
+        </defs>
+        <circle cx={bobble.x} cy={bobble.y} r={10} fill="white" mask={url} />
+      </svg>
+    );
+
     // return (
     //   <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
     //     <circle cx={bobble.x} cy={bobble.y} r={10} fill={white} />
     //     <circle cx={bobble.x} cy={bobble.y} r={5} fill={thumbColor} />
     //   </svg>
     // );
-    return (
-      <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
-        <circle className="bobbleFill" cx={bobble.x} cy={bobble.y} r={10} fill="white" />
-      </svg>
-    );
   }
 
   // render the editable value

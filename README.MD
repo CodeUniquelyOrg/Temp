@@ -75,9 +75,6 @@ Bugs / Decisions / Design
 [] Radio-Group / Radio Button
    define
 
-[] Text Input
-    define
-
 [] Number Input
    define  - add the input "{/d}" references so hat phones and pads select the right format
 
