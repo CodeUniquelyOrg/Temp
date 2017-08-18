@@ -101,25 +101,13 @@ class Tyre extends Component {
     // }
     // const arcPath1 = this.describeArc(cx, cy, 90, 10, 200, 360);
     // const arcPath2 = this.describeArc(cx, cy, 90, 10, 0, 160);
-    const arcPath = this.describeArc(cx, cy, 90, 10, 20, 340);
-
-    let bobble;
-    if (anticlock) {
-      const pos = 360 - (180 * percent);
-      bobble = this.describeBobble(cx, cy, 90, 10, pos);
-    } else {
-      const pos = 180 * percent;
-      bobble = this.describeBobble(cx, cy, 90, 10, pos);
-    }
-
     // <path d={arcPath1} fill={colour} stroke={colour} />
     // <path d={arcPath2} fill={colour} stroke={colour} />
     // <stop offset="50%" stopColor={amber500}/>
 
-    // const thumbColor = good ? anticlock ? redA400 : lightGreenA400 : grey500;
+    const arcPath = this.describeArc(cx, cy, 90, 10, 20, 340);
     const endColor = good ? lightGreenA400 : grey500;
     const startColor = good ? redA400 : grey500;
-
     const grad = `grad${this.props.id}`;
     const url = `url(#grad${this.props.id})`;
 
@@ -134,6 +122,47 @@ class Tyre extends Component {
         <path fill={url} transform='rotate(180 100 100)' d={arcPath} />
         <line x1={100} y1={0} x2={100} y2={10} stroke={grey900} strokeWidth={2} />
       </svg>
+    );
+  }
+
+  buildGreyGuage() {
+    const cx=100, cy=100;
+    const arcPath = this.describeArc(cx, cy, 90, 10, 20, 340);
+    return (
+      <div className={style.indicator}>
+        <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+          <path fill={grey500} transform='rotate(180 100 100)' d={arcPath} />
+          <line x1={100} y1={0} x2={100} y2={10} stroke={grey900} strokeWidth={2} />
+        </svg>
+      </div>
+    );
+  }
+
+  buildRainbowGuage() {
+    const cx=100, cy=100;
+    return (
+      <div className="masked">
+        <div className={style.indicator}>
+          <svg width="100%" height="100%" viewBox={`0 0 ${cx*2} ${cy*2}`}>
+            <defs>
+              <clipPath id="svgPath1" clipPathUnits="objectBoundingBox">
+                <path transform='rotate(180 0.5 0.5)' fill="#FFFFFF" d="M 0.328989928337165 0.030153689607046 A 0.5 0.5 0 1 0 0.671010071662834 0.030153689607046 A 0.025 0.025 0 1 0 0.653909064496551 0.077138320646341 A 0.45 0.45 0 1 1 0.346090935503449 0.077138320646341 A 0.025 0.025 0 1 0 0.328989928337165 0.030153689607046 Z">
+                </path>
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+        <div className={style.clipped}>
+          <ul className={style.umbrella}>
+            <li className={style.color}></li>
+            <li className={style.color}></li>
+            <li className={style.color}></li>
+            <li className={style.color}></li>
+            <li className={style.color}></li>
+            <li className={style.color}></li>
+          </ul>
+        </div>
+      </div>
     );
   }
 
@@ -200,11 +229,12 @@ class Tyre extends Component {
       percent = (normalizedDepth - worn + 1) * 0.1;
     }
 
-    const wearIndicator = (
-      <div className={style.indicator}>
-        {this.buildIndicator(percent, anticlock, good)}
-      </div>
-    );
+    let wearIndicator;
+    if ( good ) {
+      wearIndicator = this.buildRainbowGuage();
+    } else {
+      wearIndicator = this.buildGreyGuage();
+    }
 
     const bobble = (
       <div className={style.bobble}>
@@ -214,6 +244,7 @@ class Tyre extends Component {
 
     return (
       <div className={style.scaledTyre} onClick={this.onClicked}>
+        {wearIndicator}
         <div>
           <div className={style.circle} style={{ backgroundColor:background }}>
             <div className={style.pressureText}>
@@ -225,7 +256,6 @@ class Tyre extends Component {
           </div>
           {overUnderIndicator}
         </div>
-        {wearIndicator}
         {bobble}
       </div>
     );
