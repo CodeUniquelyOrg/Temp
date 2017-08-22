@@ -10,7 +10,7 @@ module.exports = function shell(injectables, callback) {
   function dropCollections(done) {
     const collections = Object.keys(mongoose.connection.collections);
 
-    console.log('');
+    console.log(''); // eslint-disable-line no-console
     async.forEach(collections, (name,cb) => {
 
       if (name === 'identitycounters') {
@@ -19,31 +19,22 @@ module.exports = function shell(injectables, callback) {
 
       const collection = mongoose.connection.collections[name];
 
-      console.log('Dropping ' + name);
+      console.log('Dropping ' + name); // eslint-disable-line no-console
 
-      try {
-        // mongoose.model(name).resetCount( err => {
-        //   if (err) {
-        //     return cb(err);
-        //   }
-        collection.drop( () => {
-          cb();
-        });
-        // });
-      } catch(e) {
-        console.log(e);
+      collection.drop( () => {
         cb();
-      }
+      });
+
     }, done);
   }
 
-  function convertPSI(psi) {
-    return psi * 6.8947573;
-  }
+  // function convertPSI(psi) {
+  //   return psi * 6.8947573;
+  // }
 
-  function convertBar(bar) {
-    return bar * 100;
-  }
+  // function convertBar(bar) {
+  //   return bar * 100;
+  // }
 
   function loadUsers(done) {
 
@@ -80,10 +71,6 @@ module.exports = function shell(injectables, callback) {
       });
     });
   }
-
-  // if (config.dropDatabase) {
-  // } else {
-  // }
 
   // load all the data - Async
   async.waterfall([

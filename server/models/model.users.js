@@ -19,54 +19,115 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
   const Schema = mongoose.Schema;
 
   const roleOptions = [
-    'Driver',
-    'Manager',
-    'Admin',
+    'driver',
+    'manager',
+    'admin',
   ];
-
 
   // allowed pressure Units
   const pressureUnits = [
     'kPa',
-    'PSI',
+    'psi',
     'bar',
+    'none',
   ];
 
   const depthUnits = [
     'mm',
     '1/32"',
+    'none',
   ];
 
-  // ideal tyre data - if pressent
+  const themesAvailable = [
+    'light',
+    'dark',
+  ];
+
+  // https://en.wikipedia.org/wiki/Car_colour_popularity
+  // const vehicleColours = [
+  //   'white',
+  //   'silver',
+  //   'black',
+  //   'grey',
+  //   'blue',
+  //   'red',
+  //   'brown',
+  //   'green',
+  //   'other',
+  // ];
+
+  // drivers preferences
+  const preferencesSchema = new Schema({
+    language: { type: String, required: true },
+    presureUnits: { type: String, enum:pressureUnits },
+    depthUnits: { type: String, enum:depthUnits },    // now to bring in default for locale ?
+    showUnits:{ type: Boolean, default: false },      // now to bring in default for locale ?
+    contactBySMS: { type: Boolean, default: false },
+    contactByEmail: { type: Boolean, default: false },
+    contactInApp: { type: Boolean, default: true },
+    showTutorial: { type: Boolean, default: true },
+    themeToUse: { type: String, enum:themesAvailable, default:'light' },
+  });
+
+  // Holding address information
+  const addressSchema = new Schema({
+    line1: { type: String },
+    line2: { type: String },
+    line3: { type: String },
+    line4: { type: String },
+    line5: { type: String },
+  });
+
+  const contactBySchema = new Schema({
+    mobile: { type: String },
+    email: { type: String },
+  });
+
+  // This schema is 'in-toto' OPTIONAL
+  const nameSchema = new Schema({
+    pronoun: { type: String },      // MUST be 'Free Text' -
+    foreName: { type: String, required: true },
+    lastName: { type: String, required: true },
+  });
+
+  // 'ideal' tyre data - if pressent
   const tyreSchema = new Schema({
     id: { type: String, required: true },
     pressure: { type: Number, required: true },
   });
 
-  // what a car regsiatrtion will look like
-  const registrationSchema = new Schema({
-    plate: { type: String, required: true },
-    fromDate: { type: Date, default: Date.now, required: true },
-    ideal: [tyreSchema]
+  const vehicleSchema = new Schema({
+    make: { type: String },
+    model: { type: String },
+    year: { type: String },
+    color: { type: String },
   });
 
-  // greeting: ''
-  // givenName: ''
-  // lastName:  ''
-  // email: { type: String, required: true },
-  // password: { type: String, required: true },
-  // roles: [{ type: String, enum:options, required: true }],
-  // created: { type: Date, default: Date.now, required: true },
-  // resetToken: { type: String },
-  // resetDate: { type: Date },
-  // disabled: { type: Boolean },
-  // lastLoggedInDate: '... ISO ...'
-  // termsAccepted:  true / false
-  // phoneNumber: '07557228182'  ????????
-  // registrations:[
-  //   { key: '123EZAX', plate: 'L5MNE', fromDate: '2017-08-01T08:20:00.000' },
-  //   { key: '17AEZ8P', plate: 'L5CDU', fromDate: '2017-08-03T07:50:00.000' }
-  // ]
+  // What a car regsiatrtion will look like
+  const registrationSchema = new Schema({
+    vehicleIdentifier: { type: Number },
+    plate: { type: String, required: true },
+    normalizedPlate: { type: String, uppercase:true, required: true },  // ????
+    fromDate: { type: Date, default: Date.now, required: true },
+    lastViewedDate: { type: Date },
+    vehicle: vehicleSchema,
+    ideal: [tyreSchema],
+  });
+
+  // stuff about the driver
+  const personalSchema = new Schema({
+    avatar: { type: String },
+    greeting: { type: String },
+    name: nameSchema,
+    contactBy: contactBySchema,
+    address: addressSchema,
+  });
+
+  const otherSchema = new Schema({
+    essoDeutscheCardNumber: { type: String },
+    registeredUser: { type: Boolean, default:false },
+    termsAccepted: { type: Boolean, default:false },
+  });
 
   // name the model by ['endpoint']
   var schema = new BaseSchema(endpoint);
@@ -75,28 +136,29 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
     // email: { type: String, required: true. index:{ unique:true, name:'email' } },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    roles: [{ type: String, enum:roleOptions, required: true }],
     disabled: { type: Boolean },
 
-    // account tracking properties
+    // account admin & tracking properties
     created: { type: Date, default: Date.now, required: true },
     lastLoggedInDate: { type: Date },
     resetToken: { type: String },
     resetDate: { type: Date },
 
-    // other stuff the user can set / optional
-    greeting: { type: String },
-    foreName: { type: String },
-    lastName: { type: String },
-    termsAccepted: { type: Boolean, default:false },
+    // roles applicable to user
+    roles: [{ type: String, enum:roleOptions, required: true }],
 
-    // unit choices
-    presureUnits: { type: String, enum:pressureUnits },
-    depthUnits: { type: String, enum:depthUnits },
+    // the preferred unit choices
+    preferences: preferencesSchema,
 
     // will have zero or more registration records allocated
-    registrations: [registrationSchema]
+    registrations: [registrationSchema],
+
+    personal: personalSchema,
+
+    other: otherSchema,
   });
+
+  // *** Really need another identifer - other than EMAIL !!! ***
 
   // Add indexes other than _id
   schema.index({ email: 1 }, { unique: true, name: 'email' });

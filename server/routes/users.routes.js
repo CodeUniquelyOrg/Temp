@@ -4,6 +4,9 @@
 module.exports = function(injectables) {
 
   const router = new injectables.express.Router();
+
+  const middleware = injectables.middleware;
+
   const controller = require('../controllers/user.controller')(injectables);
 
   const apiRoot = injectables.config.server.apiRoot;
@@ -16,6 +19,8 @@ module.exports = function(injectables) {
   // router.route('/me').get(controller.getById);
 
   router.route('/me').get(controller.getById);
+
+  // router.route('/me').put( middleware.limitToAuthenticated, controller.update);
 
   // This router handles all routes starting with - /api/v1/auth
   console.log(`   ${apiRoot}/users`); // eslint-disable-line no-console

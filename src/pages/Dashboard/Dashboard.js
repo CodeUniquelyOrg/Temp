@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { tyreData } from 'actions/tyre';
-import { getHistoryData } from 'actions/tyre';
 import { getUserData } from 'actions/user';
+import { getHistoryData } from 'actions/history';
+import { selectTab, selectRegistration, selectTyre } from 'actions/app';
+
+import * as appActions from 'actions/app';
+import * as userActions from 'actions/user';
+import * as historyAction from 'actions/history';
 
 // =====================================
 // UI Styling and other stuff ike that
@@ -26,36 +31,83 @@ import style from './style.pcss';
 
 const mapStateToProps = (state) => {
   return {
-    history: state.data.history,
-    tyres: state.data.tyres,
-    user: state.user.user,
+    app: state.app,
+    user: state.user.data,
+    history: state.history.data,
   };
 };
 
-// USE A DUMMY PLATE FOR NOW !!!!!!!!!!!!!!!!!!!!
-const regNum = 'HD LS 704'; // L5 MNE';
-
-// ==================================================
-// *** WILl NEED TO use the TRANSLATE OBJECT HERE ***
-// ==================================================
-
-const getNormalisedRegNumber = (regNum) => {
-  return regNum.replace(/\s/g, '');
-};
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      app: bindActionCreators(appActions, dispatch),
+      user: bindActionCreators(userActions, dispatch),
+      history: bindActionCreators(historyAction, dispatch),
+    }
+  };
+}
 
 const Dashboard = class Dashboard extends Component {
-
   constructor(props) {
     super(props);
 
-    // get 'MY' user record
-    this.props.getUserData();
+    // Dispatch get 'MY' user record action
+    this.props.actions.user.getUserData();
+  }
 
-    // HACK - assuming already have the reg - DISPATCH tyre usage request to API
-    // this.props.tyreData(regNum);
+  // componentDidMount() {
+  //   // select the first registration from the user
+  //   // this.selectFirstRegistration();
+  // }
 
-    // HACK - assuming already have the reg - DISPATCH
-    this.props.getHistoryData(regNum);
+  componentWillReceiveProps(newProps) {
+    if (this.props.user !== newProps.user) {
+      this.userHasLoaded(newProps);
+    }
+
+    if (this.props.app.selectedRegistration !== newProps.app.selectedRegistration) {
+      this.fetchHistoryData(newProps);
+    }
+  }
+
+  // componentWillUpdate(nextProps, nextState) {
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+  // }
+
+  // WHEN UserDataCompletes => 'USER:USER_DATA' => reducer already fires ???
+  userHasLoaded(newProps) {
+    this.selectFirstRegistration(newProps);
+    // better still
+    // this.getAllHistoryDataForUser()
+    //
+    // => Builds a Query => registration.forEach() => {
+    //  A) registration.fromDate => lastViewedDate against vechileId)  -> INTO LOCAL STORAGE
+    //  B) registration.lastViewdDate => Now() against vechileId)
+    // }
+  }
+
+  selectFirstRegistration(newProps) {
+    const {
+      user
+    } = newProps;
+    let selectedPlate;
+    if ( user && user.registrations ) {
+      this.props.actions.app.selectRegistration(user.registrations[0].normalizedPlate);
+    }
+  }
+
+  fetchHistoryData(newProps) {
+    const {
+      app
+    } = newProps;
+
+    const {
+      actions
+    } = this.props;
+
+    actions.history.getHistoryData(app.selectedRegistration);
   }
 
   renderAlert() {
@@ -71,17 +123,15 @@ const Dashboard = class Dashboard extends Component {
   getIdealVehicleValues() {
     const {
       user,
+      app,
     } = this.props;
 
     let ideal;
     if ( user ) {
       if (user.registrations) { // && history) {
 
-        // database data will have condensed plate pattern
-        // const condensed = getNormalisedRegNumber(regNum);
-
         user.registrations.forEach( vehicle => {
-          if (vehicle.plate === regNum) {
+          if (vehicle.normalizedPlate === app.selectedRegistration) {
             ideal = vehicle.ideal;
           }
         });
@@ -92,34 +142,31 @@ const Dashboard = class Dashboard extends Component {
 
   renderCar() {
     const {
+      app,
       user,
       history,
-      tyres,
     } = this.props;
 
     let car;
-    if ( user ) {
+    if (user & history) {
 
       // get the units from the user data
       const units = {
-        pressure: user && user.presureUnits || 'PSI',
-        depth: user && user.depthUnits || 'mm',
+        pressure: user && user.preferences && user.preferences.presureUnits || 'PSI',
+        depth: user && user.preferences && user.preferences.depthUnits || 'mm',
       };
 
       let vehicleData, historyData;
 
-      if (user.registrations && history) {
+      if (user.registrations) {
         user.registrations.forEach( vehicle => {
-          if (vehicle.plate === regNum) {
+          if (vehicle.plate === app.selectedRegistration) {
             vehicleData = vehicle;
           }
         });
 
-        // database data wuill have condensed plate pattern
-        const condensed = getNormalisedRegNumber(regNum);
-
         history.forEach( vehicle => {
-          if (vehicle.registration === condensed) {
+          if (vehicle.plate === app.selectedRegistration) {
             historyData = vehicle.history;
           }
         });
@@ -140,6 +187,7 @@ const Dashboard = class Dashboard extends Component {
 
   renderHistory() {
     const {
+      app,
       user,
       history,
     } = this.props;
@@ -147,15 +195,13 @@ const Dashboard = class Dashboard extends Component {
     let histroyElem;
     if (user && history) {
       const units = {
-        pressure: user && user.presureUnits || 'PSI',
-        depth: user && user.depthUnits || 'mm',
+        pressure: user.preferences && user.preferences.presureUnits || 'PSI',
+        depth: user.preferences && user.preferences.depthUnits || 'mm',
       };
 
-      const condensed = getNormalisedRegNumber(regNum);
-
-      const ideal = this.getIdealVehicleValues();
+      const ideal = this.getIdealVehicleValues() ;
       histroyElem = (
-        <History history={history} registration={condensed} units={units} ideal={ideal} />
+        <History history={history} registration={app.selectedRegistration} units={units} ideal={ideal} />
       );
     }
     return histroyElem;
@@ -238,4 +284,5 @@ const Dashboard = class Dashboard extends Component {
   }
 };
 
-export default connect(mapStateToProps, { tyreData, getUserData, getHistoryData })(Dashboard);
+// export default connect(mapStateToProps, { getUserData, selectRegistration, getHistoryData })(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps )(Dashboard);

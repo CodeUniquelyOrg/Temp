@@ -8,6 +8,7 @@ let request      = require('superagent');
 // let soap         = require('soap');
 let compression  = require('compression');
 let jwt          = require('jwt-simple');
+let mongo        = require('mongodb');
 let mongoose     = require('mongoose');
 let async        = require('async');
 let bcrypt       = require('bcrypt-nodejs');
@@ -63,6 +64,7 @@ const injectables = {
   express: express,
   jwt: jwt,
   locale: locale,
+  mongo: mongo,
   mongoose: mongoose,
   request: request,
   status: status,
@@ -72,13 +74,18 @@ const injectables = {
 require('./models')(injectables);
 
 // ========================================================
-//  Augment the injectables with the Authentication library
-//  MUST be done after all the schema have been loaded !!!
+//  Augment the injectables with the MIDDLEWARE libraries
+//  MUST be done after all the schema have been loaded!!!
 // ========================================================
 const authentiction = require('./lib/auth')(injectables);
 injectables.auth = authentiction;
 
-// set up handling for these routes
+const middleware = require('./lib/middleware.js')(injectables);
+injectables.middleware = middleware;
+
+// ========================================================
+//  Set up handling for all routes in the API
+// ========================================================
 require('./routes')(injectables);
 
 // console.log('DATABASE ', database); // eslint-disable-line no-console

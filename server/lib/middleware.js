@@ -1,55 +1,53 @@
 // ===============================================================
 // Written by steve saxton <steves@codeuniquely.co.uk>
-// Copyright (c) 2017 Code Uniquely Ltd.
 // Middleware functions that do helpful things
 // ===============================================================
 module.exports = function(injectables) {
 
-  // var Schools = support.schools();
-  // var Runners = support.runners();
-  // var Sessions = support.sessions();
-  // var Users = support.users();
+  const mongo    = injectables.mongo;
+  const mongoose = injectables.mongoose;
+  const status   = injectables.status;
 
-  // reference to support injection
-  const support = injectables.support;
+  // access to the user data
+  const Users = mongoose.model('users');
 
+  // get a BSON ObjectID reference
+  let ObjectId = mongo.ObjectID;
 
-  // Get School List
-  // ==================================================================
-  // function getSchoolList(userId, next) {
-  //   Schools.find({ users: { $in: [userId] } }, { _id: 1 }, (err, result) => {
-  //     if (err) {
-  //       next(err);
-  //     }
-  //     var entities = [];
-  //     if (result.length !== 0) {
-  //       entities = result.map(item => {
-  //         return item._id;
-  //       });
-  //     }
-  //     next(null, entities);
-  //   });
-  // }
+  function limitToDriver(req, res, next) {
+    const admin = req.user && req.user.roles && req.user.roles.indexOf('driver') !== -1;
+    if (admin) {
+      return next();
+    }
+    return res.sendStatus(status.UNAUTHORIZED);
+  }
 
-  // Get Runners from Multiple Schools (say, previous got by POSTCODE)
-  // ==================================================================
-  // function getRunnersList(schools, next) {
-  //   var query = { $or: [
-  //       { school: { $in: schools } }, { partner: { $in: school } },
-  //   ] };
-  //   Runners.find(query, { _id: 1 }, (err, result) => {
-  //     if (err) {
-  //       next(err);
-  //     }
-  //     var records = [];
-  //     if (result.length !== 0) {
-  //       records = result.map(item => {
-  //         return item._id;
-  //       });
-  //     }
-  //     next(null, records);
-  //   });
-  // }
+  function limitToManager(req, res, next) {
+    const admin = req.user && req.user.roles && req.user.roles.indexOf('manager') !== -1;
+    if (admin) {
+      return next();
+    }
+    return res.sendStatus(status.UNAUTHORIZED);
+  }
+
+  function limitToAdmin(req, res, next) {
+    const admin = req.user && req.user.roles && req.user.roles.indexOf('admin') !== -1;
+    var user = req.user;
+    if (admin) {
+      next();
+    } else {
+      return res.sendStatus(status.UNAUTHORIZED);
+    }
+  }
+
+  function limitToAuthenticated(req, res, next) {
+    var user = req.user;
+    if (user) {
+      next();
+    } else {
+      return res.sendStatus(status.UNAUTHORIZED);
+    }
+  }
 
   // =======================================================
   // Check the UPDATE is acting on the same record, it read
@@ -71,64 +69,39 @@ module.exports = function(injectables) {
     };
   }
 
-  // function checkIfReviewer(req, res, next) {
-  //   if (req.method === 'OPTIONS') {
-  //     return next();
-  //   }
-  //   var user = req.user;
-  //   if (!user.internal) {
-  //     req.user.reviewer = false;
-  //     next();
-  //   } else {
-  //     if (req.params.cid) {
-  //       var cid = parseInt(req.params.cid, 10);
-  //       var uid = req.user._id;
-  //       Reviewers.getOne({ user: uid, customer: cid }, (err, result) => {
-  //         if (err) {
-  //           // console.log(err);
-  //           return next(err);
-  //         } else {
-  //           req.user.reviewer = !!(result !== null);
-  //           return next();
-  //         }
-  //       });
-  //     } else {
-  //       req.user.reviewer = false;
-  //       return next();
-  //     }
-  //   }
-  // }
+  // Only allowed to get history of your own registration data
+  function limitToOwnRegistrations(req, res, next, registration) {
 
-  // // Adjust the query selection to exclude internal events
-  // // ===================================================
-  // function limitExternalEventVisibility(req, res, next) {
-  //   var user = req.user;
-  //   if (user.internal) {
-  //     next();
-  //   } else {
-  //     // Merge this addiotnal term into the existing query as $and
-  //     req.where = { internal: false };
-  //     next();
-  //   }
-  // }
-
-  function limitToAdmin(req, res, next) {
     var user = req.user;
-    if (user.admin) {
-      next();
-    } else {
-      return support.setUnauthorized(res); // { error: 'Not authorized' };
+    if (!user) {
+      return res.sendStatus(status.UNAUTHORIZED);
     }
+
+    // check the request for a registratio
+    // const registration = req.params.reg || '';
+    const query = {
+      $and: [
+        { '_id': ObjectId(user._id) },
+        { 'registrations.normalizedPlate': registration },
+      ],
+    };
+
+    // count records matching the query
+    const data = Users.count( query, (err,count) => {
+      if (count=== 0) {
+        return res.sendStatus(status.UNAUTHORIZED);
+      }
+
+      // only alowed to request from 'user.createdDate'
+      // only alowed to requst from 'date' user took on that plate
+
+      // No issues - so allowed to progress
+      next();
+    });
+
   }
 
-  function limitToAuthenticated(req, res, next) {
-    var user = req.user;
-    if (user) {
-      next();
-    } else {
-      return support.setUnauthorized(res); // { error: 'Not authorized' };
-    }
-  }
+  // YOU MAY ONLY REQUEST YOUR OWN
 
   // // Only list records where you are from that schools
   // // ===================================================
@@ -193,16 +166,10 @@ module.exports = function(injectables) {
   // return all the middleware functions
   return {
     rejectAlteredId: rejectIfRecordIdHasAlteredId,
-
-    // allowedToAccessRunner: allowedToAccessRunner,
-    // allowedToAccessSchool: allowedToAccessSchool,
-    // allowedToAccessSession: allowedToAccessSession,
-    // allowedToAccessUser: allowedToAccessUser,
-    // limitEventVisibility: limitExternalEventVisibility,
-
     limitToAdmin: limitToAdmin,
-    // limitToSchoolOnly: limitToSchoolOnly,
-    // limitToParentOnly: limitToParentOnly,
+    limitToManager: limitToManager,
+    limitToDriver: limitToDriver,
     limitToAuthenticated: limitToAuthenticated,
+    limitToOwnRegistrations: limitToOwnRegistrations,
   };
 };

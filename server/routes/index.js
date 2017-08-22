@@ -31,7 +31,7 @@ module.exports = function(injectables) {
   require('./users.routes')(injectables);
 
   // 'tyres' stuff
-  require('./tyres.routes')(injectables);
+  // require('./tyres.routes')(injectables);
 
   // 'history' stuff
   require('./history.routes')(injectables);

@@ -13,13 +13,30 @@ module.exports = function support(injectables){
   // Attach to the users DB Collection
   const Users = mongoose.model('users');
 
+  function getDbUserById(userId, callback) {
+    Users.findOne({ _id: userId }, (err, user) => {
+      if (err) {
+        callback(err);
+      } else {
+        if (!user || user.disabled) {
+          callback();
+        } else {
+          if (user.toObject) {
+            user = user.toObject();
+          }
+          callback(null, user);
+        }
+      }
+    });
+  }
+
   function getDbUser(email, callback) {
     Users.findOne({ email }, (err, user) => {
       if (err) {
         callback(err);
       } else {
         if (!user || user.disabled) {
-          callback();  // disabled User => FORBIDDEN
+          callback();
         } else {
           if (user.toObject) {
             user = user.toObject();
@@ -42,11 +59,8 @@ module.exports = function support(injectables){
     const obj = {
       userId: user._id,
       email: user.email,
-      // created: user.created,
-      // disabled: user.disabled,
     };
 
-    // return jwt.encode({ iss: config.version, user, exp:expTime }, config.auth.secret);
     return jwt.encode({ iss: config.version, user:obj, exp:expTime }, config.auth.secret);
   }
 
@@ -56,9 +70,7 @@ module.exports = function support(injectables){
 
   //
   // token = {
-  //   user: {
-  //      ... DB data for the user ...
-  //   },
+  //   user: { email, _id },
   //   iis: config.version,
   //   exp: '... ticks ...',
   // };
@@ -114,9 +126,8 @@ module.exports = function support(injectables){
         return res.sendStatus(status.UNAUTHORIZED);
       }
 
-      // EXTRACT email from token and find the matching user
-      // Users.getById(userId, function(err, result) {
-      getDbUser(auth.user.email, (err, user) => {
+      // EXTRACT userId from token and find that user ONLY
+      getDbUserById(auth.user.userId, (err, user) => {
         if (err) {
           return next(err);
         }
@@ -132,7 +143,7 @@ module.exports = function support(injectables){
           return res.sendStatus(status.FORBIDDEN);
         }
 
-        console.log(`\nAUTHENTICATED => ${user.email}\n`);
+        console.log(`\nAUTHENTICATED => ${user.email}\n`); // eslint-disable-line
 
         // Inject the user proprties into the request....
         req.user = user;
@@ -140,7 +151,7 @@ module.exports = function support(injectables){
       });
     } catch (err) {
 
-      console.log('AUTH ERROR ', err );
+      console.log('AUTH ERROR ', err ); // eslint-disable-line
 
       return res.sendStatus(status.UNAUTHORIZED);
     }
@@ -154,12 +165,28 @@ module.exports = function support(injectables){
     return res.sendStatus(status.UNAUTHORIZED);
   }
 
-  // function adminOnly(req, res, next) {
-  //   const admin = req.user && req.user.admin;
+  // function driverOnly(req, res, next) {
+  //   const admin = req.user && req.user.roles && req.user.roles.indexOf('driver') !== -1;
   //   if (admin) {
   //     return next();
   //   }
-  //   support.unauthorized(res);
+  //   return res.sendStatus(status.UNAUTHORIZED);
+  // }
+
+  // function managerOnly(req, res, next) {
+  //   const admin = req.user && req.user.roles && req.user.roles.indexOf('manager') !== -1;
+  //   if (admin) {
+  //     return next();
+  //   }
+  //   return res.sendStatus(status.UNAUTHORIZED);
+  // }
+
+  // function adminOnly(req, res, next) {
+  //   const admin = req.user && req.user.roles && req.user.roles.indexOf('admin') !== -1;
+  //   if (admin) {
+  //     return next();
+  //   }
+  //   return res.sendStatus(status.UNAUTHORIZED);
   // }
 
   return {

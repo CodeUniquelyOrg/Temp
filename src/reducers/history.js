@@ -1,23 +1,21 @@
 import {
-  USER_DATA,
-  USER_ERROR,
-} from 'actions/types';
+  HISTORY_DATA,
+  HISTORY_ERROR,
+} from 'actions/history';
 
 // Build the redux 'initial state'
 const INITIAL_STATE = {
   // error: '',
   // message: '',
-  data: {},
+  data: [],
 };
 
 export default function (state = INITIAL_STATE, action) {
   switch(action.type) {
-    case USER_DATA: {
-      return { ...state, data: action.payload };
-    }
-    case USER_ERROR: {
+    case HISTORY_DATA:
+      return {  ...state, error: '', message: '', data: action.payload };
+    case HISTORY_ERROR:
       return {  ...state, error: '', message: '' };
-    }
   }
   return state;
 }

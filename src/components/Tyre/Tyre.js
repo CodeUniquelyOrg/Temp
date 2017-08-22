@@ -240,11 +240,12 @@ class Tyre extends Component {
 
       //   <div className={`${ under ? style.under : style.over}`}>
       // <FontIcon color={white} className="material-icons" style={{ fontSize:32 }} >error</FontIcon>
+      // <FontIcon color={white} className={name} style={{ fontSize:32 }} />
       //  <div className={style.under}>
 
       overUnderIndicator = (
         <div className={`${ under ? style.under : style.over}`}>
-          <FontIcon color={white} className={name} style={{ fontSize:32 }} />
+          <FontIcon color={white} className="material-icons" style={{ fontSize:32 }} >error</FontIcon>
         </div>
       );
     }

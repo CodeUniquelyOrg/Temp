@@ -380,7 +380,7 @@ const Settings = class Settings extends Component {
   >
   </ExpandableContent>
   <ExpandableContent
-    title="Vehicle manufacturer"
+    title="Vehicle Make"
     secondaryText="Tyre tread will be measured in"
     icon={makeAvatar('drive_eta')}
     content = {this.renderDepthUnits()}

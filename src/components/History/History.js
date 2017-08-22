@@ -72,7 +72,7 @@ const History = class Settings extends Component {
       pressure: PropTypes.string.isRequired,
       depth: PropTypes.string.isRequired,
     }),
-    ideal: PropTypes.array.isRequired,
+    ideal: PropTypes.array, // .isRequired,
   };
 
   static defaultProps = {
@@ -80,6 +80,7 @@ const History = class Settings extends Component {
       pressure: 'PSI',
       depth: 'mm',
     },
+    ideal: [],
   }
 
   labelNames(id) {

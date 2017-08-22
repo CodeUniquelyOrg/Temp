@@ -3,16 +3,21 @@
     {
       "email": "alex.codd@wheelright.co.uk",
       "password": "password",
-      "greeting": "Hello",
-      "foreName": "Alex",
-      "lastName": "Codd",
-      "roles": [ "Driver", "Manager", "Admin" ],
-      "termsAccepted": true,
-      "presureUnits": "PSI",
-      "depthUnits": "mm",
+      "roles": [ "driver" ],
+      "preferences": {
+        "language": "de-DE",
+        "presureUnits": "bar",
+        "depthUnits": "mm",
+        "showUnits": true,
+        "contactBySMS": true,
+        "contactByEmail": true,
+        "contactInApp": false
+      },
       "registrations": [
         {
+          "vehicleIdentifier": 123,
           "plate": "HD LS 704",
+          "normalizedPlate": "HDLS704",
           "ideal": [
             {
               "id": "11",
@@ -31,25 +36,54 @@
               "pressure": 234.422
             }
           ]
+        },
+        {
+          "vehicleIdentifier": 124,
+          "plate": "KA X 1138",
+          "normalizedPlate": "KAX1138"
+        },
+        {
+          "vehicleIdentifier": 125,
+          "plate": "BD SC 2055",
+          "normalizedPlate": "BDSC2055"
         }
-      ]
+      ],
+      "personal": {
+        "greeting": "Dear Sir,",
+        "name": {
+          "title": "Mr",
+          "foreName": "Alex",
+          "lastName": "Codd"
+        },
+        "contactBy": {
+          "email":"alex.codd@wheelright.co.uk"
+        }
+      },
+      "other": {
+        "termsAccepted": false
+      }
     },
+
     {
       "email": "steves@codeuniquely.co.uk",
       "password": "password",
-      "greeting": "Hi",
-      "foreName": "Steve",
-      "lastName": "Saxton",
-      "roles": [ "Driver", "Manager", "Admin" ],
-      "termsAccepted": true,
-      "presureUnits": "PSI",
-      "depthUnits": "mm",
+      "roles": [ "driver", "manager", "admin" ],
+      "preferences": {
+        "language": "en-GB",
+        "presureUnits": "psi",
+        "depthUnits": "mm",
+        "showUnits": false,
+        "contactBySMS": false,
+        "contactByEmail": false,
+        "contactInApp": true,
+        "showTutorial": false,
+        "themeToUse": "light"
+      },
       "registrations": [
         {
-          "plate": "HD LS 704"
-        },
-        {
+          "vehicleIdentifier": 90,
           "plate": "L5 MNE",
+          "normalizedPlate": "L5MNE",
           "ideal": [
             {
               "id": "11",
@@ -70,7 +104,9 @@
           ]
         },
         {
+          "vehicleIdentifier": 91,
           "plate": "L5 CDU",
+          "normalizedPlate": "L5CDU",
           "ideal": [
             {
               "id": "11",
@@ -90,24 +126,40 @@
             }
           ]
         }
-      ]
+      ],
+
+      "personal": {
+        "greeting": "Hi Steve,",
+        "avatar": "https://s.gravatar.com/avatar/5658520ca57bc79b1e14823e078d1d80?s=80",
+        "name": {
+          "foreName": "Steve",
+          "lastName": "Saxton"
+        }
+      },
+      "other": {
+        "termsAccepted": true,
+        "registeredUser": true
+      }
     },
+
     {
       "email": "admin@codeuniquely.co.uk",
       "password": "password",
-      "roles": [ "Admin" ],
+      "roles": [ "admin" ],
       "disabled": true
     },
+
     {
       "email": "manager@codeuniquely.co.uk",
       "password": "password",
-      "roles": [ "Manager" ],
+      "roles": [ "manager" ],
       "disabled": true
     },
+
     {
       "email": "driver@codeuniquely.co.uk",
       "password": "password",
-      "roles": [ "Driver" ],
+      "roles": [ "driver" ],
       "disabled": true
     }
   ]
