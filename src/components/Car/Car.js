@@ -38,7 +38,7 @@ const getAveragePressure = (data)  => {
 };
 
 const convertPressureUnits = (pressure, units) => {
-  if (units.pressure === 'PSI') {
+  if (units.pressure === 'psi') {
     return Math.round(pressure * 0.145038,0);
   } else if ( units.pressure === 'bar') {
     return Math.round(pressure * 0.01,2);
@@ -102,7 +102,7 @@ class Car extends Component {
 
   static defaultProps = {
     units: {
-      pressure: 'PSI',
+      pressure: 'psi',
       depth: 'mm',
     },
     tolerence: 0.2,  // 20%

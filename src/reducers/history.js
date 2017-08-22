@@ -1,7 +1,7 @@
 import {
   HISTORY_DATA,
   HISTORY_ERROR,
-} from 'actions/history';
+} from 'actions/types';
 
 // Build the redux 'initial state'
 const INITIAL_STATE = {

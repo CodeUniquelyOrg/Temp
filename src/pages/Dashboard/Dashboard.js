@@ -148,7 +148,7 @@ const Dashboard = class Dashboard extends Component {
     } = this.props;
 
     let car;
-    if (user & history) {
+    if (user && history && history.length > 0) {
 
       // get the units from the user data
       const units = {
@@ -160,13 +160,13 @@ const Dashboard = class Dashboard extends Component {
 
       if (user.registrations) {
         user.registrations.forEach( vehicle => {
-          if (vehicle.plate === app.selectedRegistration) {
+          if (vehicle.normalizedPlate === app.selectedRegistration) {
             vehicleData = vehicle;
           }
         });
 
         history.forEach( vehicle => {
-          if (vehicle.plate === app.selectedRegistration) {
+          if (vehicle.registration === app.selectedRegistration) {
             historyData = vehicle.history;
           }
         });
@@ -193,7 +193,7 @@ const Dashboard = class Dashboard extends Component {
     } = this.props;
 
     let histroyElem;
-    if (user && history) {
+    if (user && history && history.length > 0) {
       const units = {
         pressure: user.preferences && user.preferences.presureUnits || 'PSI',
         depth: user.preferences && user.preferences.depthUnits || 'mm',
