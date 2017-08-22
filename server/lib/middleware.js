@@ -69,20 +69,20 @@ module.exports = function(injectables) {
     };
   }
 
-  // Only allowed to get history of your own registration data
-  function limitToOwnRegistrations(req, res, next, registration) {
+  // Only allowed to get history of your own vehcileIdentifier matched data
+  function limitToOwnRegistrations(req, res, next, vin) {
 
     var user = req.user;
     if (!user) {
       return res.sendStatus(status.UNAUTHORIZED);
     }
 
-    // check the request for a registratio
-    // const registration = req.params.reg || '';
+    // check the request for a vin
+    // const registration = req.params.vin || -1;
     const query = {
       $and: [
         { '_id': ObjectId(user._id) },
-        { 'registrations.normalizedPlate': registration },
+        { 'registrations.vehicleIdentifier': vin },
       ],
     };
 

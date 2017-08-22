@@ -3,6 +3,7 @@
 //
 import {
   TAB_SELECTED,
+  VEHICLE_SELECTED,
   REGISTRATION_SELECTED,
   TYRE_SELECTED,
 } from './types';
@@ -21,6 +22,15 @@ export const selectRegistration = (registration) => {
     dispatch({
       type: REGISTRATION_SELECTED,
       payload: registration
+    });
+  };
+};
+
+export const selectVehicle = (identifier) => {
+  return (dispatch) => {
+    dispatch({
+      type: VEHICLE_SELECTED,
+      payload: identifier
     });
   };
 };

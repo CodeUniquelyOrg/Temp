@@ -11,6 +11,9 @@ module.exports = function(injectables) {
   const timeTaken = 500;
 
   // reference the 'users' Collection
+  const History = mongoose.model('history');
+
+  // reference the 'users' Collection
   // const Users = mongoose.model('users');
   // const mockdata = require('../mock/history.json');
   const mockdata = require('../mock/serverHistory.json');
@@ -24,14 +27,11 @@ module.exports = function(injectables) {
   function getByRegNumber(req, res, next) {
 
     // extract the registration number - ONLY going to be ONE (for now)
-    const registration = req.params.reg || '';
-
-    // remove the whitespace from the registration
-    condensed = registration.replace(/\s/g, '');
+    const vin = parseInt(req.params.vin,10);
 
     const data = [
       {
-        registration: registration,
+        vehicleIdentifier: vin,
         history: [
         ]
       }
@@ -42,10 +42,10 @@ module.exports = function(injectables) {
 
       response.forEach( record => {
         const dateTime = record.magsensorhighdttm;
-        const plate = record.plate.replace(/\s/g, '');
+        const identifier = record.vehicleIdentifier;
 
         // only take entries that match he plate
-        if (plate === condensed) {
+        if (vin === record.vehicleIdentifier) {
 
           const tyres = record.t;
 
@@ -73,8 +73,25 @@ module.exports = function(injectables) {
     });
   }
 
+  // registered drivers have data on local server for 'FASTER' access
+  // GET busing Vechileidentifier
+  function getSavedData(req, res, next) {
+    const vin = parseInt(req.params.vin,10);
+
+    const query = { vehicleIdentifier: vin };
+
+    // find all the hsitroy records
+    History.find(query, (err,records) => {
+      if ( err) {
+        return next(err);
+      }
+      next(null, records);
+    });
+  }
+
   return {
     getByRegNumber,
+    getSavedData,
   };
 
 };

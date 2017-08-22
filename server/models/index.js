@@ -1,6 +1,6 @@
 // ==============================================================
 // Written by steve saxton <steves@codeuniquely.co.uk>
-//   => Load the DB Schema with al the Models Here
+//   => Load the DB Schema with all the Models in this folder
 // ==============================================================
 module.exports = function models(injectables) {
 
@@ -9,4 +9,5 @@ module.exports = function models(injectables) {
   // const validations = require('./validations')(injectables);
 
   require('./model.users')('users', injectables, BaseSchema); // , validations);
+  require('./model.history')('history', injectables, BaseSchema); // , validations);
 };

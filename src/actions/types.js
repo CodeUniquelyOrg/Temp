@@ -8,6 +8,7 @@ export const RESET_PASSWORD_REQUEST = 'reset_password_request';
 // APplication Level state items
 export const TAB_SELECTED = 'APP:TAB_SELECTED';
 export const REGISTRATION_SELECTED = 'APP:REGISTRATION_SELECTED';
+export const VEHICLE_SELECTED = 'APP:VEHICLE_SELECTED';
 export const TYRE_SELECTED = 'APP:TYRE_SELECTED';
 
 // User actions

@@ -32,7 +32,7 @@ module.exports = function(injectables) {
       // Globally add a property of 'collectionDisplayName'
       collectionDisplayName: endpoint,
 
-      // really an alias for findOne()
+      // really, just an alias for findOne()
       getOne: function(query, done) {
         const q = this.findOne(query);
         if (this.populateSingleResponse) {
@@ -55,7 +55,9 @@ module.exports = function(injectables) {
 
           let q;
           if (record.length && record.lengh > 1) {
-            const idList = record.map( item => { return item._id; });
+            const idList = record.map( item => {
+              return item._id;
+            });
             q = self.find( { _id: { $in: idList } });
           } else {
             q = self.findById(record._id);

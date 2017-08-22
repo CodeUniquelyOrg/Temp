@@ -11,10 +11,10 @@ module.exports = function(injectables) {
   const apiRoot = injectables.config.server.apiRoot;
 
   // Check the registration is one of my registrations ...
-  router.param('reg', middleware.limitToOwnRegistrations);
+  router.param('vin', middleware.limitToOwnRegistrations);
 
   // request one regsitration - limited by the middleware above
-  router.route('/:reg').get(controller.getByRegNumber);
+  router.route('/:vin').get(controller.getByRegNumber);
 
   // This router handles all routes starting with - /api/v1/history
   console.log(`   ${apiRoot}/history`); // eslint-disable-line no-console

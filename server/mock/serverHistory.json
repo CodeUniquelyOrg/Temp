@@ -1,6 +1,7 @@
 [
   {
     "magsensorhighdttm":"2017-08-11T08:55:43.593",
+    "vehicleIdentifier": 123,
     "plate":"HDLS704",
     "t":[
       {
@@ -47,6 +48,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-09T08:11:14.323",
+    "vehicleIdentifier": 123,
     "plate":"HDLS704",
     "t":[
       {
@@ -85,6 +87,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-08T08:57:33.217",
+    "vehicleIdentifier": 123,
     "plate":"HDLS704",
     "t":[
       {
@@ -123,6 +126,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-07T08:36:16.300",
+    "vehicleIdentifier": 123,
     "plate":"HDLS704",
     "t":[
       {
@@ -161,6 +165,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-02T08:03:35.367",
+    "vehicleIdentifier": 123,
     "plate":"HDLS704",
     "t":[
       {
@@ -207,6 +212,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-01T08:06:22.880",
+    "vehicleIdentifier": 123,
     "plate":"HDLS704",
     "t":[
       {
@@ -254,6 +260,7 @@
 
   {
     "magsensorhighdttm":"2017-08-11T08:55:43.593",
+    "vehicleIdentifier": 90,
     "plate":"L5MNE",
     "t":[
       {
@@ -300,6 +307,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-09T08:11:14.323",
+    "vehicleIdentifier": 90,
     "plate":"L5MNE",
     "t":[
       {
@@ -338,6 +346,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-08T08:57:33.217",
+    "vehicleIdentifier": 90,
     "plate":"L5MNE",
     "t":[
       {
@@ -376,6 +385,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-07T08:36:16.300",
+    "vehicleIdentifier": 90,
     "plate":"L5MNE",
     "t":[
       {
@@ -414,6 +424,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-02T08:03:35.367",
+    "vehicleIdentifier": 90,
     "plate":"L5MNE",
     "t":[
       {
@@ -460,6 +471,7 @@
   },
   {
     "magsensorhighdttm":"2017-08-01T08:06:22.880",
+    "vehicleIdentifier": 90,
     "plate":"L5MNE",
     "t":[
       {

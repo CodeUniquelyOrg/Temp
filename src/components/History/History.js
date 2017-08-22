@@ -49,15 +49,6 @@ const getNormalisedRegNumber = (regNum) => {
 //     }
 //   ]
 // }
-const getHistoryForReg = (history, registration) => {
-  let data;
-  history.forEach( record => {
-    if (record.registration === registration) {
-      data = record.history;
-    }
-  });
-  return data || [];
-};
 
 // const minPressure = 30 * 6.89476;   // FIX THESE
 // const maxPressure = 36 * 6.89476;   // FIX THESE
@@ -294,12 +285,9 @@ const History = class Settings extends Component {
       ...rest,
     } = this.props;
 
-    // get the registration history for the required vehicle
-    const regHistory = getHistoryForReg(history, registration);
-
     return (
       <div className={style.root}>
-        {this.renderList(regHistory)}
+        {this.renderList(history)}
       </div>
     );
   }

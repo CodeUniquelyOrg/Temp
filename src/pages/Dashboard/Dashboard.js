@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getUserData } from 'actions/user';
-import { getHistoryData } from 'actions/history';
-import { selectTab, selectRegistration, selectTyre } from 'actions/app';
-
+// LOAD ACTIONS -> Mapped to Dispather
+// import { getUserData } from 'actions/user';
+// import { getHistoryData } from 'actions/history';
+// import { selectTab, selectRegistration, selectTyre } from 'actions/app';
 import * as appActions from 'actions/app';
 import * as userActions from 'actions/user';
 import * as historyAction from 'actions/history';
@@ -51,7 +51,7 @@ const Dashboard = class Dashboard extends Component {
   constructor(props) {
     super(props);
 
-    // Dispatch get 'MY' user record action
+    // Dispatch request to get 'MY' data
     this.props.actions.user.getUserData();
   }
 
@@ -61,11 +61,13 @@ const Dashboard = class Dashboard extends Component {
   // }
 
   componentWillReceiveProps(newProps) {
+    // when user data loads
     if (this.props.user !== newProps.user) {
-      this.userHasLoaded(newProps);
+      this.selectFirstRegistration(newProps);
     }
 
-    if (this.props.app.selectedRegistration !== newProps.app.selectedRegistration) {
+    // when they select a different vehicle
+    if (this.props.app.selectedVehicle !== newProps.app.selectedVehicle) {
       this.fetchHistoryData(newProps);
     }
   }
@@ -76,25 +78,15 @@ const Dashboard = class Dashboard extends Component {
   // componentDidUpdate(prevProps, prevState) {
   // }
 
-  // WHEN UserDataCompletes => 'USER:USER_DATA' => reducer already fires ???
-  userHasLoaded(newProps) {
-    this.selectFirstRegistration(newProps);
-    // better still
-    // this.getAllHistoryDataForUser()
-    //
-    // => Builds a Query => registration.forEach() => {
-    //  A) registration.fromDate => lastViewedDate against vechileId)  -> INTO LOCAL STORAGE
-    //  B) registration.lastViewdDate => Now() against vechileId)
-    // }
-  }
-
+  // driver will select a vehicle by 'friendly name' or 'Licence plate'
   selectFirstRegistration(newProps) {
     const {
       user
     } = newProps;
-    let selectedPlate;
-    if ( user && user.registrations ) {
-      this.props.actions.app.selectRegistration(user.registrations[0].normalizedPlate);
+    if (user && user.registrations) {
+      const vehicle = user.registrations[0];
+      this.props.actions.app.selectVehicle(vehicle.vehicleIdentifier);
+      // this.props.actions.app.selectIdentifier(vehicle.normalizedPlate);
     }
   }
 
@@ -107,7 +99,14 @@ const Dashboard = class Dashboard extends Component {
       actions
     } = this.props;
 
-    actions.history.getHistoryData(app.selectedRegistration);
+    // get history for the selected vehicle =>
+    // in practice this will require a numbr of lookups and a
+    // an ASYNC query of [
+    //   { vin, startDate, endDate }
+    //   { vin, startDate, endDate }
+    //   { vin, startDate, endDate }
+    // ]
+    actions.history.getHistoryData(app.selectedVehicle);
   }
 
   renderAlert() {
@@ -131,7 +130,7 @@ const Dashboard = class Dashboard extends Component {
       if (user.registrations) { // && history) {
 
         user.registrations.forEach( vehicle => {
-          if (vehicle.normalizedPlate === app.selectedRegistration) {
+          if (vehicle.vehicleIdentifier === app.selectedVehicle) {
             ideal = vehicle.ideal;
           }
         });
@@ -160,13 +159,13 @@ const Dashboard = class Dashboard extends Component {
 
       if (user.registrations) {
         user.registrations.forEach( vehicle => {
-          if (vehicle.normalizedPlate === app.selectedRegistration) {
+          if (vehicle.vehicleIdentifier === app.selectedVehicle) {
             vehicleData = vehicle;
           }
         });
 
         history.forEach( vehicle => {
-          if (vehicle.registration === app.selectedRegistration) {
+          if (vehicle.vehicleIdentifier === app.selectedVehicle) {
             historyData = vehicle.history;
           }
         });
@@ -199,9 +198,16 @@ const Dashboard = class Dashboard extends Component {
         depth: user.preferences && user.preferences.depthUnits || 'mm',
       };
 
+      let historyData;
+      history.forEach( vehicle => {
+        if (vehicle.vehicleIdentifier === app.selectedVehicle) {
+          historyData = vehicle.history;
+        }
+      });
+
       const ideal = this.getIdealVehicleValues() ;
       histroyElem = (
-        <History history={history} registration={app.selectedRegistration} units={units} ideal={ideal} />
+        <History history={historyData} registration={app.selectedRegistration} units={units} ideal={ideal} />
       );
     }
     return histroyElem;

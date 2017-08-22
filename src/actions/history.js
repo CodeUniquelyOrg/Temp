@@ -16,14 +16,14 @@ import { ErrorHandler, Get } from 'src/lib/Request';
 // }
 
 // export const getHistoryData = (registration, fromDate) => {
-export const getHistoryData = (registration) => {
+export const getHistoryData = (vin) => {
 
   // =======================
   // 'redux-thunk' signature
   // =======================
   return (dispatch) => {
 
-    Get(`/history/${registration}`, null, (error,response) => {
+    Get(`/history/${vin}`, null, (error,response) => {
       if (error) {
         // throw error; // ????
         return ErrorHandler(dispatch, error, HISTORY_ERROR);
