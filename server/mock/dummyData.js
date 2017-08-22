@@ -20,7 +20,6 @@ module.exports = function shell(injectables, callback) {
       const collection = mongoose.connection.collections[name];
 
       console.log('Dropping ' + name); // eslint-disable-line no-console
-
       collection.drop( () => {
         cb();
       });
@@ -58,15 +57,13 @@ module.exports = function shell(injectables, callback) {
         return done(null, null);
       }
 
-      // *** ENCRYPT THE DATA IN PASSWORD ***
+      // *** ENCRYPT THE DATA WE GOT IN PASSWORD ***
 
       dbCollection.create(data, (error) => {
         if (error) {
           console.log('USERS ERROR ', error);  // eslint-disable-line no-console
           return done(error);
         }
-
-        console.log('\nADDED USERS'); // eslint-disable-line no-console
         return done();
       });
     });
