@@ -8,32 +8,19 @@ import {
 
 import { ErrorHandler, Get } from 'src/lib/Request';
 
-// function loadHistorySuccess(history) {
-//   return {
-//     type: HISTORY_DATA,
-//     history
-//   };
-// }
-
 // export const getHistoryData = (registration, fromDate) => {
-export const getHistoryData = (vin) => {
+export const getHistoryData = vin => dispatch => {
 
-  // =======================
-  // 'redux-thunk' signature
-  // =======================
-  return (dispatch) => {
+  Get(`/history/${vin}`, null, (error,response) => {
+    if (error) {
+      // throw error; // ????
+      return ErrorHandler(dispatch, error, HISTORY_ERROR);
+    }
 
-    Get(`/history/${vin}`, null, (error,response) => {
-      if (error) {
-        // throw error; // ????
-        return ErrorHandler(dispatch, error, HISTORY_ERROR);
-      }
-
-      // dispatch(loadHistorySuccess(response.data));
-      dispatch({
-        type: HISTORY_DATA,
-        payload: response.data || [], // .content  - expecting an ARRAY
-      });
+    // dispatch(loadHistorySuccess(response.data));
+    dispatch({
+      type: HISTORY_DATA,
+      payload: response.data || [], // .content  - expecting an ARRAY
     });
-  };
+  });
 };

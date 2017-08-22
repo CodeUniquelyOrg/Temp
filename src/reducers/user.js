@@ -14,6 +14,7 @@ export default function (state = INITIAL_STATE, action) {
   switch(action.type) {
     case USER_DATA: {
       return { ...state, data: action.payload };
+      // return { ...state, action.payload };
     }
     case USER_ERROR: {
       return {  ...state, error: '', message: '' };

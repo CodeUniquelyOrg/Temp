@@ -29,11 +29,19 @@ import Translate from 'components/Translate';
 // Styling
 import style from './style.pcss';
 
-const mapStateToProps = (state) => {
+// const mapStateToProps = (state) => {
+//   return {
+//     app: state.app,
+//     user: state.user.data,
+//     history: state.history.data,
+//   };
+// };
+
+const mapStateToProps = ({ app, user, history }) => {
   return {
-    app: state.app,
-    user: state.user.data,
-    history: state.history.data,
+    app,
+    user: user.data,
+    history: history.data,
   };
 };
 

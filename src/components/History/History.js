@@ -117,13 +117,12 @@ const History = class Settings extends Component {
 
         if (status !== -1) {
           if (tyre.pressure < minPressure || tyre.pressure > maxPressure) {
-
-            if (tyre.pressure < minPressure) {
-              console.log( 'UNDER PRESSURE ', { id:tyre.id, pressure:tyre.pressure, limit:minPressure }); // eslint-disable-line
-            }
-            if (tyre.pressure > maxPressure) {
-              console.log( 'OVER PRESSURE ', { id:tyre.id, pressure:tyre.pressure, limit:maxPressure }); // eslint-disable-line
-            }
+            // if (tyre.pressure < minPressure) {
+            //   console.log( 'UNDER PRESSURE ', { id:tyre.id, pressure:tyre.pressure, limit:minPressure }); // eslint-disable-line
+            // }
+            // if (tyre.pressure > maxPressure) {
+            //   console.log( 'OVER PRESSURE ', { id:tyre.id, pressure:tyre.pressure, limit:maxPressure }); // eslint-disable-line
+            // }
             status =-1;
           }
         }
@@ -131,20 +130,20 @@ const History = class Settings extends Component {
 
       // we are missing depth measuremen for tyre
       if (status !== -1 && tyre.depth === -1) {
-        console.log( 'NO READING ', { id:tyre.id }); // eslint-disable-line
+        // console.log( 'NO READING ', { id:tyre.id }); // eslint-disable-line
         status = 0;
       }
 
       // tyre tread depth is below 'minimum legal limit'
       if (tyre.depth !== -1  && tyre.depth < minDepth) {
-        console.log( 'ILLEGAL TREAD', { id:tyre.id, depth:tyre.depth }); // eslint-disable-line
+        // console.log( 'ILLEGAL TREAD', { id:tyre.id, depth:tyre.depth }); // eslint-disable-line
         status =-1;
       }
 
     });
     // if nothing has flagged as 'missing' or 'danger' on tyre
     if (typeof status === 'undefined') {
-      console.log( 'GOOD TYRE'); // eslint-disable-line
+      // console.log( 'GOOD TYRE'); // eslint-disable-line
       status = 1;
     }
     return status;

@@ -86,7 +86,56 @@ const ErrorHandler = (dispatch, error, type) => {
 //   return response;
 // };
 
+const GetError = (error) => {
+
+  let errorMessage = '';
+
+  if (error.response) {
+    if(error.response.data && error.response.data.error) {
+      errorMessage = error.response.data.error;
+    } else if(error.response.data) {
+      errorMessage = error.response.data;
+    } else {
+      errorMessage = error.response;
+    }
+
+    // =======================================================
+    //   Need to look at the right part of ERROR for status
+    // =======================================================
+    // if(error.response.status === 401 || error.response.status === '401') {
+    //   dispatch({
+    //     type: type,
+    //     payload: 'You are not authorized to do this. Please login and try again.'
+    //   });
+    // logoutUser();
+    // }
+
+  } else if (error.request) {
+    errorMessage = 'No response received for Request';
+    // The request was made but no response was received
+    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    console.log(error.request); // eslint-disable-line no-console
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    errorMessage = error.stack || error.message;
+    // console.log('Error', error.stack || error.message); // eslint-disable-line no-console
+  }
+
+  return errorMessage;
+};
+
+const getData = (response) => {
+  return response.data;
+};
+
+const DispatchHandler = (dispatch, type, response) => {
+  dispatch({ type: type, payload: response.data });
+};
+
 // test if user is accessing 'Protected' contents - (authenticated ONLY)
+// errorAction,
+//
+// const Get = (url, params, dispatch, errorAction, successAction ) => {
 const Get = (url, params, callback) => {
 
   const requestUrl = makeApiRroute(url, params);
@@ -96,11 +145,12 @@ const Get = (url, params, callback) => {
   axios.get(requestUrl)
     // .then(callback)
     .then( response => {
+      // DispatchHandler(dispatch, successAction, getData(response));
       callback(null,response);
     })
     .catch( error => {
+      // DispatchHandler(dispatch, errorAction, getError(error));
       callback(error);
-      // errorHandler(dispatch, error, AUTH_ERROR);
     });
 };
 
