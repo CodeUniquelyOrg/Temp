@@ -277,7 +277,7 @@ class Tyre extends Component {
 
     return (
       <div className={style.scaledTyre} onClick={this.onClicked}>
-        <div div={style.inside}>
+        <div className={style.inside}>
           {wearIndicator}
           {bobble}
           <div>

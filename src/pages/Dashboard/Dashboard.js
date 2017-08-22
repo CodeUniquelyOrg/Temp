@@ -47,6 +47,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+//
+// This IS a 'CONTAINER COMPONENT' please read this article
+// http://www.thegreatcodeadventure.com/the-react-plus-redux-container-pattern/
+//
 const Dashboard = class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -99,13 +103,15 @@ const Dashboard = class Dashboard extends Component {
       actions
     } = this.props;
 
-    // get history for the selected vehicle =>
+    // =====================================================
+    // Get history for the selected vehicle =>
     // in practice this will require a numbr of lookups and a
     // an ASYNC query of [
     //   { vin, startDate, endDate }
     //   { vin, startDate, endDate }
     //   { vin, startDate, endDate }
     // ]
+    // =====================================================
     actions.history.getHistoryData(app.selectedVehicle);
   }
 
@@ -126,15 +132,12 @@ const Dashboard = class Dashboard extends Component {
     } = this.props;
 
     let ideal;
-    if ( user ) {
-      if (user.registrations) { // && history) {
-
-        user.registrations.forEach( vehicle => {
-          if (vehicle.vehicleIdentifier === app.selectedVehicle) {
-            ideal = vehicle.ideal;
-          }
-        });
-      }
+    if (user && user.registrations) {
+      user.registrations.forEach( vehicle => {
+        if (vehicle.vehicleIdentifier === app.selectedVehicle) {
+          ideal = vehicle.ideal;
+        }
+      });
     }
     return ideal;
   }
@@ -227,6 +230,10 @@ const Dashboard = class Dashboard extends Component {
     return settingsElem;
   }
 
+  tabChanged = (tab) => {
+    this.props.actions.app.selectTab(tab.props.index); // ???
+  }
+
   render() {
 
     const {
@@ -241,6 +248,9 @@ const Dashboard = class Dashboard extends Component {
 
     const activeTasksBadge = <Badge style={badgeStyles} secondary={true} badgeContent={6} />;
 
+    // value={this.props.app.selectedTab}
+    const initialIndex = this.props.app.selectedTab || 0;
+
     return (
       <div className={style.root}>
 
@@ -248,9 +258,12 @@ const Dashboard = class Dashboard extends Component {
           {this.renderAlert()}
         </div>
 
-        <Tabs>
+        <Tabs
+          initialSelectedIndex={initialIndex}>
+        >
 
           <Tab
+            onActive={this.tabChanged}
             icon={<FontIcon className="material-icons">drive_eta</FontIcon>}
             label={<Translate id="main" />}
           >
@@ -258,6 +271,7 @@ const Dashboard = class Dashboard extends Component {
           </Tab>
 
           <Tab
+            onActive={this.tabChanged}
             icon={
               <div>
                 <FontIcon color="#ffffff" className="material-icons">history</FontIcon>
@@ -270,6 +284,7 @@ const Dashboard = class Dashboard extends Component {
           </Tab>
 
           <Tab
+            onActive={this.tabChanged}
             icon={<FontIcon className="material-icons">settings</FontIcon>}
             label={<Translate id="settings" />}
           >
@@ -277,6 +292,7 @@ const Dashboard = class Dashboard extends Component {
           </Tab>
 
           <Tab
+            onActive={this.tabChanged}
             icon={<FontIcon className="material-icons">help</FontIcon>}
             label={<Translate id="help" />}
           >

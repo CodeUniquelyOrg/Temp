@@ -7,7 +7,7 @@ import {
 
 // Build the redux 'initial state'
 const INITIAL_STATE = {
-  selectedTab: '',
+  selectedTab: 0,
   selectedVehicle: '',
   selectedRegistration: '',
   selectedTyre: '',
