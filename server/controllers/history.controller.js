@@ -98,8 +98,70 @@ module.exports = function(injectables) {
     });
   }
 
-  function processHistoryResults() {
+  function processHistoryResults(response) {
 
+    // where the data is going to go
+    const data = [];
+
+    function getVehicle(vin) {
+      // itterate data looking for vin
+      let found;
+      for(let i=0 ; i< data.length ; i++) {
+        if ( data[i].vehicleIdentifier === vin) {
+          found = data[i];
+          break;
+        }
+      }
+      if (!found) {
+        found = {
+          vehicleIdentifier: vin,
+          history: [],
+        };
+        data.push(found);
+      }
+      return found;
+    }
+
+    // there may be more than one task that ran
+    response.forEach( task => {
+
+      let vehicle;
+
+      // records in atask wil be for same vehicle
+      task.forEach( record => {
+
+        // dont care - just attach to the right vehicle record record
+        vehicle = getVehicle(record.vehicleIdentifier);
+
+        const dateTime = record.magsensorhighdttm;
+        const tyres = record.t;
+
+        const readings = tyres.map(tyre => {
+          return {
+            id: `${tyre.axleno}${tyre.tyreno}`,
+            pressure: parseFloat(tyre.pressurekpa || 0),
+            depth: parseFloat(tyre.treaddepth || -1),
+            good: tyre.treaddepthwithgoodreadings || false,
+          };
+        });
+
+        const driveOver = {
+          timestamp: dateTime,
+          tyres: readings,
+        };
+
+        // just push them into the first record
+        vehicle.history.push(driveOver);
+
+      });
+
+      if ( vehicle ) {
+        data.push(vehicle);
+      }
+
+    });
+
+    return data;
   }
 
   // get the history for the user
@@ -138,23 +200,16 @@ module.exports = function(injectables) {
 
     async.parallel(tasks, (error, results) => {
       if (error) {
-        return console.log('ERROR IS\n', error);
-        next(error);
+        console.log('ERROR IS\n', error);
+        return next(error);
       }
 
-      // itterate all the arrays of data covertings the resulst
-      // [
-      //
-      //   [
-      //   ],
-      //
-      //   [
-      //   ]
-      //
-      // ]
+      const history = processHistoryResults(results);
+      console.log('COMPLETE AS\n', history);
 
-      console.log('COMPLETE AS\n', results);
-      return next(null, results);
+      // send the response back
+      res.json(history.json);
+      // return next(null, history);
     });
 
     // // we can run ALL the queries in parallel
