@@ -24,6 +24,16 @@ module.exports = function(injectables) {
     }, timeTaken);
   }
 
+  // really needs to make a number of requests here...
+  // lookup ALL vehicle registrations for user and get
+  // the start and end dates of those various periods
+  // of ownership and then in Async => request all the
+  // various results and when complete aggregate them
+  // into a single return array in desired format....
+
+  // if users is NOT registered then JUST get the LAST
+  // record that they can see
+
   function getByRegNumber(req, res, next) {
 
     // extract the registration number - ONLY going to be ONE (for now)
