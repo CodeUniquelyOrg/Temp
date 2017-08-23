@@ -98,6 +98,10 @@ module.exports = function(injectables) {
     });
   }
 
+  function processHistoryResults() {
+
+  }
+
   // get the history for the user
   function getMyHistory(req, res, next) {
     const user = req.user;
@@ -123,33 +127,63 @@ module.exports = function(injectables) {
       };
     });
 
-    // we can run ALL the queries in parallel
-    async.parallel({
-      // final: function(next) {
-      //   next();
-      //   // mapp all the parts
-      //   // async.map(Object.keys(parents), function(item,done){
-      //   //   if(children[item].length!==0) addChildsByParent(parents[item],children[item], function (result) {
-      //   //     done(null, result);
-      //   //   });
-      //   // }, next);
-
-      // },
-      history: function(next) {
-        async.map(queries, function(q, done) {
-          console.log('QUERYING FOR ', q.vehicleIdentifier);
-          asyncGetHistory(q.vehicleIdentifier, q.fromDate, q.toDate, done);
-        });
-        next();
-      }
-    }, (error, results) => {
-      if (!error) {
-        console.log('COMPLETE AS\n', results);
-        return next(null, results);
-      }
-      console.log('ERROR IS\n', error);
-      next(err);
+    const tasks = user.registrations.map(reg => {
+      const vehicleIdentifier =reg.vehicleIdentifier;
+      const fromDate = new Date(reg.fromDate);
+      const toDate =reg.lastViewedDate ? new Date(reg.lastViewedDate) : now;
+      return function(done) {
+        asyncGetHistory(vehicleIdentifier, fromDate, toDate, done);
+      };
     });
+
+    async.parallel(tasks, (error, results) => {
+      if (error) {
+        return console.log('ERROR IS\n', error);
+        next(error);
+      }
+
+      // itterate all the arrays of data covertings the resulst
+      // [
+      //
+      //   [
+      //   ],
+      //
+      //   [
+      //   ]
+      //
+      // ]
+
+      console.log('COMPLETE AS\n', results);
+      return next(null, results);
+    });
+
+    // // we can run ALL the queries in parallel
+    // async.parallel({
+    //   // final: function(next) {
+    //   //   next();
+    //   //   // mapp all the parts
+    //   //   // async.map(Object.keys(parents), function(item,done){
+    //   //   //   if(children[item].length!==0) addChildsByParent(parents[item],children[item], function (result) {
+    //   //   //     done(null, result);
+    //   //   //   });
+    //   //   // }, next);
+
+    //   // },
+    //   history: function(next) {
+    //     async.map(queries, function(q, done) {
+    //       console.log('QUERYING FOR ', q.vehicleIdentifier);
+    //       asyncGetHistory(q.vehicleIdentifier, q.fromDate, q.toDate, done);
+    //     });
+    //     next();
+    //   }
+    // }, (error, results) => {
+    //   if (!error) {
+    //     console.log('COMPLETE AS\n', results);
+    //     return next(null, results);
+    //   }
+    //   console.log('ERROR IS\n', error);
+    //   next(err);
+    // });
 
     // asyncGetHistory();
     // now query the history that matches the drive-over
