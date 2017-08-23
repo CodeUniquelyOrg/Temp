@@ -99,14 +99,13 @@ module.exports = function(injectables) {
   }
 
   function processHistoryResults(response) {
-
     // where the data is going to go
     const data = [];
 
     function getVehicle(vin) {
       // itterate data looking for vin
       let found;
-      for(let i=0 ; i< data.length ; i++) {
+      for(let i=0 ; i < data.length ; i++) {
         if ( data[i].vehicleIdentifier === vin) {
           found = data[i];
           break;
@@ -152,15 +151,8 @@ module.exports = function(injectables) {
 
         // just push them into the first record
         vehicle.history.push(driveOver);
-
       });
-
-      if ( vehicle ) {
-        data.push(vehicle);
-      }
-
     });
-
     return data;
   }
 
@@ -168,9 +160,9 @@ module.exports = function(injectables) {
   function getMyHistory(req, res, next) {
     const user = req.user;
 
-    // Auth wil; already have killed the request if user is null;
+    // Auth will already have killed the request if user is null;
 
-    // is thsi use registered
+    // is this user registered
     let registeredUser = user.other && user.other.registeredUser || false;
     let termsAccepted = user.other && user.other.termsAccepted || false;
 
@@ -198,55 +190,16 @@ module.exports = function(injectables) {
       };
     });
 
-    async.parallel(tasks, (error, results) => {
-      if (error) {
-        console.log('ERROR IS\n', error);
-        return next(error);
+    async.parallel(tasks, (err, results) => {
+      if (err) {
+        console.log('ERROR IS\n', err); // eslint-disable-line no-console
+        return next(err);
       }
 
-      const history = processHistoryResults(results);
-      console.log('COMPLETE AS\n', history);
-
       // send the response back
-      res.json(history.json);
-      // return next(null, history);
+      const data = processHistoryResults(results);
+      res.json(data);
     });
-
-    // // we can run ALL the queries in parallel
-    // async.parallel({
-    //   // final: function(next) {
-    //   //   next();
-    //   //   // mapp all the parts
-    //   //   // async.map(Object.keys(parents), function(item,done){
-    //   //   //   if(children[item].length!==0) addChildsByParent(parents[item],children[item], function (result) {
-    //   //   //     done(null, result);
-    //   //   //   });
-    //   //   // }, next);
-
-    //   // },
-    //   history: function(next) {
-    //     async.map(queries, function(q, done) {
-    //       console.log('QUERYING FOR ', q.vehicleIdentifier);
-    //       asyncGetHistory(q.vehicleIdentifier, q.fromDate, q.toDate, done);
-    //     });
-    //     next();
-    //   }
-    // }, (error, results) => {
-    //   if (!error) {
-    //     console.log('COMPLETE AS\n', results);
-    //     return next(null, results);
-    //   }
-    //   console.log('ERROR IS\n', error);
-    //   next(err);
-    // });
-
-    // asyncGetHistory();
-    // now query the history that matches the drive-over
-
-    // if (!user) {
-
-    // }
-    // find the uer with thsi id,
   }
 
   // registered drivers have data on local server for 'FASTER' access

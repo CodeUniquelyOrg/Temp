@@ -17,6 +17,7 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
   const bcrypt = injectables.bcrypt;
   const config = injectables.config;
   const Schema = mongoose.Schema;
+  const ObjectId = Schema.ObjectId;
 
   const roleOptions = [
     'driver',
@@ -106,6 +107,7 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
   // What a car regsiatrtion will look like
   const registrationSchema = new Schema({
     vehicleIdentifier: { type: Number },
+    ownedBy: { type: ObjectId, default: ObjectId('000000000000000000000000') },
     plate: { type: String, required: true },
     normalizedPlate: { type: String, uppercase:true, required: true },  // ????
     fromDate: { type: Date, default: Date.now, required: true },
@@ -169,7 +171,7 @@ module.exports = function(endpoint, injectables, BaseSchema) { // , validations)
   //   query.select('email created resetToken resetToken disabled');
   // };
 
-  // on create a reord
+  // on creating a record - before save
   schema.pre('save', function saveHook(next) {
     const user = this;
 
