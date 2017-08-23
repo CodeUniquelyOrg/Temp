@@ -10,9 +10,11 @@ module.exports = function(injectables) {
 
   const apiRoot = injectables.config.server.apiRoot;
 
+  // jsut ask for "/history/me"
+  router.route('/me').get(controller.getMyHistory);
+
   // Check the registration is one of my registrations ...
   router.param('vin', middleware.limitToOwnRegistrations);
-
   // request one regsitration - limited by the middleware above
   router.route('/:vin').get(controller.getByRegNumber);
 

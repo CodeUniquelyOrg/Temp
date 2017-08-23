@@ -6,58 +6,14 @@ import {
   USER_ERROR,
 } from './types';
 
-import { ErrorHandler, Get } from 'src/lib/Request';
+import { Get, Put } from 'src/lib/Request';
 
+// GET 'my' data from the server
 export const getUserData = () => dispatch => {
-
-  // store.dispatch({
-  //   [CALL_API]: {
-  //     method: 'get',
-  //     path: '/questions',
-  //     type: SENDING_QUESTIONS,
-  //     successAction: LOAD_QUESTION_SUCCESS,
-  //     failureAction: LOAD_QUESTION_FAILED
-  //   }
-  // });
-
-  // get 'MY' data from the server
-  Get('/users/me', null, (error,response) => {
-    if (error) {
-      return ErrorHandler(dispatch, error, USER_ERROR);
-    }
-    // contents - expecting an OBJECT
-    dispatch({ type: USER_DATA, payload: response.data || {}, });
-  });
+  Get('/users/me', null, dispatch, USER_DATA, USER_ERROR);
 };
 
-export const getUserDataNew = () => dispatch => {
-  // get 'MY' data from the server
-  Get('/users/me', null, dispatch, USER_ERROR, USER_DATA);
-};
-
-// export const getUserData = () => {
-//   // =======================
-//   // 'redux-thunk' signature
-//   // =======================
-//   return (dispatch) => {
-//     // get 'MY' data from the server
-//     Get('/users/me', null, (error,response) => {
-//       if (error) {
-//         return ErrorHandler(dispatch, error, USER_ERROR);
-//       }
-//       // contents - expecting an OBJECT
-//       dispatch({ type: USER_DATA, payload: response.data || {}, });
-//     });
-//   };
-// };
-
+// PUT 'my' data from the server
 export const putUserData = user => dispatch => {
-  // get 'MY' data from the server
-  Put('/users/me', user, (error,response) => {
-    if (error) {
-      return ErrorHandler(dispatch, error, USER_ERROR);
-    }
-    // contents - expecting an OBJECT
-    dispatch({ type: USER_DATA, payload: response.data || {}, });
-  });
+  Put('/users/me', user, dispatch, USER_DATA, USER_ERROR);
 };

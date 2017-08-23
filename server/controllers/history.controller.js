@@ -5,12 +5,14 @@ module.exports = function(injectables) {
 
   // get references to the libs we injected
   const mongoose = injectables.mongoose;
-  const status   = injectables.status;
+  const status = injectables.status;
+  const async = injectables.async;
 
   // make sure the request delays for 500ms
   const timeTaken = 500;
 
-  // reference the 'users' Collection
+  // reference the 'users' & 'history' Collections
+  const Users = mongoose.model('users');
   const History = mongoose.model('history');
 
   // reference the 'users' Collection
@@ -21,6 +23,20 @@ module.exports = function(injectables) {
   function asyncDataRequest( data, callback ){
     setTimeout(function() {
       callback(data);
+    }, timeTaken);
+  }
+
+  function asyncGetHistory(vin, fromDate, toDate, callback){
+    setTimeout(function() {
+      const list = mockdata.map( node => {
+        const date = new Date(node.magsensorhighdttm);
+        if (vin == node.vehicleIdentifier && date >= fromDate && date <= toDate) {
+          return node;
+        }
+      }).filter(x => x);
+      // LOG
+      console.log('QUERY RETURNED\n', list);
+      callback(null,list);
     }, timeTaken);
   }
 
@@ -42,8 +58,7 @@ module.exports = function(injectables) {
     const data = [
       {
         vehicleIdentifier: vin,
-        history: [
-        ]
+        history: [],
       }
     ];
 
@@ -83,6 +98,68 @@ module.exports = function(injectables) {
     });
   }
 
+  // get the history for the user
+  function getMyHistory(req, res, next) {
+    const user = req.user;
+
+    // Auth wil; already have killed the request if user is null;
+
+    // is thsi use registered
+    let registeredUser = user.other && user.other.registeredUser || false;
+    let termsAccepted = user.other && user.other.termsAccepted || false;
+
+    // get the date and time now
+    // const twoWeeks = 1000 * 60 * 60 * 24 * 14;
+    // const now = new Date(new Date().getTime() - twoWeeks);
+    const now = new Date();
+
+    // The user must have at least one drive-over - in order to have got here !
+    // get all the vehileIdentifers from the user
+    const queries = user.registrations.map(reg => {
+      return {
+        vehicleIdentifier: reg.vehicleIdentifier,
+        fromDate: new Date(reg.fromDate),
+        toDate: reg.lastViewedDate ? new Date(reg.lastViewedDate) : now,
+      };
+    });
+
+    // we can run ALL the queries in parallel
+    async.parallel({
+      // final: function(next) {
+      //   next();
+      //   // mapp all the parts
+      //   // async.map(Object.keys(parents), function(item,done){
+      //   //   if(children[item].length!==0) addChildsByParent(parents[item],children[item], function (result) {
+      //   //     done(null, result);
+      //   //   });
+      //   // }, next);
+
+      // },
+      history: function(next) {
+        async.map(queries, function(q, done) {
+          console.log('QUERYING FOR ', q.vehicleIdentifier);
+          asyncGetHistory(q.vehicleIdentifier, q.fromDate, q.toDate, done);
+        });
+        next();
+      }
+    }, (error, results) => {
+      if (!error) {
+        console.log('COMPLETE AS\n', results);
+        return next(null, results);
+      }
+      console.log('ERROR IS\n', error);
+      next(err);
+    });
+
+    // asyncGetHistory();
+    // now query the history that matches the drive-over
+
+    // if (!user) {
+
+    // }
+    // find the uer with thsi id,
+  }
+
   // registered drivers have data on local server for 'FASTER' access
   // GET busing Vechileidentifier
   function getSavedData(req, res, next) {
@@ -101,6 +178,7 @@ module.exports = function(injectables) {
 
   return {
     getByRegNumber,
+    getMyHistory,
     getSavedData,
   };
 

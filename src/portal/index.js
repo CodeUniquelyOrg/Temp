@@ -1,8 +1,8 @@
 
 import React from 'react';                                  // eslint-disable-line no-unused-vars
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';  // eslint-disable-line no-unused-vars
-import { Redirect, browserHistory } from 'react-router';     // eslint-disable-line no-unused-vars
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';  // eslint-disable-line no-unused-vars
+import { browserHistory } from 'react-router';     // eslint-disable-line no-unused-vars
 import { Provider } from 'react-redux';                     // eslint-disable-line no-unused-vars
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';

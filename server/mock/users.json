@@ -84,6 +84,7 @@
           "vehicleIdentifier": 90,
           "plate": "L5 MNE",
           "normalizedPlate": "L5MNE",
+          "fromDate":"2017-08-01T08:06:22.880",
           "ideal": [
             {
               "id": "11",
@@ -107,6 +108,7 @@
           "vehicleIdentifier": 91,
           "plate": "L5 CDU",
           "normalizedPlate": "L5CDU",
+          "fromDate":"2017-08-03T08:06:22.880",
           "ideal": [
             {
               "id": "11",

@@ -17,13 +17,6 @@ const CLIENT_ROOT_URL = process.env.CLIENT_ROOT || `${config.server.protocol}://
 
 import { ErrorHandler, Post } from 'src/lib/Request';
 
-// if (config.server.offline) {
-//   // localStorage.setItem('token', response.data.token);
-//   dispatch({ type: AUTH_USER });
-//   window.location.href = CLIENT_ROOT_URL + '/dashboard';
-//   return;
-// }
-
 export const loginUser = ({ email, password }) => {
   // =======================
   // 'redux-thunk' signature
@@ -44,6 +37,7 @@ export const loginUser = ({ email, password }) => {
       // and store the answer in state ?????
       dispatch({ type: AUTH_USER });
 
+      // I COMPLETELY DISLIKE THIS HACK --- IMMENSLY
       window.location.href = CLIENT_ROOT_URL + '/dashboard';
     });
 
@@ -76,10 +70,10 @@ export const registerUser = ({ email, firstName, lastName, password  }) => {
 };
 
 // function call o logout  user - > redirect to login (or) / root ???
-export function logoutUser() {
+export const logoutUser = () => {
   return function (dispatch) {
     removeToken();
     dispatch({ type: UNAUTH_USER });
     window.location.href = CLIENT_ROOT_URL + '/';
   };
-}
+};
