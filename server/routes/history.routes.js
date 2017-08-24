@@ -14,9 +14,9 @@ module.exports = function(injectables) {
   router.route('/me').get(controller.getMyHistory);
 
   // Check the registration is one of my registrations ...
-  router.param('vin', middleware.limitToOwnRegistrations);
+  // router.param('vin', middleware.limitToOwnRegistrations);
   // request one regsitration - limited by the middleware above
-  router.route('/:vin').get(controller.getByRegNumber);
+  // router.route('/:vin').get(controller.getByRegNumber);
 
   // This router handles all routes starting with - /api/v1/history
   console.log(`   ${apiRoot}/history`); // eslint-disable-line no-console

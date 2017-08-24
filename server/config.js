@@ -7,6 +7,11 @@ module.exports = {
     default: 'en=-GB',
   },
 
+  webapi: {
+    offline: true,
+    apiRoot: '172.1.0.5/api/v1'
+  },
+
   server: {
     // port: process.env.PORT || 80,
     port: process.env.PORT || 8000,
@@ -17,6 +22,10 @@ module.exports = {
     secret: '6Fakv2Crlg85Vm7y4!!524782C66+5|8:2-t72j=H^867|v%6^4*Cn9V99c8R',
     expire: 24 * 60 * 60,   // 1 Day
     apiExpire: 5 * 60,      // 5 minutes
+  },
+
+  mocks: {
+    path: './mock',
   },
 
   mongo: {
