@@ -1,10 +1,11 @@
 let path         = require('path');
+let fs           = require('fs');
 let express      = require('express');
 let queries      = require('express-api-queryhandler');
 let bodyParser   = require('body-parser');
 let cors         = require('cors');
 let status       = require('http-status');
-let request      = require('superagent');
+let agent        = require('superagent');
 // let soap         = require('soap');
 let compression  = require('compression');
 let jwt          = require('jwt-simple');
@@ -56,17 +57,19 @@ app.use(headers);
 
 // build initial dependancy injectables object - reference libraries
 const injectables = {
+  agent: agent,
   app:app,
   async: async,
   bcrypt: bcrypt,
   compression: compression,
   config: config,
   express: express,
+  fs: fs,
   jwt: jwt,
   locale: locale,
   mongo: mongo,
   mongoose: mongoose,
-  request: request,
+  path: path,
   status: status,
 };
 
