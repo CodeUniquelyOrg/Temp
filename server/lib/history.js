@@ -72,7 +72,7 @@ module.exports = function support(injectables){
       });
     });
     return data;
-  }
+  };
 
   return {
     getVehicle: getVehicle,

@@ -18,6 +18,9 @@ module.exports = function(injectables) {
   // ande requests for favIcon.ico
   require('./public.routes')(injectables);
 
+  // publically available vehicle routes - *** I REALLY DISLIKE THIS ****
+  require('./vehicle.routes')(injectables);
+
   // Initialize Authentication Middleware
   app.use(auth.authorize);
 

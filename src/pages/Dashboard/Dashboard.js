@@ -3,9 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // LOAD ACTIONS -> Mapped to Dispather
-// import { getUserData } from 'actions/user';
-// import { getHistoryData } from 'actions/history';
-// import { selectTab, selectRegistration, selectTyre } from 'actions/app';
 import * as appActions from 'actions/app';
 import * as userActions from 'actions/user';
 import * as historyAction from 'actions/history';

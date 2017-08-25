@@ -31,11 +31,12 @@ const Main = () => (
     <Route exact path = '/register' component={Register} />
     <Route exact path = '/login' component={Login} />
 
+    <Route exact path="/code/:code" component={Register} />
+
     <Route exact path = '/kiosk' component={Kiosk} />
     <Route exact path = '/initial' component={Initial} />
 
     <Route exact path = '/logout' component={RequireAuth(Logout)} />
-
     <Route path = '/terms' component={RequireAuth(Terms)} />
     <Route path = '/dashboard' component={RequireAuth(Dashboard)} />
 

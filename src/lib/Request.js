@@ -119,7 +119,20 @@ const Delete = (url, data, dispatch, successAction, errorAction)  => {
     });
 };
 
-// Middleware error handler for API requests
+// const Post = (url, data, dispatch, successAction, errorAction)  => {
+//   const requstUrl = makeApiRroute(url);
+//   axios.post(requstUrl,
+//     data
+//   )
+//     .then( response => {
+//       DispatchHandler(dispatch, successAction, getData(response));
+//     })
+//     .catch((error) => {
+//       DispatchHandler(dispatch, errorAction, getError(error));
+//     });
+// };
+
+// // Middleware error handler for API requests
 const ErrorHandler = (dispatch, error, type) => {
 
   let errorMessage = '';

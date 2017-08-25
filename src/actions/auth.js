@@ -4,6 +4,7 @@
 import {
   AUTH_USER,
   UNAUTH_USER,
+  QR_CODE,
   AUTH_ERROR,
 } from './types';
 
@@ -65,6 +66,23 @@ export const registerUser = ({ email, firstName, lastName, password  }) => {
       // tokens.setToken(response.data.token);
       dispatch({ type: AUTH_USER });
       window.location.href = CLIENT_ROOT_URL + '/dashboard';
+    });
+  };
+};
+
+export const useCode = ({ code  }) => {
+  return (dispatch) => {
+    Post( '/auth/code', { code }, dispatch, response => {
+
+      // tokens.setToken(response.data.token);
+      if ( response.xyz) {
+        dispatch({ type: QR_CODE });  // told to go away ???
+      } else {
+        dispatch({ type: QR_CODE });  // Taken to the DASHBOARD
+      }
+
+      // window.location.href = CLIENT_ROOT_URL + '/dashboard';
+
     });
   };
 };

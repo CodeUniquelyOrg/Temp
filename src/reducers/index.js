@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { loadingBarReducer } from 'react-redux-loading-bar';
 
 // oad eh authentication reducer
 import appReducer from './app';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   history: historyReducer,
   i18n: i18nReducer,
   form: formReducer,
+  loadingBar: loadingBarReducer,
 });
 
 export default rootReducer;

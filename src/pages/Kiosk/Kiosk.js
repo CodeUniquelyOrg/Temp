@@ -3,7 +3,7 @@ import QRCode  from 'qrcode.react';
 
 import style from './style.pcss';
 
-const encodeTicks = ()  => {
+const encodeTicks = (extra = 'not')  => {
   // var nowticks = Math.floor((new Date().getTime()) / 256);
   // var possible = '_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-';
 
@@ -23,40 +23,36 @@ const encodeTicks = ()  => {
   return response.split('').reverse().join('') + 'Z' + kiosk;
 };
 
+// need TWO possible qrCodes
+const code1 = 'reg';
+const code2 = 'not';
+
 class Kiosk extends Component {
   render() {
-    const code = encodeTicks();
-    const URL = `http://localhost:5000/qr/${code}`;
+    // const code = encodeTicks();
+    const URL1 = `http://localhost:5000/code/${code1}`;
+    const URL2 = `http://localhost:5000/code/${code2}`;
 
     return (
-      <div>
-        <br/>
-        <h1>Drive over - Kiosk (&trade;)</h1>
-        <br/>
+      <div className={style.root}>
+        <h1 className={style.title}>Drive over - Kiosk (&trade;)</h1>
 
-        <p>
-          Your Unique Code is
-        </p>
-        <br/>
-        <p>
-          {code}
-        </p>
-        <br/>
-
-        <p>
-          Link is:
-        </p>
-        <a href={URL} target="_blank">
-          {URL}
+        <h4 className={style.header}>
+          Registered Vehicle Code is
+        </h4>
+        <a className={style.link} href={URL2} target="_blank">
+          {URL2}
         </a>
-        <br/>
-        <br/>
+        <QRCode  className={style.code} value={URL2} />
 
-        <p>
-          or simply just scan the QR Code generated below
-        </p>
-        <QRCode value={URL} />
-        <br/>
+        <h4 className={style.header}>
+          Un-registered Vehicle Code is
+        </h4>
+        <a className={style.link} href={URL1} target="_blank">
+          {URL1}
+        </a>
+        <QRCode className={style.code} value={URL1} />
+
       </div>
     );
   }

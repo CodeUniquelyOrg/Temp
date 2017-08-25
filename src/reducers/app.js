@@ -1,4 +1,6 @@
 import {
+  QR_CODE,
+  SHARING_CODE,
   TAB_SELECTED,
   VEHICLE_SELECTED,
   REGISTRATION_SELECTED,
@@ -7,6 +9,8 @@ import {
 
 // Build the redux 'initial state'
 const INITIAL_STATE = {
+  // code: 0,
+  // sharingCode: '',
   selectedTab: 0,
   selectedVehicle: '',
   selectedRegistration: '',
@@ -15,6 +19,12 @@ const INITIAL_STATE = {
 
 export default function (state = INITIAL_STATE, action) {
   switch(action.type) {
+    case QR_CODE: {
+      return { ...state, code: action.payload };
+    }
+    case SHARING_CODE: {
+      return { ...state, sharingCode: action.payload };
+    }
     case TAB_SELECTED: {
       return { ...state, selectedTab: action.payload };
     }
