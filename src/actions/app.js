@@ -15,7 +15,7 @@ import config from 'src/config';
 const CLIENT_ROOT_URL = process.env.CLIENT_ROOT || `${config.server.protocol}://${config.server.host}:${config.server.port}${config.server.root}`;
 
 // request library
-import { Post } from 'src/lib/Request';
+import { Post, ErrorHandler } from 'src/lib/Request';
 
 export const setCode = (code) => dispatch => {
   // Post('/vehicle/code', { code: code }, dispatch, QR_CODE, QR_CODE);  // A HACK - I KNOW !!!

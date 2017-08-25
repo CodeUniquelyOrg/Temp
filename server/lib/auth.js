@@ -1,7 +1,6 @@
 // ===============================================================
 // Written by steve saxton <steves@codeuniquely.co.uk>
-// Copyright (c) 2017 Code Uniquely Ltd.
-// Return RESPONSE Headers
+// various authentication middleware and supporting functions
 // ===============================================================
 module.exports = function support(injectables){
 
@@ -64,9 +63,102 @@ module.exports = function support(injectables){
     return jwt.encode({ iss: config.version, user:obj, exp:expTime }, config.auth.secret);
   }
 
+  function hasToken(headers) {
+    let token;
+    const apiToken = headers['x-api-auth'] || null;
+    if (apiToken) {
+      token = apiToken;
+    } else {
+      // 'x-auth' - used by browser
+      const appToken = headers['x-auth'] || null;
+      if (appToken) {
+        token = appToken;
+      } else {
+        // Other apps, may pass in an 'authorization' token
+        const authToken = headers.authorization || null;
+        if (authToken) {
+          // Look for 'Bearer ', followed by the token
+          if (authToken.indexOf('Bearer ') !== -1) {
+            token = authToken.replace('Bearer ', '');
+          } else {
+            token = authToken;
+          }
+        }
+      }
+    }
+    return token;
+  }
+
   // =============================================
   // Middleware(s)
   // =============================================
+  function decorate(req, res, next) {
+    if (req.method === 'OPTIONS') {
+      return next();
+    }
+
+    const token = hasToken(req.headers);
+
+    // if there is no token just move to next middleware
+    if (!token) {
+      return next();
+    }
+
+    // if token has been tampered with / invalidated
+    // const valid = jwt.verify(token, config.auth.secret);
+    // if (!valid) {
+    //   return res.sendStatus(status.UNAUTHORIZED);
+    // }
+
+    try {
+
+      // decode the token - with VERIFY wicthed on ....
+      const auth = jwt.decode(token, config.auth.secret);
+
+      // was the token encoded for this application
+      if (auth.iss !== config.version) {
+        return res.sendStatus(status.UNAUTHORIZED);
+      }
+
+      // is the token still valid at this time
+      if (auth.exp * 1000 < Date.now()) {
+        return res.sendStatus(status.UNAUTHORIZED);
+      }
+
+      // inject the decoded TOKEN into the request ...
+      req.jwt = auth;
+
+      // if we have a TOKEN - then - We MUST have a userId ???
+      const userId = auth.user.userId;
+
+      // EXTRACT userId from token and find that user ONLY
+      getDbUserById(auth.user.userId, (err, user) => {
+        if (err) {
+          return next(err);
+        }
+
+        // deactivated
+        if (!user) {
+          return res.sendStatus(status.FORBIDDEN);
+        }
+
+        // Does userId (encoded) in token match the iternal _id;
+        // no => then user is not who they are preteding to be
+        if (auth.user.userId !== user._id.toString()) {
+          return res.sendStatus(status.FORBIDDEN);
+        }
+
+        // Inject the user proprties into the request....
+        req.user = user;
+        return next();
+      });
+    } catch(err) {
+
+      // veriify may throw an error if modified / meddled with
+      console.log('AUTH ERROR ', err ); // eslint-disable-line
+      return res.sendStatus(status.UNAUTHORIZED);
+    }
+  }
 
   //
   // token = {
@@ -75,7 +167,31 @@ module.exports = function support(injectables){
   //   exp: '... ticks ...',
   // };
   //
+  function authorize(req, res, next) {
+    if (req.method === 'OPTIONS') {
+      return next();
+    }
+
+    if (!req.jwt) {
+      return res.sendStatus(status.UNAUTHORIZED);
+    }
+
+    if (!req.user) {
+      return res.sendStatus(status.FORBIDDEN);
+    }
+
+    // const auth = res.jwt;
+    // const user = res.user;
+    // check to see if they have user.email || user.password || user.other.registeredUser
+
+    // if (auth.user.userId !== user._id.toString()) {
+    //   return res.sendStatus(status.FORBIDDEN);
+    // }
+    next();
+  }
+
   /* eslint-disable complexity */
+  /*
   function authorize(req, res, next) {
     if (req.method === 'OPTIONS') {
       return next();
@@ -156,10 +272,14 @@ module.exports = function support(injectables){
       return res.sendStatus(status.UNAUTHORIZED);
     }
   }
+  */
   /* eslint-enable complexity */
 
   function registeredOnly(req, res, next) {
-    if (req.user && req.user._id) {
+    if (req.method === 'OPTIONS') {
+      return next();
+    }
+    if (req.user && req.user.other && req.user.other.registeredUser) {
       return next();
     }
     return res.sendStatus(status.UNAUTHORIZED);
@@ -190,6 +310,7 @@ module.exports = function support(injectables){
   // }
 
   return {
+    decorate: decorate,
     authorize: authorize,
     generateToken: generateToken,
     registeredOnly: registeredOnly,

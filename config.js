@@ -3,7 +3,8 @@ module.exports = {
 
   // Will be using REDUX for this
   options: {
-    storageToUse: 'session',  // 'session' or 'local'
+    // storageToUse: 'session',  // 'session' or 'local'
+    storageToUse: 'local',  // 'session' or 'local'
   },
 
   locale: 'en-GB',

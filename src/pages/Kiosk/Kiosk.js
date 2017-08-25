@@ -1,7 +1,12 @@
 import React, { Component } from 'react';      // eslint-disable-line no-unused-vars
 import QRCode  from 'qrcode.react';
 
+import config from 'src/config';
+
 import style from './style.pcss';
+
+//
+const CLIENT_ROOT_URL = process.env.CLIENT_ROOT || `${config.server.protocol}://${config.server.host}:${config.server.port}${config.server.root}`;
 
 const encodeTicks = (extra = 'not')  => {
   // var nowticks = Math.floor((new Date().getTime()) / 256);
@@ -24,34 +29,44 @@ const encodeTicks = (extra = 'not')  => {
 };
 
 // need TWO possible qrCodes
-const code1 = 'reg';
-const code2 = 'not';
+const code1 = 'REG123';
+const code2 = 'NOT789';
+const code3 = 'IOU000';
 
 class Kiosk extends Component {
   render() {
     // const code = encodeTicks();
-    const URL1 = `http://localhost:5000/code/${code1}`;
-    const URL2 = `http://localhost:5000/code/${code2}`;
+    const URL1 = `${CLIENT_ROOT_URL}/code/${code1}`;
+    const URL2 = `${CLIENT_ROOT_URL}/code/${code2}`;
+    const URL3 = `${CLIENT_ROOT_URL}/code/${code3}`;
 
     return (
       <div className={style.root}>
         <h1 className={style.title}>Drive over - Kiosk (&trade;)</h1>
 
         <h4 className={style.header}>
-          Registered Vehicle Code is
-        </h4>
-        <a className={style.link} href={URL2} target="_blank">
-          {URL2}
-        </a>
-        <QRCode  className={style.code} value={URL2} />
-
-        <h4 className={style.header}>
-          Un-registered Vehicle Code is
+          Previously Registered Vehicle - Will be Found - Code is
         </h4>
         <a className={style.link} href={URL1} target="_blank">
           {URL1}
         </a>
-        <QRCode className={style.code} value={URL1} />
+        <QRCode  className={style.code} value={URL1} />
+
+        <h4 className={style.header}>
+          Previous Un-registered Vehicle - Will be Found - Code is
+        </h4>
+        <a className={style.link} href={URL2} target="_blank">
+          {URL2}
+        </a>
+        <QRCode className={style.code} value={URL2} />
+
+        <h4 className={style.header}>
+          <strong><u>WILL NOT</u></strong> Found - Code is
+        </h4>
+        <a className={style.link} href={URL3} target="_blank">
+          {URL3}
+        </a>
+        <QRCode className={style.code} value={URL3} />
 
       </div>
     );

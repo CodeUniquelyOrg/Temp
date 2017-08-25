@@ -15,7 +15,26 @@ module.exports = function support(injectables){
     });
   };
 
+  // yes you could use an arrowfunction
+  // const isUserRegistered = (user) => user && user.other && user.other.isregistered;
+  const isUserRegistered = (user) => {
+    if (!user || !user.other) {
+      return false;
+    }
+    return user.other.isregistered;
+  };
+
+  const isVehicleInUsersList = (user, vehicleIdentifier) => {
+    if (!user || !user.registrations) {
+      return false;
+    }
+    const list = user.registrations.filter(reg => reg.vehicleIdentifier === vehicleIdentifier);
+    return list.length > 0;
+  };
+
   return {
+    isUserRegistered: isUserRegistered,
     getAllRegistrations: getAllRegistrations,
+    isVehicleInUsersList: isVehicleInUsersList,
   };
 };

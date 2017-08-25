@@ -12,6 +12,9 @@ module.exports = function(injectables) {
 
   // require('./favicon.routes')(injectables);
 
+  // decorate ALL requests with info from JWT & MongoDb is available
+  app.use(auth.decorate);
+
   // Info Requests
   require('./info.route')(injectables);
 

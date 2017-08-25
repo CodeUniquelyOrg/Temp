@@ -1,7 +1,7 @@
 {
   "name": "Backend",
   "author": "Steve Saxton <steves@codeuniquely.co.uk>",
-  "description": "Dummy Contact Partners Backend",
+  "description": "Dummy Backend",
   "license": "UNLICENSED",
   "version": "0.0.1",
   "scripts": {
@@ -20,7 +20,6 @@
     "locale": "^0.1.0",
     "mongoose": "^4.11.6",
     "nodemon": "^1.11.0",
-    "soap": "^0.19.2",
     "superagent": "^3.5.2"
   },
   "devDependencies": {
