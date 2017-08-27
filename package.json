@@ -6,7 +6,7 @@
   "version": "0.1.0",
   "scripts": {
     "start": "webpack-dev-server --progress --compress --hot --inline",
-    "start-access": "node hmr-server",
+    "start-hmr": "node hmr-server",
     "build-prod": "webpack --progress --colors --config webpack.production.config.js",
     "build": "webpack --progress --colors --config webpack.config.js",
     "lint": "eslint --ext .js src || true"
@@ -16,7 +16,6 @@
     "es6-promise": "^4.1.1",
     "material-ui": "^0.18.7",
     "normalize.css": "^7.0.0",
-    "on-build-webpack": "^0.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-ga": "^2.2.0",
@@ -64,6 +63,7 @@
     "my-local-ip": "^1.0.0",
     "node-libs-browser": "^2.0.0",
     "node-sass": "^4.5.3",
+    "on-build-webpack": "^0.1.0",
     "postcss": "^6.0.8",
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^10.0.0",
