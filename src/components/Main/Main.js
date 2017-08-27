@@ -24,21 +24,20 @@ import RequireAuth from 'components/RequireAuth';
 
 // import UserStore from 'components/UserStore' ;
 // <Route exact path = '/kiosk' component={Kiosk} />
+// <Route       path = '/register' component={Register} />
 
 // Declaritive
 const Main = () => (
   <Switch>
 
-    <Route exact path = '/' component={Login} />
+    <Route exact path = '/' component={Register} />
+    <Route       path = '/register/:code' component={Register} />
+
     <Route exact path = '/login' component={Login} />
-
-    <Route exact path = '/register' component={Register} />
-    <Route exact path="/register/:code" component={Register} />
-
     <Route exact path = '/initial' component={Initial} />
-
     <Route exact path = '/logout' component={RequireAuth(Logout)} />
     <Route path = '/terms' component={RequireAuth(Terms)} />
+
     <Route path = '/dashboard' component={RequireAuth(Dashboard)} />
 
     <Route component = {NotFoundPage} />
