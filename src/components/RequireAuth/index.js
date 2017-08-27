@@ -15,8 +15,6 @@ export default function( ComposedComponent ) { // eslint-disable-line no-unused-
     // In V4 ROUTER - 'push' moved under history property
     componentWillMount() {
       if(!this.props.authenticated) {
-        console.log('WILL MOUNT ', this.props); // eslint-disable-line no-console
-        console.log('NOT LOGGED IN - PLEASE DO SO', this.props); // eslint-disable-line no-console
         this.context.router.history.push('/login');
       }
     }
