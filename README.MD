@@ -1,6 +1,19 @@
 ==>
 
-https://uk.practicallaw.thomsonreuters.com/3-502-4080?transitionType=Default&contextData=(sc.Default)&firstPage=true&bhcp=1
+Previously Registered Vehicle - Will be Found - Code is
+```
+http://192.168.1.126:5000/register/REG123
+```
+
+Previous Un-registered Vehicle - Will be Found - Code is
+```
+http://192.168.1.126:5000/register/NOT789
+```
+
+WILL NOT Found - Code is
+```
+http://192.168.1.126:5000/register/IOU000
+```
 
 == README - Notes ==
 
