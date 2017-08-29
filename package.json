@@ -5,7 +5,8 @@
   "license": "UNLICENSED",
   "version": "0.1.0",
   "scripts": {
-    "start": "webpack-dev-server --progress --compress --hot --inline",
+    "start": "cross-env node server/index.js",
+    "start:wds": "webpack-dev-server --progress --compress --hot --inline",
     "start-hmr": "node hmr-server",
     "build-prod": "webpack --progress --colors --config webpack.production.config.js",
     "build": "webpack --progress --colors --config webpack.config.js",

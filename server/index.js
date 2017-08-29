@@ -1,28 +1,37 @@
-process.env.NODE_ENV = 'development';
-process.env.BABEL_ENV = 'development';
+// process.env.NODE_ENV = 'development';
+// process.env.BABEL_ENV = 'development';
 
-var express = require('express');
-var compression = require('compression');
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const express = require('express');
+const compression = require('compression');
+const path = require('path');
+
+// are we building - deeopment / debugging version
+import { isDevelopment } from '../config/app';
 
 // What relative path is the UI content to be built into
-var publicPath = path.join(__dirname, 'build');
+const publicPath = path.join(__dirname, 'build');
 
 // Reference the config file that was used
-var config = require('./webpack.config.js');
+const webpackConfiguration = require('../webpack/webpack.config');
+// const config = require('./webpack.config.js');
 
 // var port = process.env.APP_PORT || 4000;
-var port = config.devServer.port;
+// var port = config.devServer.port;
 
-// milli-seconds in one hour
-var oneHour = 3600000;
+// milli-seconds in one hour - in development we cache contents for an hour
+// extend this duration by a few hours for production ?????
+const oneHour = 3600000;
+
+if ( isDevelopment) {
+  // move it all inside this section
+}
 
 // ===============================================================================
 // 'webpack-dev-middleware' configuration
 // ===============================================================================
 var compilerConfig = {
-  publicPath: config.output.publicPath,
+  publicPath: webpackConfiguration.output.publicPath,
   noInfo: true,
   // quiet: true,
   stats: {
@@ -87,9 +96,9 @@ app.use(function(req, res, next) {
 // app.listen(port, 'localhost', function (err) {
 app.listen(port, '0.0.0.0', function (err) {
   if (err) {
-    console.log(err);
+    console.log(err); // eslint-disable-line
     return;
   }
   // So we can see a message whilst it bundles
-  console.log('UI running on port ' + port + ', waiting for bundling to finish...');
+  console.log('UI running on port ' + port + ', waiting for bundling to finish...'); // eslint-disable-line
 });
