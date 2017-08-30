@@ -17,7 +17,7 @@ import NotFoundPage from 'pages/NotFoundPage';
 import RequireAuth from 'components/RequireAuth';
 
 //
-// Need to make Requests on behal of pages and bind the state
+// Need to make Requests on behalf of pages and bind the state
 // to a HOC state view and then pass than into each component
 //                         ??????
 //

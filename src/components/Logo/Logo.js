@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+/* @flow */
+
+// import React, { Component } from 'react';
 
 // import logo from 'img/logo.png';
 // import logo from 'img/esso.png';
@@ -7,12 +9,12 @@ import React, { Component } from 'react';
 // import logo from 'img/logo4.png';
 
 // Material UI Components
-import muiThemeable from 'material-ui/styles/muiThemeable';
+// import muiThemeable from 'material-ui/styles/muiThemeable';
 
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 
-import style from './style.pcss';
+import styles from './styles.scss';
 
 // const mapStateToProps = (state) => {
 //   return {
@@ -26,22 +28,32 @@ import style from './style.pcss';
 
 // <Avatar backgroundColor={tileColor} size={160} icon={<FontIcon className='material-icons'>drive_eta</FontIcon>}/>
 
-class Logo extends Component {
-  render() {
-    const {
-      className,
-      muiTheme,   // this component is themeable
-    } = this.props;
+// type Props = { info: Object };
 
-    const fillColor = muiTheme.palette.primary1Color; // '#212121';
-    const tileColor = 'transparent'; // muiTheme.palette.primary1Color; // '#212121';
+const Logo = () => (
+  <div className={styles.center}>
+    <Avatar backgroundColor="transparent" size={160} icon={<FontIcon className='material-icons'>drive_eta</FontIcon>}/>
+  </div>
+);
 
-    return (
-      <div className={`${style.center} ${className}`}>
-        <Avatar backgroundColor={tileColor} size={160} icon={<FontIcon className='material-icons'>drive_eta</FontIcon>}/>
-      </div>
-    );
-  }
-}
+export default Logo;
 
-export default muiThemeable()(Logo);
+// class Logo extends Component {
+//   render() {
+//     const {
+//       className,
+//       muiTheme,   // this component is themeable
+//     } = this.props;
+
+//     const fillColor = muiTheme.palette.primary1Color; // '#212121';
+//     const tileColor = 'transparent'; // muiTheme.palette.primary1Color; // '#212121';
+
+//     return (
+//       <div className={`${style.center} ${className}`}>
+//         <Avatar backgroundColor={tileColor} size={160} icon={<FontIcon className='material-icons'>drive_eta</FontIcon>}/>
+//       </div>
+//     );
+//   }
+// }
+
+// export default muiThemeable()(Logo);

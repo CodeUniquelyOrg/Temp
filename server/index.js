@@ -6,7 +6,7 @@ const express = require('express');
 const compression = require('compression');
 const path = require('path');
 
-// are we building - deeopment / debugging version
+// are we building - development / debugging version
 import { isDevelopment } from '../config/app';
 
 // What relative path is the UI content to be built into
