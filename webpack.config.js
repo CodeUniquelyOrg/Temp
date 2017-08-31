@@ -1,5 +1,6 @@
 /* globals __dirname, module, require, process */
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
 var path = require('path');
 
@@ -67,7 +68,8 @@ module.exports = (env = { production: false, browser: false }) => {
     entry: { server: './src/server/index.js' },
     target: 'node',
     node,
-    externals,
+    externals: [ nodeExternals() ],
+    // externals,
     output: {
       path: PATHS.compiled,
       filename: '[name].dev.js',
@@ -82,95 +84,92 @@ module.exports = (env = { production: false, browser: false }) => {
   // ==========================================
   //   PRODUCTION VERSIONS OF WEBPACK CONFIG
   // ==========================================
-  const prodBrowserConfig = {
-    devtool: 'cheap-module-source-map',
-    context: PATHS.src,         // client ????
-    entry: {
-      app: ['./src/client/index.js'],
-      vendor: [
-        'core-js',
-        'axios',
-        'react',
-        'react-dom',
-        'react-proptypes',
-        'react-redux',
-        'react-router',
-        'react-router-dom',
-        'redux',
-        'redux-form',
-        'redux-thunk',
-      ],
-      polyfill: [
-        'eventsource-polyfill',
-      ],
-    },
-    node,
-    output: {
-      path: PATHS.public,
-      filename: '[chunkhash].js',
-      chunkFilename: '[name].[chunkhash:6].js', // for code splitting. will work without but useful to set
-      publicPath: PATHS.public
-    },
-    module: { rules: rules({ production: true, browser: true }) },
-    resolve,
-    plugins: plugins({ production: true, browser: true })
-  };
+  // const prodBrowserConfig = {
+  //   devtool: 'cheap-module-source-map',
+  //   context: PATHS.src,         // client ????
+  //   entry: {
+  //     app: ['./src/client/index.js'],
+  //     vendor: [
+  //       'core-js',
+  //       'axios',
+  //       'react',
+  //       'react-dom',
+  //       'react-proptypes',
+  //       'react-redux',
+  //       'react-router',
+  //       'react-router-dom',
+  //       'redux',
+  //       'redux-form',
+  //       'redux-thunk',
+  //     ],
+  //     polyfill: [
+  //       'eventsource-polyfill',
+  //     ],
+  //   },
+  //   node,
+  //   output: {
+  //     path: PATHS.public,
+  //     filename: '[chunkhash].js',
+  //     chunkFilename: '[name].[chunkhash:6].js', // for code splitting. will work without but useful to set
+  //     publicPath: PATHS.public
+  //   },
+  //   module: { rules: rules({ production: true, browser: true }) },
+  //   resolve,
+  //   plugins: plugins({ production: true, browser: true })
+  // };
 
-  const prodServerConfig = {
-    devtool: 'source-map',
-    context: PATHS.src,   // ????
-    entry: { server: './src/server/index.js' },
-    target: 'node',
-    node,
-    externals,
-    output: {
-      path: PATHS.build,
-      filename: '[name].js',
-      publicPath: PATHS.public,
-      libraryTarget: 'commonjs2'
-    },
-    module: { rules: rules({ production: true, browser: false }) },
-    resolve,
-    plugins: plugins({ production: true, browser: false })
-  };
+  // const prodServerConfig = {
+  //   devtool: 'source-map',
+  //   context: PATHS.src,   // ????
+  //   entry: { server: './src/server/index.js' },
+  //   target: 'node',
+  //   node,
+  //   externals,
+  //   output: {
+  //     path: PATHS.build,
+  //     filename: '[name].js',
+  //     publicPath: PATHS.public,
+  //     libraryTarget: 'commonjs2'
+  //   },
+  //   module: { rules: rules({ production: true, browser: false }) },
+  //   resolve,
+  //   plugins: plugins({ production: true, browser: false })
+  // };
 
-  // HACKED VERSION
-  const hackedConfig = {
-    devtool: 'inline-source-map',
-    entry: [
-      'webpack-hot-middleware/client',
-      './src/client/index.js',
-    ],
-    output: {
-      path: PATHS.public,
-      filename: 'bundle.js',
-      publicPath: PATHS.static,
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin()
-    ],
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          loader: 'babel-loader',
-          exclude: /node_modules/,
-          include: PATHS.src,   // client ????
-          options: {
-            presets: [ 'react-hmre' ]
-          }
-        }
-      ]
-    }
-  };
+  // // HACKED VERSION
+  // const hackedConfig = {
+  //   devtool: 'inline-source-map',
+  //   entry: [
+  //     'webpack-hot-middleware/client',
+  //     './src/client/index.js',
+  //   ],
+  //   output: {
+  //     path: PATHS.public,
+  //     filename: 'bundle.js',
+  //     publicPath: PATHS.static,
+  //   },
+  //   plugins: [
+  //     new webpack.HotModuleReplacementPlugin()
+  //   ],
+  //   module: {
+  //     rules: [
+  //       {
+  //         test: /\.js$/,
+  //         loader: 'babel-loader',
+  //         exclude: /node_modules/,
+  //         include: PATHS.src,   // client ????
+  //         options: {
+  //           presets: [ 'react-hmre' ]
+  //         }
+  //       }
+  //     ]
+  //   }
+  // };
 
   const devConfig = isBrowser ? devBrowserConfig : devServerConfig;
-  const prodConfig = isBrowser ? prodBrowserConfig : prodServerConfig;
-  const configuration = isProduction ? prodConfig : devConfig;
-
-  console.log('CONFIG IS: ', hackedConfig); // eslint-disable-line no-console
-  console.log('Rules are ', hackedConfig.module.rules); // eslint-disable-line no-console
+  // const prodConfig = isBrowser ? prodBrowserConfig : prodServerConfig;
+  const configuration = devConfig; // isProduction ? prodConfig : devConfig;
 
   // export the desired configuration
-  return hackedConfig; // configuration;
+  return configuration;
 };

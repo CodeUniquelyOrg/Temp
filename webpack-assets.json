@@ -1,0 +1,10 @@
+{
+  "javascript": {
+    "server": "c:\\Projects\\Portal\\build\\publicserver.dev.js"
+  },
+  "styles": {},
+  "assets": {},
+  "webpack": {
+    "version": "3.5.2"
+  }
+}
