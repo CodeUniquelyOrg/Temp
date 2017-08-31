@@ -12,11 +12,11 @@ var path = require('path');
 // BETTER WAY TO DO THIS ...
 // const ENV = 'development';
 
-const PATHS = require('./paths');
-const externals = require('./externals');
-const resolve = require('./resolve');
-const plugins = require('./plugins');
-const rules = require('./rules');
+const PATHS = require('./webpack/paths');
+const externals = require('./webpack/externals');
+const resolve = require('./webpack/resolve');
+const plugins = require('./webpack/plugins');
+const rules = require('./webpack/rules');
 
 // var config = require('../config/config.js');
 module.exports = (env = { production: false, browser: false }) => {
@@ -24,7 +24,14 @@ module.exports = (env = { production: false, browser: false }) => {
   const isProduction = process.env.NODE_ENV === 'production';
   const isBrowser = env.browser;
 
+  /* eslint-disable */
+  console.log('\n');
+  console.log(env);
+  console.log(env.browser);
+  console.log(process.env.NODE_ENV);
   console.log(`Running webpack in ${process.env.NODE_ENV} mode on ${isBrowser ? 'browser': 'server'}`);
+  console.log('\n');
+  /* eslint-enable */
 
   // 'webpack-hot-middleware/client',
   const hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
@@ -162,6 +169,7 @@ module.exports = (env = { production: false, browser: false }) => {
   const configuration = isProduction ? prodConfig : devConfig;
 
   console.log('CONFIG IS: ', hackedConfig); // eslint-disable-line no-console
+  console.log('Rules are ', hackedConfig.module.rules); // eslint-disable-line no-console
 
   // export the desired configuration
   return hackedConfig; // configuration;
