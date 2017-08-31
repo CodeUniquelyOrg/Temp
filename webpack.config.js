@@ -44,12 +44,7 @@ module.exports = (env = { production: false, browser: false }) => {
     devtool: 'eval',
     context: PATHS.app,
     entry: {
-      app: [
-        'babel-polyfill',
-        'react-hot-loader/patch',
-        hotMiddlewareScript,
-        './src/client/index.js'
-      ]
+      app: [hotMiddlewareScript, './src/client/index.js']
     },
     node,
     output: {
@@ -177,5 +172,5 @@ module.exports = (env = { production: false, browser: false }) => {
   console.log('Rules are ', hackedConfig.module.rules); // eslint-disable-line no-console
 
   // export the desired configuration
-  return configuration;
+  return hackedConfig; // configuration;
 };
