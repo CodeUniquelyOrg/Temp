@@ -14,29 +14,36 @@ module.exports = {
   // public: '/assets/', // use absolute path for css-loader?
   // modules: path.resolve(CURRENT_WORKING_DIR, 'node_modules'),
 
+  static:    '/static/',
+
   // new ...
-  root: path.resolve(CURRENT_WORKING_DIR),
-  nodeModules: path.resolve(CURRENT_WORKING_DIR, 'node_modules'),
-  modules: path.resolve(CURRENT_WORKING_DIR, 'node_modules'),
+  root:       path.resolve(CURRENT_WORKING_DIR),
+  modules:    path.resolve(CURRENT_WORKING_DIR, 'node_modules'),
+  // nodeModules: path.resolve(CURRENT_WORKING_DIR, 'node_modules'),
 
-  build: path.resolve(CURRENT_WORKING_DIR, 'build'),
-  public: path.resolve(CURRENT_WORKING_DIR, 'build', 'public'),
+  build:      path.resolve(CURRENT_WORKING_DIR, 'build'),
+  public:     path.resolve(CURRENT_WORKING_DIR, 'build', 'public'),
 
-  assets: path.resolve(CURRENT_WORKING_DIR, 'assets'),
-  img: path.resolve(CURRENT_WORKING_DIR, 'assets','img'),
-  font: path.resolve(CURRENT_WORKING_DIR, 'assets', 'fonts'),
+  assets:     path.resolve(CURRENT_WORKING_DIR, 'src', 'assets'),
+  img:        path.resolve(CURRENT_WORKING_DIR, 'src', 'assets','img'),
+  font:       path.resolve(CURRENT_WORKING_DIR, 'src', 'assets', 'fonts'),
 
   // srcPath: path.resolve(CURRENT_WORKING_DIR, 'src'),
-  app: path.resolve(CURRENT_WORKING_DIR, 'src'),
-  action: path.resolve(CURRENT_WORKING_DIR, 'src', 'actions'),
-  components: path.resolve(CURRENT_WORKING_DIR, 'src', 'components'),
-  lib: path.resolve(CURRENT_WORKING_DIR, 'src', 'lib'),
-  pages: path.resolve(CURRENT_WORKING_DIR, 'src', 'pages'),
-  reducer: path.resolve(CURRENT_WORKING_DIR, 'src', 'reducers'),
-  style: path.resolve(CURRENT_WORKING_DIR, 'src', 'style'),
-  theme: path.resolve(CURRENT_WORKING_DIR, 'src', 'theme'),
+  actions:    path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'actions'),
+  api:        path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'api'),
+  components: path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'components'),
+  containers: path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'pages'),
+  reducers:   path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'reducers'),
+  store:      path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'store'),
 
-  server: path.resolve(CURRENT_WORKING_DIR, 'server' ),
-  mock: path.resolve(CURRENT_WORKING_DIR, 'server', 'mock' ),
+  // lib:        path.resolve(CURRENT_WORKING_DIR, 'src', 'lib'),
+  // style:      path.resolve(CURRENT_WORKING_DIR, 'src', 'style'),
+  // theme:      path.resolve(CURRENT_WORKING_DIR, 'src', 'theme'),
+
+  src:        path.resolve(CURRENT_WORKING_DIR, 'src'),
+  client:     path.resolve(CURRENT_WORKING_DIR, 'src', 'client'),
+  server:     path.resolve(CURRENT_WORKING_DIR, 'src', 'server'),
+  common:     path.resolve(CURRENT_WORKING_DIR, 'src', 'common'),
+  mock:       path.resolve(CURRENT_WORKING_DIR, 'src', 'server', 'mock'),
 };
 

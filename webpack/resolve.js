@@ -1,22 +1,32 @@
 const PATHS = require('./paths');
 
 module.exports = {
-  modules: [PATHS.app, PATHS.modules],
-  extensions: ['.js', '.pcss', '.css', '.json', '.html' ],
+  modules: [PATHS.client, PATHS.modules],
+  extensions: ['.js', '.css', '.json', '.pcss', '.html' ],
   alias:{
     // root: PATHS.root,
     // node: PATHS.modules,
+
+    src: PATHS.src,
+
+    actions: PATHS.actions,
+    api: PATHS.api,
     assets: PATHS.assets,
-    img: PATHS.img,
-    font: PATHS.font,
-    src: PATHS.app,
-    actions: PATHS.action,
     components: PATHS.components,
-    lib: PATHS.lib,
-    pages: PATHS.pages,
-    reducers: PATHS.reducer,
-    style: PATHS.style,
-    theme: PATHS.theme,
+    containers: PATHS.containers,
+    reducers: PATHS.reducers,
+    store: PATHS.store,
+
+    font: PATHS.font,
+    img: PATHS.img,
+
+    client:  PATHS.client,
+    server:  PATHS.server,
+    common:  PATHS.common,
+
+    // lib: PATHS.lib,
+    // style: PATHS.style,
+    // theme: PATHS.theme,
   },
 };
 

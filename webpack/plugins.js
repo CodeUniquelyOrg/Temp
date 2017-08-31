@@ -1,15 +1,14 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const WebpackOnBuildPlugin = require('on-build-webpack');
+const CompressionPlugin  = require('compression-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CompressionPlugin  = require('compression-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const NofifierPlugin = require('webpack-build-notifier');
-const WebpackOnBuildPlugin = require('on-build-webpack');
 
-module.exports = ({ production = false } = {}) => {
+module.exports = ({ production = false, browser = false } = {}) => {
 
   const bannerOptions = { raw: true, banner: 'require("source-map-support").install();' };
   const compress = { warnings: false };
@@ -17,22 +16,22 @@ module.exports = ({ production = false } = {}) => {
 
   const plugins = [];
 
-  // always used
+  // ALL Builds
   plugins.push( new webpack.EnvironmentPlugin(['NODE_ENV']) );
   plugins.push( new webpack.DefinePlugin(compileTimeConstantForMinification));
 
-  // will need to optimize chunks if a browser is delivering them
-  // if(browser) {
-  plugins.push(
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfill'],
-    })
-  );
-  // }
+  if (!browser) {
+    plugins.push( new webpack.BannerPlugin(bannerOptions));
+  }
 
-  // if (!browser) {
-  //   plugins.push( new webpack.BannerPlugin(bannerOptions));
-  // }
+  // will need to optimize chunks if a browser is delivering them
+  if(production && browser) {
+    plugins.push(
+      new webpack.optimize.CommonsChunkPlugin({
+        name: ['app', 'vendor', 'polyfill'],
+      })
+    );
+  }
 
   if (production) {
     plugins.push(
@@ -46,9 +45,6 @@ module.exports = ({ production = false } = {}) => {
     );
   }
 
-  // if (production) { // } && !browser) {
-  //   plugins.push( new webpack.optimize.UglifyJsPlugin({ compress }) );
-  // }
   if (!production) {
     plugins.push(
       new ExtractTextPlugin({
@@ -59,22 +55,20 @@ module.exports = ({ production = false } = {}) => {
       })
     );
   }
-
-  if (production) { // && browser) {
+  if (production) {
     plugins.push(
-      // new ExtractTextPlugin({
-      //   filename: '[name].css',
-      //   ignoreOrder: true,
-      //   disable: false,
-      //   allChunks: true,
-      // })
       new ExtractTextPlugin({
         filename: '[contenthash].css',
         ignoreOrder: true,
         allChunks: true
       })
     );
-    plugins.push(new webpack.optimize.UglifyJsPlugin({ compress }));
+  }
+
+  if (production) {
+    plugins.push( new webpack.optimize.UglifyJsPlugin({ compress }) );
+  }
+  if (production && browser) {
     plugins.push(new ManifestPlugin({ fileName: 'manifest.json' }));
   }
 
@@ -93,8 +87,8 @@ module.exports = ({ production = false } = {}) => {
       })
     );
 
-    plugins.push( new webpack.HotModuleReplacementPlugin() );
-    plugins.push( new webpack.NoEmitOnErrorsPlugin() );
+    plugins.push(new webpack.HotModuleReplacementPlugin());
+    plugins.push(new webpack.NoEmitOnErrorsPlugin());
   }
 
   return plugins;

@@ -41,7 +41,7 @@ module.exports = ({ production = false, browser = false } = {}) => {
       options: {
         ident: 'postcss',
         plugins: [
-          postcssImport({ path: path.resolve(PATHS.app, './css') }),
+          postcssImport({ path: path.resolve(PATHS.src, './css') }),
           postcssCssnext({ browsers: ['> 1%', 'last 2 versions'] }),
           postcssReporter({ clearMessages: true })
         ]
@@ -65,7 +65,7 @@ module.exports = ({ production = false, browser = false } = {}) => {
   return {
     test: /\.css$/,
     use: browser ? browserLoaders : serverLoaders,
-    include: PATHS.app
+    include: PATHS.src
   };
 };
 
