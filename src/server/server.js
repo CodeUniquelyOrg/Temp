@@ -13,17 +13,18 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 
-// import configureStore from '../common/store/configureStore';
-// import App from '../common/containers/App';
-// import { fetchCounter } from '../common/api/counter';
+import configureStore from '../common/store/configureStore';
+import App from '../common/containers/App';
+import { fetchCounter } from '../common/api/counter';
 
-import configureStore from 'store/configureStore';
-import App from 'containers/App';
-import { fetchCounter } from 'api/counter';
+// import configureStore from 'store/configureStore';
+// import App from 'containers/App';
+// import { fetchCounter } from 'api/counter';
 
 // LETS load a SETTNG VALUE FROM SOMEHERE ABOUT THE ENV BEING USED
 
 const webpackConfig = wpConf('development');
+console.log('WP-CONFIG: ', webpackConfig);
 
 const app = new Express();
 const port = 3000;

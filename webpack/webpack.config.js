@@ -1,4 +1,5 @@
 /* globals __dirname, module, require, process */
+const webpack = require('webpack');
 
 var path = require('path');
 
@@ -49,7 +50,7 @@ module.exports = (env = { production: false, browser: false }) => {
       publicPath: PATHS.public
     },
     module: { rules: rules({ production: false, browser: true }) },
-    resolve: resolve,
+    resolve,
     plugins: plugins({ production: false, browser: true })
   };
 
@@ -76,7 +77,7 @@ module.exports = (env = { production: false, browser: false }) => {
   // ==========================================
   const prodBrowserConfig = {
     devtool: 'cheap-module-source-map',
-    context: PATHS.app,
+    context: PATHS.src,         // client ????
     entry: {
       app: ['./src/client/index.js'],
       vendor: [
@@ -104,19 +105,19 @@ module.exports = (env = { production: false, browser: false }) => {
       publicPath: PATHS.public
     },
     module: { rules: rules({ production: true, browser: true }) },
-    resolve: resolve,
+    resolve,
     plugins: plugins({ production: true, browser: true })
   };
 
   const prodServerConfig = {
     devtool: 'source-map',
-    context: PATHS.app,
+    context: PATHS.src,   // ????
     entry: { server: './src/server/index.js' },
     target: 'node',
     node,
     externals,
     output: {
-      path: PATHS.compiled,
+      path: PATHS.build,
       filename: '[name].js',
       publicPath: PATHS.public,
       libraryTarget: 'commonjs2'
@@ -126,10 +127,42 @@ module.exports = (env = { production: false, browser: false }) => {
     plugins: plugins({ production: true, browser: false })
   };
 
+  // HACKED VERSION
+  const hackedConfig = {
+    devtool: 'inline-source-map',
+    entry: [
+      'webpack-hot-middleware/client',
+      './src/client/index.js',
+    ],
+    output: {
+      path: PATHS.public,
+      filename: 'bundle.js',
+      publicPath: PATHS.static,
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+          include: PATHS.src,   // client ????
+          options: {
+            presets: [ 'react-hmre' ]
+          }
+        }
+      ]
+    }
+  };
+
   const devConfig = isBrowser ? devBrowserConfig : devServerConfig;
   const prodConfig = isBrowser ? prodBrowserConfig : prodServerConfig;
   const configuration = isProduction ? prodConfig : devConfig;
 
+  console.log('CONFIG IS: ', hackedConfig); // eslint-disable-line no-console
+
   // export the desired configuration
-  return configuration;
+  return hackedConfig; // configuration;
 };
