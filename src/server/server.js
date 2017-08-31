@@ -24,7 +24,7 @@ import { fetchCounter } from 'api/counter';
 // LETS load a SETTNG VALUE FROM SOMEHERE ABOUT THE ENV BEING USED
 
 const webpackConfig = wpConf('development');
-console.log('WP-CONFIG: ', webpackConfig);
+// console.log('WP-CONFIG: ', webpackConfig);
 
 const app = new Express();
 const port = 3000;
