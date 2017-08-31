@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Counter = ({increment, incrementIfOdd, incrementAsync, decrement, counter}) => (
+import styles from './style.css';
+
+const Counter = ({ increment, incrementIfOdd, incrementAsync, decrement, counter }) => (
   <div>
     <p>
       Clicked: {counter} times
-      {' '}
+      &nbsp;
       <button onClick={increment}>+</button>
-      {' '}
+      &nbsp;
       <button onClick={decrement}>-</button>
-      {' '}
+      &nbsp;
       <button onClick={incrementIfOdd}>Increment if odd</button>
-      {' '}
+      &nbsp;
       <button onClick={() => incrementAsync()}>Increment async</button>
     </p>
     <div>
