@@ -29,12 +29,12 @@ module.exports = {
   font:       path.resolve(CURRENT_WORKING_DIR, 'src', 'assets', 'fonts'),
 
   // srcPath: path.resolve(CURRENT_WORKING_DIR, 'src'),
-  actions:    path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'actions'),
-  api:        path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'api'),
-  components: path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'components'),
-  containers: path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'containers'),
-  reducers:   path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'reducers'),
-  store:      path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'store'),
+  // actions:    path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'actions'),
+  // api:        path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'api'),
+  // components: path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'components'),
+  // containers: path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'containers'),
+  // reducers:   path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'reducers'),
+  // store:      path.resolve(CURRENT_WORKING_DIR, 'src', 'common', 'store'),
 
   // lib:        path.resolve(CURRENT_WORKING_DIR, 'src', 'lib'),
   // style:      path.resolve(CURRENT_WORKING_DIR, 'src', 'style'),
