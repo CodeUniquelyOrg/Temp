@@ -1,8 +1,17 @@
+// .babelrc
 {
-  presets: ['react', 'es2015', 'stage-0'],
+  presets: [['es2015', { modules: false }], 'react', 'stage-0'],
   env: {
     development: { },
-    testing: { },
+
+    test: {
+      plugins: [
+        [
+          'istanbul', { exclude: ['**/*.spec.js'] }
+        ]
+      ]
+    },
+
     production: { },
   },
   plugins: [
@@ -19,6 +28,18 @@
         "store":      "./src/common/store",
       },
     }],
+
+    /*
+    "react-hot-loader/babel",
+    "transform-class-properties",
+    [
+      "babel-plugin-webpack-loaders",
+      {
+        "config": "./webpack/webpack.babel.js",
+        "verbose": true
+      }
+    ],
+    */
 
   ],
 }

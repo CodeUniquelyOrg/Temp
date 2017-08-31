@@ -7,6 +7,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const NofifierPlugin = require('webpack-build-notifier');
+const IsomorphicTools = require('webpack-isomorphic-tools/plugin');
+
+const webpackIsomorphicToolsConfig = require('./isomorphic-tools');
+// const IsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfig);
 
 module.exports = ({ production = false, browser = false } = {}) => {
 
@@ -22,6 +26,13 @@ module.exports = ({ production = false, browser = false } = {}) => {
 
   if (!browser) {
     plugins.push( new webpack.BannerPlugin(bannerOptions));
+  }
+
+  if (production) {
+    plugins.push(new IsomorphicTools(webpackIsomorphicToolsConfig)());
+  }
+  if (!production) {
+    plugins.push(new IsomorphicTools(webpackIsomorphicToolsConfig).development());
   }
 
   // will need to optimize chunks if a browser is delivering them
