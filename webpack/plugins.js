@@ -3,13 +3,21 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const NofifierPlugin = require('webpack-build-notifier');
 
+const webpackIsomorphicToolsConfig = require('./webpack-isomorphic-tools');
+const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfig);
+
 module.exports = ({ production = false, browser = false } = {}) => {
   const bannerOptions = { raw: true, banner: 'require("source-map-support").install();' };
   const compress = { warnings: false };
   const compileTimeConstantForMinification = { __PRODUCTION__: JSON.stringify(production) };
 
+  const plugins = [];
+
   if (!production && !browser) {
     return [
+      new webpack.EnvironmentPlugin(['NODE_ENV']),
+      new webpack.DefinePlugin(compileTimeConstantForMinification),
       new NofifierPlugin({
         title: 'Contact Forms',
         suppressSuccess: true,        // only first success is shown, after a fail

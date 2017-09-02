@@ -5,5 +5,20 @@
     testing: { },
     production: { },
   },
-  plugins: []
+  plugins: [
+
+    ["module-resolver", {
+      "root": ["."],
+      "alias": {
+        "root":       ".",
+        "actions":    "./src/common/actions",
+        "api":        "./src/common/api",
+        "components": "./src/common/components",
+        "containers": "./src/common/containers",
+        "reducers":   "./src/common/reducers",
+        "store":      "./src/common/store",
+      },
+    }],
+
+  ],
 }
