@@ -1,7 +1,5 @@
-server.js
 build/*
-lib/*
 src/assets/*
-node_moduls/*
+src/mock/*
+node_modules/*
 **/node_modules/*
-**/src/mock/*

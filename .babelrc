@@ -5,5 +5,5 @@
     testing: { },
     production: { },
   },
-  plugins: [],
+  plugins: []
 }

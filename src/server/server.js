@@ -24,7 +24,6 @@ import { fetchCounter } from '../common/api/counter';
 // LETS load a SETTNG VALUE FROM SOMEHERE ABOUT THE ENV BEING USED
 
 const webpackConfig = wpConf('development');
-console.log('WP-CONFIG: ', webpackConfig);
 
 const app = new Express();
 const port = 3000;
@@ -87,6 +86,6 @@ app.listen(port, (error) => {
   if (error) {
     console.error(error);
   } else {
-    console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
+    console.info(`==> 🌎 Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
   }
 });
