@@ -5,4 +5,28 @@
     testing: { },
     production: { },
   },
+  plugins: [
+    ["module-resolver", {
+        "root":[ "." ],
+        "alias": {
+          "app":         "./app",
+          "assets":      "./assets",
+          "mock":        "./mock",
+          "server":      "./app/server",
+          "controllers": "./app/server/cotrollers",
+          "models":      "./app/server/models",
+          "routes":      "./app/server/routes",
+          "intl":        "./app/intl",
+          "client":      "./app/client",
+          "actions":     "./app/client/actions",
+          "components":  "./app/client/components",
+          "constants":   "./app/client/constants",
+          "containers":  "./app/client/containers",
+          "reducers":    "./app/client/reducers",
+          "services":    "./app/client/services",
+          "store":       "./app/client/store",
+          "style":       "./app/client/style",
+      },
+    }],
+  ],
 }

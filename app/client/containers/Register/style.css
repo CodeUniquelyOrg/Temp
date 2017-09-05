@@ -1,0 +1,64 @@
+.page {
+  composes: page from '~style/shared.css';
+}
+.background {
+  composes: background from 'style/shared.css';
+}
+.blurOverlay  {
+  composes: blurOverlay from 'style/shared.css';
+}
+.contents  {
+  composes: contents from 'style/shared.css';
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+.logo {
+  filter: drop-shadow(0px 7px 7px rgba(0,0,0,0.5));
+  padding: 0px 0 0 0;
+  margin-bottom: -24px;
+}
+.h1 {
+  composes: heading1 from 'style/typography.css';
+  color: white;
+  text-shadow: 0 3px 7px rgba(0,0,0,0.5);
+}
+.h4 {
+  composes: heading4 from 'style/typography.css';
+  color: white;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  text-align: center;
+}
+.form {
+  composes: form from 'style/form.css';
+  background: rgba(255,255,255,0.8);
+  max-width: 360px;
+
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+  }
+}
+.error {
+  composes: error from 'style/form.css';
+}
+
+.links {
+  margin-top: 48px;
+}
+.links span{
+  margin: 0 12px;
+  color: white;
+}
+.link {
+  composes: hyperlink from 'style/typography.css';
+  text-shadow: 0 2px 3px rgba(0,0,0,0.5);
+  text-decoration: none;
+  color: white;
+}
+.link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #323233;
+}
